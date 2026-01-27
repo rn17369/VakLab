@@ -8,7 +8,7 @@ from google.adk.planners import BuiltInPlanner
 from google.genai import types
 from .tools import end_call, send_enrollment_email
 
-# --- Configure Logging ---
+# --- Configure Loggings ---
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
