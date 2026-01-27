@@ -66,57 +66,38 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 ---
 
 ## 📞 Call Flow Diagram
-
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                           Outbound Call Flow                                  │
+│                           Outbound Call Flow (Metna)                          │
 └──────────────────────────────────────────────────────────────────────────────┘
 
-    ┌─────────┐          ┌─────────┐          ┌─────────┐          ┌─────────┐
-    │  START  │          │ State 1 │          │ State 2 │          │ State 3 │
-    │         │─────────▶│  HOOK   │─────────▶│  VALUE  │─────────▶│ ENROLL  │
-    └─────────┘          └─────────┘          └─────────┘          └─────────┘
-                              │                    │                    │
-                              │                    │                    │
-    ┌─────────────────────────┴────────────────────┴────────────────────┘
-    │
-    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                                                                              │
-│   STATE 1: THE HOOK                                                         │
-│   ────────────────                                                          │
-│   Agent: "Hi {name}, I'm Metna. I'm calling to help you get rewarded       │
-│           for your healthy habits. Do you have a moment?"                   │
-│                                                                              │
-│   User: "Yes" ──────────────────────────────▶ Move to State 2               │
-│   User: "No"  ──────────────────────────────▶ "No problem! Have a           │
-│                                                 healthy day!" → end_call()  │
-│                                                                              │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   STATE 2: THE VALUE PROP                                                   │
-│   ───────────────────────                                                   │
-│   Agent: "It's simple! You earn rewards—like gift cards—for things         │
-│           you already do, like daily walks or annual checkups.              │
-│           Would you like to enroll today?"                                  │
-│                                                                              │
-│   User: "Yes" / "Tell me more" ─────────────▶ Move to State 3               │
-│                                                                              │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   STATE 3: THE ENROLLMENT                                                   │
-│   ───────────────────────                                                   │
-│   Agent: "That's wonderful! I'll send details to your email:               │
-│           {email}. Does that sound good?"                                   │
-│                                                                              │
-│   User: "Yes" ──────────────────────────────▶ send_enrollment_email()       │
-│                                               "Excellent! You're all set!"  │
-│                                               "Anything else?"              │
-│                                                                              │
-│   User: "No, I'm good" ─────────────────────▶ "Thank you! Have a            │
-│                                                 wonderful day!" → end_call() │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
+        START -> State 1: The Hook -> State 2: Zip Code Verification ->
+        State 3: The Mammogram Value Prop -> State 4: Enrollment & Action -> END
+
+        State 1 — The Hook
+            - Agent: "Hi {first_name}, I’m Metna. I’m calling from the {program_name}.
+                Do you have a few minutes to talk about a quick health check?"
+            - If "No" -> respond politely and call `end_call()`.
+            - If "Yes" -> proceed to Zip Code Verification.
+
+        State 2 — Zip Code Verification
+            - Agent: "Could you please tell me your current zip code?"
+            - If zip matches serviced area -> acknowledge and proceed to State 3.
+            - If not serviced -> explain and offer resources, then `end_call()`.
+
+        State 3 — The Mammogram Value Prop
+            - Agent: Explain benefits and ask: "Would you like to enroll so I can send
+                you booking details?"
+            - If "No" -> thank and `end_call()`.
+            - If "Yes" or "Tell me more" -> proceed to State 4.
+
+        State 4 — Enrollment & Action
+            - Agent: "I’ll enroll you now and send details to {email_address}. OK?"
+            - If "Yes" -> call `send_enrollment_email(email_address=..., first_name=...)`.
+            - After email sent: confirm and then `end_call()` when finished.
+
+        Orchestration note: `BCSGapAgent` looks up member data (`_get_member_data`),
+        instantiates `MetnaAgent(member_data=...)`, and runs `metna_agent.run_live(ctx)`.
 ```
 
 ---
@@ -124,55 +105,29 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 ## 🔄 Sequence Diagram
 
 ```
-┌────────┐     ┌────────┐     ┌────────┐     ┌────────┐     ┌────────┐     ┌────────┐
-│  User  │     │ Twilio │     │FastAPI │     │Pipecat │     │ Google │     │  SMTP  │
-│ Phone  │     │        │     │ Server │     │Pipeline│     │ Cloud  │     │ Server │
-└───┬────┘     └───┬────┘     └───┬────┘     └───┬────┘     └───┬────┘     └───┬────┘
-    │              │              │              │              │              │
-    │              │   POST /outbound-call       │              │              │
-    │              │◀─────────────┤              │              │              │
-    │              │              │              │              │              │
-    │  Ring Ring   │  Create Call │              │              │              │
-    │◀─────────────┤◀─────────────┤              │              │              │
-    │              │              │              │              │              │
-    │   Answers    │   TwiML      │              │              │              │
-    │─────────────▶│─────────────▶│              │              │              │
-    │              │              │              │              │              │
-    │              │   WebSocket Connect         │              │              │
-    │              │─────────────▶│─────────────▶│              │              │
-    │              │              │              │              │              │
-    │              │              │  Start Pipeline              │              │
-    │              │              │─────────────▶│              │              │
-    │              │              │              │              │              │
-    │              │              │              │  LLM Request │              │
-    │              │              │              │─────────────▶│              │
-    │              │              │              │              │              │
-    │              │              │              │  "Hi Raju..."|              │
-    │◀─────────────┼──────────────┼──────────────┼◀─────────────┤              │
-    │              │              │              │   TTS Audio  │              │
-    │              │              │              │              │              │
-    │   "Yes"      │              │              │              │              │
-    │─────────────▶│─────────────▶│─────────────▶│              │              │
-    │              │              │              │   STT Text   │              │
-    │              │              │              │─────────────▶│              │
-    │              │              │              │              │              │
-    │              │              │              │   LLM "Yes"  │              │
-    │              │              │              │─────────────▶│              │
-    │              │              │              │              │              │
-    │              │              │              │ Tool: email  │              │
-    │              │              │              │─────────────▶│─────────────▶│
-    │              │              │              │              │   ✉️ Sent    │
-    │              │              │              │◀─────────────┼──────────────│
-    │              │              │              │              │              │
-    │  "You're all set!"          │              │              │              │
-    │◀─────────────┼──────────────┼──────────────┼◀─────────────┤              │
-    │              │              │              │              │              │
-    │              │              │              │ Tool: end_call              │
-    │              │              │              │─────────────▶│              │
-    │              │              │              │              │              │
-    │   Hangup     │              │              │              │              │
-    │◀─────────────┤              │              │              │              │
-    │              │              │              │              │              │
+┌──────┐   ┌────────┐   ┌────────┐   ┌────────────┐   ┌──────────┐   ┌────────┐
+│User  │   │ Twilio │   │ FastAPI│   │BCSGapAgent │   │ Metna    │   │ Tools  │
+└──┬───┘   └──┬─────┘   └──┬─────┘   └────┬───────┘   └────┬─────┘   └──┬─────┘
+   │           │            │              │               │            │
+   │  Answer   │            │              │               │            │
+   │──────────▶│            │              │               │            │
+   │           │  Webhook   │              │               │            │
+   │           │──────────▶│  POST /outbound-call  ──────▶│            │
+   │           │            │─────────────▶│ _get_member_data│         │
+   │           │            │              │──────────────▶│ instantiate Metna
+   │           │            │              │               │   run_live │
+   │           │            │              │               │──────────▶│
+   │           │            │              │  "Hi {first_name}..."       │
+   │◀──────────│            │              │◀──────────────│            │
+   │  Speech   │            │              │   (TTS/STT via Pipecat)      │
+   │  Reply    │            │              │──────────────▶│            │
+   │──────────▶│            │              │   (zip code provided)       │
+   │           │            │              │──────────────▶│            │
+   │           │            │              │  (If enroll)  │ send_enrollment_email
+   │           │            │              │──────────────▶│──────────▶│
+   │           │            │              │               │   email sent│
+   │           │            │              │  end_call()   │──────────▶│
+   │   Hangup  │            │              │──────────────▶│            │
 ```
 
 ---
