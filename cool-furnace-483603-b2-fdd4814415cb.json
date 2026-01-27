@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "cool-furnace-483603-b2",
+  "private_key_id": "fdd4814415cb5e4afa22c05a943e43f6be41ac3c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCTE49SN4TA2iXt\nsqcr9Yg0v9Tx+7HinC0yAeT7vKCVS3LSkxxvFO3Z/j3Guzk/4n8OXGdJTpB0l6fr\nLATGlyzG353VPYa4eKg+wopJschGICZLR7eT8br/xws03lprFTQwtouQJEB58Nu4\n9o6oi+YI2N24r+P53Xo4+gOBh803mp0/2ekpYfVzqRxSFOvUEP9YsvivbELi28ED\nl24OkFOEssg9fCVO/uZsfzxHUUN+QaRbwqRm8pIiq0rxNs83S0g+H0BaZ7mALiy0\nZei4gUBKpfiWvxKSiecPvHEq2cNiOAROaUb2lT1vuCppWCdbZF9GdW5bE1Zrhb87\nPOJqvov/AgMBAAECggEAJh92UXXhm8mP9kaOLYdV2HJ3BIhcyiP4VROHorb4muo1\nJ58JSkPPCWfs5GPoSYZwr6zE+wv5xrb+yCcfT8ikyyHwe/MYRh3EYowzozmJc5/m\nvTGoRJlugtk5rukJ3+LdpdjTYTf8XH9RvOZwAQFOTbHE+xfgjIZbpYQsv3kPeR9e\ne3Pi4t49nfbVQLzs8dQdaPKVch7yxxPXiOQOwZNcUKozOV8/3fWeXBWZ+mQrQDaR\nVXMvxZeXVH89dRohmNs5ukPpFe4B+tnG/W5Nvv4VXvaO2JjaRl9JCJLOJRatNjVq\nh79uw9ksmdpLGoPff82a7P1MKH6yozqhjWvxLXBapQKBgQDLGrN7V6hlwo9V2Jb6\neSRapwe/57TIK3W0VC03pj3oQmlRoXLa1gewGKT7OnsQuicNyG8XaqLQpuQ6565J\n/ExPNURsfPLZsaHMaGqIfIpLDJKp3f0r2NLWqsvLjjqiJDZGPozubY+nKO0Fx0jF\nUT/Vz67hFPg1SKCgCPIGNj1omwKBgQC5YWLx0fqn7bw15JGH6i2RhEF6VrOZsyHN\nxbtmQKBFkZeUcHZJtVX/QlG+EAlvD/+mZ/o8T+vjgpDGJPOehoWAJNpDxOBJTkrD\nom0Pg+7+3xdEJ8ZAOOOcsn3/1FKZsK3nquC7IiXlzM3i8E2qqpclziXE0S5GFM7h\nySozw1YmbQKBgGXo++4DyedlfG5iwz7i0i76aJUOOlPGGsVlB1tI+v8zc40WKX9M\nrYbals3IRj/aaAYucC+bvh5b32D/JyDQi6mi3LZi66f3zWu3aN0bQHjv0heR35rE\nrOYxxRhaQWliKimM8UIhj1cc3fFsUUNQxWsPTnx5/SEfVBl445fiV2XJAoGAJhrF\nes1dh20PdchwvY4+JZ4Y02vE6P/wH9rYBVGdYA9oJ+Ph/I6giaJ5KOck+UZBl1Pi\nFMmcxBwPZBsuVFR0Vn28u5dZPtgv9/yIDFtjIdJ7ds/yKTtIVeo+ifp7rAmsBWWT\nYgPH5G9vloksfbso7GVuUAFrUI5wY+q0mQU6zRUCgYEArDsto9Bsm7xqyVSjio4x\nMb63N0QRU2XUDFdgdCkzV2fHJuWoy76iyhPPJHG+8HWUmPkCM5yb0sebm4Gh6Lf8\nE0l+bkWppbD4KDzsYzMVODz+DjVyCfbdOt/i8z2Yutq1I8rnS2ZJDBxCf8eTkrzu\nT/9+KGGgV/+18BM/S3LsP+8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "pipecat-adk-bot@cool-furnace-483603-b2.iam.gserviceaccount.com",
+  "client_id": "108541614428851693799",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pipecat-adk-bot%40cool-furnace-483603-b2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

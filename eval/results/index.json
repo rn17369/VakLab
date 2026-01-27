@@ -1,0 +1,18 @@
+[
+  {
+    "run_id": "eval_happy_path_enrollment_20260122_215944_29b953b8",
+    "scenario_id": "happy_path_enrollment",
+    "scenario_name": "Happy Path - User Enrolls Successfully",
+    "status": "running",
+    "started_at": "2026-01-22T21:59:44.902678",
+    "overall_score": null
+  },
+  {
+    "run_id": "eval_happy_path_enrollment_20260120_143022_sample01",
+    "scenario_id": "happy_path_enrollment",
+    "scenario_name": "Happy Path - User Enrolls Successfully",
+    "status": "passed",
+    "started_at": "2026-01-20T14:30:22",
+    "overall_score": 0.95
+  }
+]

@@ -1,0 +1,93 @@
+/Users/rn/Documents/gcp_hackthon/routers/manual_bot.py:9: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+INFO:     Started server process [23625]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:routers.outbound_twillio:Picked member 1001 (9135960926) for campaign Healthy Habit Programs
+INFO:twilio.http_client:-- BEGIN Twilio API Request --
+INFO:twilio.http_client:POST Request: https://api.twilio.com/2010-04-01/Accounts/ACc6048a36b3ab27a5e1a115fe8807d2fd/Calls.json
+INFO:twilio.http_client:Headers:
+INFO:twilio.http_client:Content-Type : application/x-www-form-urlencoded
+INFO:twilio.http_client:Accept : application/json
+INFO:twilio.http_client:User-Agent : twilio-python/9.9.1 (Darwin arm64) Python/3.14.0
+INFO:twilio.http_client:X-Twilio-Client : python-9.9.1
+INFO:twilio.http_client:Accept-Charset : utf-8
+INFO:twilio.http_client:-- END Twilio API Request --
+INFO:twilio.http_client:Response Status Code: 201
+INFO:twilio.http_client:Response Headers: {'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '2011', 'Connection': 'keep-alive', 'Date': 'Tue, 20 Jan 2026 01:23:21 GMT', 'Location': 'https://call-service.us1.svc.twilio.com/v2/Accounts/CA5a820ebe1d52e23b054871dae596a01a', 'Twilio-Concurrent-Requests': '1', 'Twilio-Request-Id': 'RQ29769eb16e02a853430ec44b97e23443', 'Twilio-Request-Duration': '0.081', 'X-Home-Region': 'us1', 'X-API-Domain': 'api.twilio.com', 'Strict-Transport-Security': 'max-age=31536000', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 a0ced2c61430bc862fa4fd815b7da596.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'DFW56-P3', 'X-Amz-Cf-Id': 'H1VTGDNXc7Hg3k-MJx-yBkI9VlmHbOi8tNcPo4tcdVpL8NtnbF7UDw==', 'X-Powered-By': 'AT-5000', 'X-Shenanigans': 'none', 'Vary': 'Origin'}
+INFO:     127.0.0.1:61759 - "POST /twilio/outbound-call HTTP/1.1" 200 OK
+INFO:routers.outbound_twillio:================================================================================
+INFO:routers.outbound_twillio:📞 /voice-entry called with phone=9135960926, member_id=1001, campaign=Healthy Habit Programs
+INFO:routers.outbound_twillio:   Host: 9b7cf2b30b89.ngrok-free.app
+INFO:routers.outbound_twillio:   WebSocket URL: wss://9b7cf2b30b89.ngrok-free.app/twilio/stream
+INFO:routers.outbound_twillio:   Callback URL: https://9b7cf2b30b89.ngrok-free.app/twilio/callback
+INFO:routers.outbound_twillio:✓ TwiML generated successfully:
+INFO:routers.outbound_twillio:<?xml version="1.0" encoding="UTF-8"?><Response><Connect><Stream statusCallback="https://9b7cf2b30b89.ngrok-free.app/twilio/callback" url="wss://9b7cf2b30b89.ngrok-free.app/twilio/stream"><Parameter name="from_phone" value="9135960926" /><Parameter name="to_phone" value="+18664401586" /><Parameter name="member_id" value="1001" /><Parameter name="campaign" value="Healthy Habit Programs" /></Stream></Connect></Response>
+INFO:     98.94.9.214:0 - "POST /twilio/voice-entry?phone=9135960926&member_id=1001&campaign=Healthy%20Habit%20Programs HTTP/1.1" 200 OK
+INFO:routers.outbound_twillio:================================================================================
+INFO:routers.outbound_twillio:🔵 STEP 1: WebSocket connection received from Twilio
+INFO:     54.80.172.154:0 - "WebSocket /twilio/stream" [accepted]
+INFO:routers.outbound_twillio:✓ STEP 2: WebSocket accepted
+INFO:     connection open
+INFO:routers.outbound_twillio:✓ Callback received: CA5a820ebe1d52e23b054871dae596a01a
+INFO:     44.203.155.180:0 - "POST /twilio/callback HTTP/1.1" 204 No Content
+INFO:routers.outbound_twillio:✓ STEP 3: Connected event received
+INFO:routers.outbound_twillio:✓ STEP 4: Start event received
+INFO:routers.outbound_twillio:✓ STEP 5: Start event validated
+INFO:routers.outbound_twillio:✓ STEP 6: Extracted call info - Call SID: CA5a820ebe1d52e23b054871dae596a01a, Phone: 9135960926, Member: 1001, Campaign: Healthy Habit Programs
+INFO:routers.outbound_twillio:✓ STEP 7: Starting manual bot for 9135960926...
+2026-01-19 19:23:34.492 | INFO     | routers.manual_bot:run_manual_bot:69 - Starting manual bot for call CA5a820ebe1d52e23b054871dae596a01a
+2026-01-19 19:23:36.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 100 media packets
+2026-01-19 19:23:48.252 | ERROR    | routers.manual_bot:run_stt_stream:187 - STT Stream error: 400 Audio Timeout Error: Long duration elapsed without audio. Audio should be sent close to real time.
+2026-01-19 19:23:48.256 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 200 media packets
+2026-01-19 19:23:48.259 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 300 media packets
+2026-01-19 19:23:48.262 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 400 media packets
+2026-01-19 19:23:48.265 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 500 media packets
+2026-01-19 19:23:48.267 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 600 media packets
+2026-01-19 19:23:48.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 700 media packets
+2026-01-19 19:23:50.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 800 media packets
+2026-01-19 19:23:52.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 900 media packets
+2026-01-19 19:23:54.405 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1000 media packets
+2026-01-19 19:23:56.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1100 media packets
+2026-01-19 19:23:58.446 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1200 media packets
+2026-01-19 19:24:00.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1300 media packets
+2026-01-19 19:24:02.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1400 media packets
+2026-01-19 19:24:04.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1500 media packets
+2026-01-19 19:24:06.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1600 media packets
+2026-01-19 19:24:08.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1700 media packets
+2026-01-19 19:24:10.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1800 media packets
+2026-01-19 19:24:12.407 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 1900 media packets
+2026-01-19 19:24:14.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2000 media packets
+2026-01-19 19:24:16.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2100 media packets
+2026-01-19 19:24:18.419 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2200 media packets
+2026-01-19 19:24:20.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2300 media packets
+2026-01-19 19:24:22.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2400 media packets
+2026-01-19 19:24:24.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2500 media packets
+2026-01-19 19:24:26.403 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2600 media packets
+2026-01-19 19:24:28.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2700 media packets
+2026-01-19 19:24:30.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2800 media packets
+2026-01-19 19:24:32.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 2900 media packets
+2026-01-19 19:24:34.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 3000 media packets
+2026-01-19 19:24:36.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 3100 media packets
+2026-01-19 19:24:38.407 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 3200 media packets
+2026-01-19 19:24:40.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 3300 media packets
+2026-01-19 19:24:42.404 | INFO     | routers.manual_bot:run_manual_bot:106 - Received 3400 media packets
+2026-01-19 19:24:43.299 | INFO     | routers.manual_bot:run_manual_bot:108 - Twilio stream stopped
+2026-01-19 19:24:43.300 | INFO     | routers.manual_bot:run_manual_bot:117 - Manual bot session closed for CA5a820ebe1d52e23b054871dae596a01a
+INFO:routers.outbound_twillio:✓ STEP 8: Manual bot session completed
+INFO:routers.outbound_twillio:✓ Callback received: CA5a820ebe1d52e23b054871dae596a01a
+INFO:     3.82.119.20:0 - "POST /twilio/callback HTTP/1.1" 204 No Content
+INFO:routers.outbound_twillio:✓ WebSocket closed
+INFO:     connection closed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23625]

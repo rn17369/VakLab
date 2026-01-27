@@ -1,0 +1,39 @@
+{
+  "scenarios": [
+    {
+      "id": "happy_path_enrollment",
+      "name": "Happy Path - User Enrolls Successfully",
+      "description": "User is interested, learns about the program, and enrolls successfully",
+      "starting_prompt": "Hello?",
+      "conversation_plan": "Express interest when Metna introduces the rewards program. Ask briefly how it works. When the agent explains, say you'd like to enroll. Confirm your email address when asked. Thank the agent and end the call."
+    },
+    {
+      "id": "objection_is_there_a_catch",
+      "name": "Objection Handling - Is There a Catch?",
+      "description": "User is skeptical and asks if there's a catch before enrolling",
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces the rewards program, express skepticism by asking 'Is there a catch?' or 'What's the catch?'. Listen to the agent's response. If satisfied, agree to enroll and confirm your email. End the call politely."
+    },
+    {
+      "id": "user_busy_call_later",
+      "name": "User Busy - Reschedule Call",
+      "description": "User is busy and cannot talk now",
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces herself, immediately say you're busy or it's not a good time. The agent should offer to call back later. Agree and end the call."
+    },
+    {
+      "id": "curious_user_multiple_questions",
+      "name": "Curious User - Asks Multiple Questions",
+      "description": "User asks several questions before deciding to enroll",
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces the rewards program, ask what kinds of rewards are available. Then ask how you earn them. Ask if it costs anything. Finally, decide to enroll and confirm your email."
+    },
+    {
+      "id": "user_declines_enrollment",
+      "name": "User Declines - Not Interested",
+      "description": "User politely declines to enroll",
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces the rewards program, politely decline by saying you're not interested right now. The agent should thank you and end the call gracefully."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "scenarios": [
+    {
+      "starting_prompt": "Hello?",
+      "conversation_plan": "Express interest when Metna introduces the breast cancer screening program. When asked for your zip code, provide '75087'. Listen to the mammogram explanation. Say you'd like to enroll and confirm your email address when asked. Thank the agent and end the call."
+    },
+    {
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces the screening program, express concern about pain by asking 'Does the mammogram hurt?'. When asked for zip code, provide '75087'. Listen to the agent's reassurance. If satisfied, agree to enroll and confirm your email. End the call politely."
+    },
+    {
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces herself, immediately say you're busy or it's not a good time. The agent should offer to call back later. Agree and end the call."
+    },
+    {
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces the screening program, ask if there's any cost involved. When asked for zip code, provide '75087'. Ask how long the procedure takes. Finally, decide to enroll and confirm your email."
+    },
+    {
+      "starting_prompt": "Hello?",
+      "conversation_plan": "When Metna introduces the screening program, politely decline by saying you're not interested or you already had a mammogram recently. The agent should thank you and end the call gracefully."
+    }
+  ]
+}

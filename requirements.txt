@@ -1,0 +1,16 @@
+google-adk
+fastapi
+uvicorn
+twilio
+stripe
+pandas
+numpy
+soxr
+python-multipart
+psycopg2-binary
+pydub>=0.25.1
+google-cloud-texttospeech>=2.20.0
+google-cloud-speech>=2.20.0
+loguru>=0.7.0
+python-dotenv
+google-generativeai>=0.3.0
