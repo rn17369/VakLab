@@ -66,38 +66,24 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 ---
 
 ## 📞 Call Flow Diagram
-```
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                           Outbound Call Flow (Metna)                          │
-└──────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+  Start([Start]) --> Hook["State 1:\nThe Hook"]
 
-        START -> State 1: The Hook -> State 2: Zip Code Verification ->
-        State 3: The Mammogram Value Prop -> State 4: Enrollment & Action -> END
+  Hook -->|No| EndNo["Respond politely\nend_call()"]
+  Hook -->|Yes| Zip["State 2:\nZip Code Verification"]
 
-        State 1 — The Hook
-            - Agent: "Hi {first_name}, I’m Metna. I’m calling from the {program_name}.
-                Do you have a few minutes to talk about a quick health check?"
-            - If "No" -> respond politely and call `end_call()`.
-            - If "Yes" -> proceed to Zip Code Verification.
+  Zip -->|Zip matches| Prop["State 3:\nMammogram Value Prop"]
+  Zip -->|Not serviced| EndResource["Explain & offer resources\nend_call()"]
 
-        State 2 — Zip Code Verification
-            - Agent: "Could you please tell me your current zip code?"
-            - If zip matches serviced area -> acknowledge and proceed to State 3.
-            - If not serviced -> explain and offer resources, then `end_call()`.
+  Prop -->|No| EndThank["Thank & end_call()"]
+  Prop -->|Yes / Tell me more| Enroll["State 4:\nEnrollment & Action"]
 
-        State 3 — The Mammogram Value Prop
-            - Agent: Explain benefits and ask: "Would you like to enroll so I can send
-                you booking details?"
-            - If "No" -> thank and `end_call()`.
-            - If "Yes" or "Tell me more" -> proceed to State 4.
+  Enroll -->|Yes| SendEmail["send_enrollment_email(email_address, first_name)"]
+  SendEmail --> Confirm["Confirm: 'You're all set!'\n(acknowledge email)"]
+  Confirm --> EndDone["end_call()"]
 
-        State 4 — Enrollment & Action
-            - Agent: "I’ll enroll you now and send details to {email_address}. OK?"
-            - If "Yes" -> call `send_enrollment_email(email_address=..., first_name=...)`.
-            - After email sent: confirm and then `end_call()` when finished.
-
-        Orchestration note: `BCSGapAgent` looks up member data (`_get_member_data`),
-        instantiates `MetnaAgent(member_data=...)`, and runs `metna_agent.run_live(ctx)`.
+  Enroll -->|No| EndThank
 ```
 
 ---
