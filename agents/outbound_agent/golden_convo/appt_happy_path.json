@@ -1,0 +1,56 @@
+{
+  "use_case": "appointment_backfill",
+  "objective": "Fill canceled appointment slot - patient accepts quickly",
+  "estimated_duration_seconds": 40,
+  "patient_context": {
+    "patient_name": "Mark Reynolds",
+    "clinic_name": "Northview Family Medicine",
+    "provider_name": "Dr. Sarah Patel",
+    "original_appointment": {
+      "date": "2026-02-03",
+      "time": "10:00 AM"
+    },
+    "available_cancellation": {
+      "date": "2026-02-01",
+      "time": "2:30 PM"
+    }
+  },
+  "conversation": [
+    {
+      "speaker": "agent",
+      "utterance": "Hi Mark — I'm calling from Northview Family Medicine. Is now a good time?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Yeah, sure. What's up?"
+    },
+    {
+      "speaker": "agent",
+      "utterance": "We had a cancellation for Dr. Patel today at 2:30, and I wanted to see if that might work better for you than your appointment later this week."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Oh, actually that would be great. I can leave work early."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Perfect! I'll move you into that spot now."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Okay, you're confirmed for today at 2:30 with Dr. Patel."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Awesome, thanks."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "You'll get a confirmation text shortly. Have a great day, Mark."
+    }
+  ],
+  "follow_up_sms": {
+    "channel": "sms",
+    "content": "Hi Mark — your appointment at Northview Family Medicine has been updated to today at 2:30 PM with Dr. Patel. See you soon!"
+  }
+}

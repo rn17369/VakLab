@@ -1,0 +1,64 @@
+{
+  "use_case": "appointment_backfill",
+  "objective": "Patient asks about billing concerns before accepting",
+  "estimated_duration_seconds": 60,
+  "patient_context": {
+    "patient_name": "Mark Reynolds",
+    "clinic_name": "Northview Family Medicine",
+    "provider_name": "Dr. Sarah Patel",
+    "original_appointment": {
+      "date": "2026-02-03",
+      "time": "10:00 AM"
+    },
+    "available_cancellation": {
+      "date": "2026-02-01",
+      "time": "2:30 PM"
+    }
+  },
+  "conversation": [
+    {
+      "speaker": "agent",
+      "utterance": "Hi Mark — I'm calling from Northview Family Medicine. Is now a good time?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Sure, what's this about?"
+    },
+    {
+      "speaker": "agent",
+      "utterance": "We had a cancellation for Dr. Patel today at 2:30, and I wanted to see if that might work better for you than your appointment on February 3rd."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Is there a cancellation fee or does this affect my copay?"
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Great question. There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays exactly the same."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Okay, that's good to know. Yeah, I can do 2:30 today."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Perfect! I'll reschedule you now."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "You're all set for today at 2:30 with Dr. Patel."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Great, thank you."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "You'll get a confirmation text shortly. See you later today!"
+    }
+  ],
+  "follow_up_sms": {
+    "channel": "sms",
+    "content": "Hi Mark — your appointment at Northview Family Medicine has been updated to today at 2:30 PM with Dr. Patel. Same copay applies. See you soon!"
+  }
+}

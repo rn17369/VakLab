@@ -1,0 +1,64 @@
+{
+  "use_case": "appointment_backfill",
+  "objective": "Patient hesitates due to short notice but accepts after reassurance",
+  "estimated_duration_seconds": 55,
+  "patient_context": {
+    "patient_name": "Mark Reynolds",
+    "clinic_name": "Northview Family Medicine",
+    "provider_name": "Dr. Sarah Patel",
+    "original_appointment": {
+      "date": "2026-02-03",
+      "time": "10:00 AM"
+    },
+    "available_cancellation": {
+      "date": "2026-02-01",
+      "time": "2:30 PM"
+    }
+  },
+  "conversation": [
+    {
+      "speaker": "agent",
+      "utterance": "Hi Mark — I'm calling from Northview Family Medicine. Is now a good time?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "I'm at work, but yeah, what's going on?"
+    },
+    {
+      "speaker": "agent",
+      "utterance": "We had a cancellation for Dr. Patel today at 2:30, and I wanted to see if that might work better for you than your appointment later this week."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Today at 2:30? That's kind of last minute."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Totally understand. If it's not convenient, your original appointment stays exactly as scheduled. Would you like to keep it as is?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Let me think… actually, I could probably make that work if I leave a little early."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Great — I'll move you into that spot now."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Okay, you're confirmed for today at 2:30 with Dr. Patel. I've updated your appointment."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Perfect, thanks for calling."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "You'll get a confirmation text shortly with the updated details. Have a good rest of your afternoon."
+    }
+  ],
+  "follow_up_sms": {
+    "channel": "sms",
+    "content": "Hi Mark — your appointment at Northview Family Medicine has been updated to today at 2:30 PM with Dr. Patel. Reply YES to confirm or call us if you need to make a change."
+  }
+}

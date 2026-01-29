@@ -1,0 +1,65 @@
+{
+  "use_case": "appointment_backfill",
+  "objective": "Patient accepts then changes mind - agent gracefully reverts",
+  "estimated_duration_seconds": 65,
+  "patient_context": {
+    "patient_name": "Mark Reynolds",
+    "clinic_name": "Northview Family Medicine",
+    "provider_name": "Dr. Sarah Patel",
+    "original_appointment": {
+      "date": "2026-02-03",
+      "time": "10:00 AM"
+    },
+    "available_cancellation": {
+      "date": "2026-02-01",
+      "time": "2:30 PM"
+    }
+  },
+  "conversation": [
+    {
+      "speaker": "agent",
+      "utterance": "Hi Mark — I'm calling from Northview Family Medicine. Is now a good time?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Hi there, yeah go ahead."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "We had a cancellation for Dr. Patel today at 2:30. Would that work better than your appointment on February 3rd?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Oh sure, I can do 2:30 today."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Great! I'll update that for you now."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Actually wait, I just realized I have a conflict. Can we keep my original time instead?"
+    },
+    {
+      "speaker": "agent",
+      "utterance": "No problem at all. I'll keep your original appointment on February 3rd at 10:00 AM. Does that work?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Yes, that's better. Sorry about that."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Not a problem! Your original appointment is still confirmed. Is there anything else I can help with?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "No, that's all. Thanks."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Perfect. We'll see you on February 3rd. Have a great day!"
+    }
+  ],
+  "follow_up_sms": null
+}

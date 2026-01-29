@@ -1,0 +1,37 @@
+{
+  "use_case": "appointment_backfill",
+  "objective": "Patient is busy - agent offers to call back",
+  "estimated_duration_seconds": 25,
+  "patient_context": {
+    "patient_name": "Mark Reynolds",
+    "clinic_name": "Northview Family Medicine",
+    "provider_name": "Dr. Sarah Patel",
+    "original_appointment": {
+      "date": "2026-02-03",
+      "time": "10:00 AM"
+    },
+    "available_cancellation": {
+      "date": "2026-02-01",
+      "time": "2:30 PM"
+    }
+  },
+  "conversation": [
+    {
+      "speaker": "agent",
+      "utterance": "Hi Mark — I'm calling from Northview Family Medicine. Is now a good time?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "I'm actually in a meeting right now."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "No problem! I won't keep you. Your original appointment on February 3rd is still confirmed. Have a great day."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Thanks, bye."
+    }
+  ],
+  "follow_up_sms": null
+}
