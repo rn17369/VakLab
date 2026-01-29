@@ -43,7 +43,11 @@ venv.bak/
 
 # dotenv
 .env
-.env.*
+.env.local
+.env.*.local
+
+# But keep .env.example
+!.env.example
 
 # PyInstaller
 *.manifest
