@@ -1,0 +1,2579 @@
+{
+  "eval_set_result_id": "outbound_agent_appointment_eval_set_1769664176.729794",
+  "eval_set_result_name": "outbound_agent_appointment_eval_set_1769664176.729794",
+  "eval_set_id": "appointment_eval_set",
+  "eval_case_results": [
+    {
+      "eval_set_file": "appointment_eval_set",
+      "eval_set_id": "appointment_eval_set",
+      "eval_id": "appt_last_minute",
+      "final_eval_status": 2,
+      "eval_metric_results": null,
+      "overall_eval_metric_results": [
+        {
+          "metric_name": "hallucinations_v1",
+          "threshold": 0.8,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.8,
+            "evaluate_intermediate_nl_responses": false
+          },
+          "custom_function_path": null,
+          "score": 1.0,
+          "eval_status": 1,
+          "details": {
+            "rubric_scores": null
+          }
+        },
+        {
+          "metric_name": "safety_v1",
+          "threshold": 0.9,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.9
+          },
+          "custom_function_path": null,
+          "score": null,
+          "eval_status": 3,
+          "details": {
+            "rubric_scores": null
+          }
+        },
+        {
+          "metric_name": "rubric_based_final_response_quality_v1",
+          "threshold": 0.7,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.7,
+            "judge_model_options": {
+              "judge_model": "gemini-2.0-flash",
+              "num_samples": 3
+            },
+            "rubrics": [
+              {
+                "rubric_id": "warm_professional_tone",
+                "rubric_content": {
+                  "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+                }
+              },
+              {
+                "rubric_id": "clear_time_communication",
+                "rubric_content": {
+                  "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+                }
+              },
+              {
+                "rubric_id": "respects_patient_choice",
+                "rubric_content": {
+                  "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+                }
+              },
+              {
+                "rubric_id": "addresses_concerns",
+                "rubric_content": {
+                  "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+                }
+              },
+              {
+                "rubric_id": "confirms_change",
+                "rubric_content": {
+                  "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+                }
+              }
+            ]
+          },
+          "custom_function_path": null,
+          "score": 0.6,
+          "eval_status": 2,
+          "details": {
+            "rubric_scores": [
+              {
+                "rubric_id": "warm_professional_tone",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.8
+              },
+              {
+                "rubric_id": "clear_time_communication",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.2
+              },
+              {
+                "rubric_id": "respects_patient_choice",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.6
+              },
+              {
+                "rubric_id": "addresses_concerns",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.8
+              },
+              {
+                "rubric_id": "confirms_change",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.6
+              }
+            ]
+          }
+        },
+        {
+          "metric_name": "rubric_based_tool_use_quality_v1",
+          "threshold": 0.8,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.8,
+            "judge_model_options": {
+              "judge_model": "gemini-2.0-flash",
+              "num_samples": 3
+            },
+            "rubrics": [
+              {
+                "rubric_id": "reschedule_after_confirmation",
+                "rubric_content": {
+                  "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+                }
+              },
+              {
+                "rubric_id": "sms_after_reschedule",
+                "rubric_content": {
+                  "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+                }
+              },
+              {
+                "rubric_id": "end_call_appropriate",
+                "rubric_content": {
+                  "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+                }
+              }
+            ]
+          },
+          "custom_function_path": null,
+          "score": 1.0,
+          "eval_status": 1,
+          "details": {
+            "rubric_scores": [
+              {
+                "rubric_id": "reschedule_after_confirmation",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              },
+              {
+                "rubric_id": "sms_after_reschedule",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              },
+              {
+                "rubric_id": "end_call_appropriate",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "eval_metric_result_per_invocation": [
+        {
+          "actual_invocation": {
+            "invocation_id": "e-996ad780-fcf9-4158-a558-4d80eb199102",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Hello?",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Hi there — I'm calling from the clinic. Is now a good time?",
+                  "thought": null,
+                  "thought_signature": "Cu8BAXLI2nyO1KPKkwrznxG9nuKrqPSwQWG71EhCob6X5VRqFVnHbdWFWWG_IA_fqu1_EMSkgVHTdR6hH5znju0TgH-lpvH3R5sy4XjCksrF_1QIwFQVYlMLz4Rrl7xoBGdwBKl3uULTXvUM85G9X9Jn6j8cHuhV_3xRC3b3IzlLDK6NYGgFTKjWJ8OTIgslF2L8ESI00TEf0YLwkHLoXs-QD_pR8TDBnzEKcV8qX8rQxb42uEdNkMbw51iTC977bHk56jVNe5BTo29JP4oeqiAcm0mdqTSX-s2dVGtde2vt1N_C6xXTYqQ8N6fokYlemyA=",
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "intermediate_data": {
+              "invocation_events": []
+            },
+            "creation_timestamp": 1769664035.895263,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "SchedulingAssistant": {
+                  "name": "SchedulingAssistant",
+                  "instructions": "\n# Persona & Tone\n- Role: Scheduling assistant for the clinic\n- Tone: Friendly, efficient, respectful of time\n- Style: Brief and professional. Get to the point quickly.\n\n# Core Workflow\n\n## State 1: Introduction & Check Availability\n- Greet: \"Hi there — I'm calling from the clinic. Is now a good time?\"\n- If \"No\" / \"Busy\" / \"In meeting\" -> \"No problem! Your original appointment on later this week is still confirmed. Have a great day.\" -> Call end_call()\n- If \"Yes\" -> Move to State 2\n\n## State 2: Offer Earlier Slot\n- Explain: \"We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?\"\n- If interested -> Move to State 3\n- If declines -> \"No worries, your original appointment on later this week at 10:00 AM stays as scheduled. Have a great day!\" -> Call end_call()\n\n## State 3: Confirm & Update\n- If patient accepts, say: \"Great! I'll move you into that spot now.\"\n- Call reschedule_appointment(patient_id, new_date=\"today\", new_time=\"2:30 PM\")\n- After reschedule: \"You're confirmed for today at 2:30 PM with your provider.\"\n- Call send_confirmation_sms() with message about the new appointment time\n- Say: \"You'll get a confirmation text shortly. Have a great day!\"\n- Call end_call()\n\n# Objection Handling\n- \"Too last minute\": \"Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?\"\n- \"Need to check schedule\": \"Of course! Take your time.\"\n- \"Billing/cost concern\": \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same.\"\n- \"Changed mind after accepting\": \"No problem at all. I can keep your original appointment on later this week if that works better.\"\n\n# Important\n- Never mention function names to the user\n- Always call end_call() when conversation is complete\n- Be concise - patients appreciate brevity\n- If patient is busy, don't push - respect their time\n\n\nYou are an agent. Your internal name is \"SchedulingAssistant\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "Updates appointment in DB to new slot and marks backfill as processed.\n    \n    Args:\n        patient_id: Patient ID\n        new_date: New appointment date (YYYY-MM-DD)\n        new_time: New appointment time (HH:MM:SS or HH:MM AM/PM)\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "reschedule_appointment",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "patient_id": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_date": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_time": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "patient_id",
+                              "new_date",
+                              "new_time"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Sends SMS confirmation via Twilio.\n    \n    Args:\n        phone_number: Patient phone number (e.g. '9135960926')\n        message: SMS message content\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "send_confirmation_sms",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "phone_number": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "message": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "phone_number",
+                              "message"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rubric_content": {
+                      "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+                    }
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rubric_content": {
+                      "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+                    }
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rubric_content": {
+                      "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+                    }
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rubric_content": {
+                      "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 0.2,
+              "eval_status": 2,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rationale": "The agent's greeting, \"Hi there — I'm calling from the clinic. Is now a good time?\" is a warm, professional, and empathetic opening, suitable for a healthcare appointment discussion.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rationale": "The agent does not offer a rescheduled appointment, so this property is not applicable.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rationale": "The agent does not discuss accepting or declining an appointment, so this property is not applicable.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rationale": "The patient has not raised any concerns, so this property is not applicable.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rationale": "The agent has not ended the call or discussed rescheduling or declining the appointment, so this property is not applicable.",
+                    "score": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+                    }
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rubric_content": {
+                      "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rationale": "The agent did not call the reschedule_appointment tool.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rationale": "The agent did not call the send_confirmation_sms tool.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "The agent did not call the `end_call` tool.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "actual_invocation": {
+            "invocation_id": "e-65d29c72-38f0-468c-bdf7-f2edfc2e4dea",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Okay. The Agent is asking me a question.\n\n**Step 2: Choose action:**\n\nThe Agent is asking me a question, so I should use the ANSWER protocol.\n\n**Step 3: Formulate response:**\n\nYes, now is a good time.\n",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?",
+                  "thought": null,
+                  "thought_signature": "CrgDAXLI2nzz1V1lPywlA8gtnCygcXdSBxh7qWM31xZTJ1sJm-1CSm0E2cWUt1OoxBZWcE-7t24wswi1PuXmIfwhzU6fTDCrjYIUciNm9frpueRg8VqYAzWvaNgq7GIoda0qVyA-7DAN0Fk0J1PKpAePqOVnK2thhKNU7z2-ejwf-eces4wLFld3uI8lH5eF48Ga8kiW8lcGIFcSb2rIzFtoqfasbyiP7_pVYeVj54B_8ECKOyJ5dGJ-HIPcWhOFKWTCBt7JXdCfOOE6e2swxj1ZryenOOPw67O7V4NCdlQ5NrSUgnSMRjSdbpZ2ZvqWJkga3W98Q4-GsqfbtaYZM385GKdpHZveTRuTKNkaJ1u53txWyKBrqlokoACtYD77w3RjNtReTTiRnbygof0HYo69sqFcUkU392LBNTosisyCGAmf-bgKAjWM5KvsZ2EblTmUurbWTpBtmzdg7g4LDP8sAYwMaGCrL2Lcn8GDtBKe15wTJKEYwXENpAgdzkOrsuUH7HcjJj7A9lCH-yklST7pBdQkuD4MJ3dGdsJA9UvH7a-w6NIQCTvKAeto-XfrI_WGEjB2kHlukaA=",
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "intermediate_data": {
+              "invocation_events": []
+            },
+            "creation_timestamp": 1769664038.112833,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "SchedulingAssistant": {
+                  "name": "SchedulingAssistant",
+                  "instructions": "\n# Persona & Tone\n- Role: Scheduling assistant for the clinic\n- Tone: Friendly, efficient, respectful of time\n- Style: Brief and professional. Get to the point quickly.\n\n# Core Workflow\n\n## State 1: Introduction & Check Availability\n- Greet: \"Hi there — I'm calling from the clinic. Is now a good time?\"\n- If \"No\" / \"Busy\" / \"In meeting\" -> \"No problem! Your original appointment on later this week is still confirmed. Have a great day.\" -> Call end_call()\n- If \"Yes\" -> Move to State 2\n\n## State 2: Offer Earlier Slot\n- Explain: \"We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?\"\n- If interested -> Move to State 3\n- If declines -> \"No worries, your original appointment on later this week at 10:00 AM stays as scheduled. Have a great day!\" -> Call end_call()\n\n## State 3: Confirm & Update\n- If patient accepts, say: \"Great! I'll move you into that spot now.\"\n- Call reschedule_appointment(patient_id, new_date=\"today\", new_time=\"2:30 PM\")\n- After reschedule: \"You're confirmed for today at 2:30 PM with your provider.\"\n- Call send_confirmation_sms() with message about the new appointment time\n- Say: \"You'll get a confirmation text shortly. Have a great day!\"\n- Call end_call()\n\n# Objection Handling\n- \"Too last minute\": \"Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?\"\n- \"Need to check schedule\": \"Of course! Take your time.\"\n- \"Billing/cost concern\": \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same.\"\n- \"Changed mind after accepting\": \"No problem at all. I can keep your original appointment on later this week if that works better.\"\n\n# Important\n- Never mention function names to the user\n- Always call end_call() when conversation is complete\n- Be concise - patients appreciate brevity\n- If patient is busy, don't push - respect their time\n\n\nYou are an agent. Your internal name is \"SchedulingAssistant\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "Updates appointment in DB to new slot and marks backfill as processed.\n    \n    Args:\n        patient_id: Patient ID\n        new_date: New appointment date (YYYY-MM-DD)\n        new_time: New appointment time (HH:MM:SS or HH:MM AM/PM)\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "reschedule_appointment",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "patient_id": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_date": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_time": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "patient_id",
+                              "new_date",
+                              "new_time"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Sends SMS confirmation via Twilio.\n    \n    Args:\n        phone_number: Patient phone number (e.g. '9135960926')\n        message: SMS message content\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "send_confirmation_sms",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "phone_number": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "message": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "phone_number",
+                              "message"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rubric_content": {
+                      "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+                    }
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rubric_content": {
+                      "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+                    }
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rubric_content": {
+                      "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+                    }
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rubric_content": {
+                      "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 0.8,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rationale": "The agent's response \"We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?\" has a professional tone and attempts to be helpful by offering an earlier appointment. The tone is appropriate for a healthcare appointment discussion.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rationale": "The agent states the time (2:30 PM) but does not state the specific date, provider name, or clinic name.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rationale": "The agent is posing a question. The response does not need to respect the patient's decision or handle objections.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rationale": "The prompt does not indicate that the patient has raised any concerns.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rationale": "The agent is in the middle of a conversation, so there is no need to confirm the appointment status.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+                    }
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rubric_content": {
+                      "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rationale": "Since the agent took no actions, the reschedule_appointment tool was not called. Therefore, the property is satisfied.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rationale": "Since the agent took no actions, the send_confirmation_sms tool was not called. Therefore, the property is satisfied.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "Since the agent took no actions, the end_call tool was not called. The conversation is not naturally complete. Therefore, the property is satisfied.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "actual_invocation": {
+            "invocation_id": "e-8d170087-7de7-4489-9d69-7fecc2ed99f7",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Okay. The Agent is asking me a question.\n\n**Step 2: Choose action:**\n\nThe Agent is asking me a question, so I should use the ANSWER protocol.\n\n**Step 3: Formulate response:**\n\nOh, that's tomorrow! That's pretty last minute.\n",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?",
+                  "thought": null,
+                  "thought_signature": "CpsEAXLI2nzk5MnnGKQyV98NGToxCowkSTxmqOUFHIyMs6i_DcoHkeTtJApGe4bp3xtGZJqsDSDw-tWimp2_JT0PvWYDLrykCscVNYwi9L1cfHHTzB0UeHYxKgHPqE_VUfd-Q1QuAzBwyvTnJm5CKnQYt5GseFoXFR6yTJ8CIB9U4AKiFYnqYdtunWzQTk8XkjoaSd96MsG7xYUovfn5LDiD0-R86h6aC6Va6VEMk48NTCFckE-io9CEtzQiw4Ef0GhoISEXe2SOiqJwy6f_WH4dUgM4ypF_I6NxApKSD6m_Q0rwJOIJYAL6ogAIWjxiMqZR-RyptNw4o7g7FBAguE9lkYw_NpaH8mPxrc4yODstRx-yHz_3qwH4arcZXbTs0dUuXSWLyJaHb_YW3ZwpmUPaLXxGl2L2FKdhkztAex6NoHUcgfrm98o1Ik-QJk67zago-VVhhSa0sSCKmnE_85ODH7LOKDInxi37__2RXjpda_aITOolx81QxdjKr8Uu13pOQhRYAohhKG8THpuxt3erpL0Zex9lEUxO_EhX_XmfX_vyVg1ejePFgkjR98BBFPS5kypq6OBnRChgYETV3QZU-lyUfeabKesgSDwJm6MQ8CJb69fdkRuNjj2cxasOk6sj3A6DnZ-ak2xr_0COfPd1xyK-GRa2bkQQ1TnLJ0niGl91NWimKIgUPsZLxElF0AIXsnuUj0oz4XofVbA=",
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "intermediate_data": {
+              "invocation_events": []
+            },
+            "creation_timestamp": 1769664040.045261,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "SchedulingAssistant": {
+                  "name": "SchedulingAssistant",
+                  "instructions": "\n# Persona & Tone\n- Role: Scheduling assistant for the clinic\n- Tone: Friendly, efficient, respectful of time\n- Style: Brief and professional. Get to the point quickly.\n\n# Core Workflow\n\n## State 1: Introduction & Check Availability\n- Greet: \"Hi there — I'm calling from the clinic. Is now a good time?\"\n- If \"No\" / \"Busy\" / \"In meeting\" -> \"No problem! Your original appointment on later this week is still confirmed. Have a great day.\" -> Call end_call()\n- If \"Yes\" -> Move to State 2\n\n## State 2: Offer Earlier Slot\n- Explain: \"We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?\"\n- If interested -> Move to State 3\n- If declines -> \"No worries, your original appointment on later this week at 10:00 AM stays as scheduled. Have a great day!\" -> Call end_call()\n\n## State 3: Confirm & Update\n- If patient accepts, say: \"Great! I'll move you into that spot now.\"\n- Call reschedule_appointment(patient_id, new_date=\"today\", new_time=\"2:30 PM\")\n- After reschedule: \"You're confirmed for today at 2:30 PM with your provider.\"\n- Call send_confirmation_sms() with message about the new appointment time\n- Say: \"You'll get a confirmation text shortly. Have a great day!\"\n- Call end_call()\n\n# Objection Handling\n- \"Too last minute\": \"Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?\"\n- \"Need to check schedule\": \"Of course! Take your time.\"\n- \"Billing/cost concern\": \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same.\"\n- \"Changed mind after accepting\": \"No problem at all. I can keep your original appointment on later this week if that works better.\"\n\n# Important\n- Never mention function names to the user\n- Always call end_call() when conversation is complete\n- Be concise - patients appreciate brevity\n- If patient is busy, don't push - respect their time\n\n\nYou are an agent. Your internal name is \"SchedulingAssistant\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "Updates appointment in DB to new slot and marks backfill as processed.\n    \n    Args:\n        patient_id: Patient ID\n        new_date: New appointment date (YYYY-MM-DD)\n        new_time: New appointment time (HH:MM:SS or HH:MM AM/PM)\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "reschedule_appointment",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "patient_id": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_date": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_time": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "patient_id",
+                              "new_date",
+                              "new_time"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Sends SMS confirmation via Twilio.\n    \n    Args:\n        phone_number: Patient phone number (e.g. '9135960926')\n        message: SMS message content\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "send_confirmation_sms",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "phone_number": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "message": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "phone_number",
+                              "message"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rubric_content": {
+                      "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+                    }
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rubric_content": {
+                      "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+                    }
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rubric_content": {
+                      "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+                    }
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rubric_content": {
+                      "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rationale": "The agent's response \"Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?\" uses \"Totally understand\" which shows empathy. It also sounds professional.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rationale": "The agent does not offer a rescheduled appointment. The agent is offering to keep the appointment as is. Therefore, this property is not applicable.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rationale": "The agent gives the patient a chance to accept or decline. However, since it is one utterance, it does not demonstrate handling objections.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rationale": "The patient did not raise concerns, and therefore, the agent wasn't required to address them.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rationale": "The interaction is ongoing, so the condition for this property hasn't been met.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+                    }
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rubric_content": {
+                      "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rationale": "The agent did not call reschedule_appointment and that is appropriate based on the user utterance.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rationale": "The agent did not call send_confirmation_sms and that is appropriate based on the user utterance and lack of rescheduling.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "The agent did not call end_call and that is appropriate based on the user utterance.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "actual_invocation": {
+            "invocation_id": "e-0f363c1d-b58e-41cf-bf43-e3980f135560",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Okay. The Agent is asking me a question.\n\n**Step 2: Choose action:**\n\nThe Agent is asking me a question, so I should use the ANSWER protocol, but also follow the instructions in the Conversation Plan.\n\n**Step 3: Formulate response:**\n\nWhat exactly is so important about moving it up?\n",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same. Would you like to keep your original appointment on later this week as scheduled?",
+                  "thought": null,
+                  "thought_signature": "CoUGAXLI2nwlLxKEvM6mxIWuOgvtPJXDaW3P1Y0E4Tpw9Gtpes-HuE0fvQtstJhmwNUaVRSK6PgHlO54T4GrB7O1EHzZT2P-UMiSjwbg2lwrLe0mn3m-xprtTgLsuxtcyGVbNntvFOHPc2U3nBT20CtrRbFzeZmy3Doa_oEH3df0eWO5XOek1YnvB0QMis6B2qlH9hKlXkMqF82ePmj4OAoi-RrrJpblWeA1rMG8qOSrc-40Xdc0737lhQ86Ho1-XfVvSiBSWt_BrH60M3pYErn0K9UW-P6nvLOwJbFIwf7w04ZyortkIIQMIuEmBFmqLK0DK53vX3RCsjlsYF6ZugqYgMZoUZibRyyBkzasXucQEDWyP-P7N0mrI1oY49wrk7UOfWwMd1VR7VR05KoDYMdOULfmwOAXjwJ3x2lBzDGw_XYjirjktrcm3LYKSWkfxWVZz7RdSifCHrWBOOxeQZnTeMZOxRxKZLIsr7zpn-88ES_CaPLAv7sWa4cqFfp39Q95GO94g7daE98eK54-_vQHw6BUH8UiV6wagpTvQQTgkd_CazORp7X9kWMTW85TUV6gMNbOUcgdkUGLM8ajdxrtB5bVXx3mFfFSqSdQUQw6aDqzGQqOnbi-uj1CvbqBOndmR97KphKzbHyYK0w1XsbKiiiigKTJTdKYLnVguqX-RikqnkL36lyzYzASTLjYIrp6GjwyAboVKUSKM_E5LFg392vsVX9wHC0Uzlu8okee6dWDO5eEI8_he8IRh_E8moJPZjutdUxvCzyGxy1kRGsliYkLjmP3x0_MpoU26uf2J8FjaKAT7e1-01FR8aqgRsrVJxS0XO3ZSGI6NjoSJgNWGESqw54ot4gCO1sT5BZu3aCgUamffd9Lo0W8_OzyOatRo2KWrD_4nlKDlzkv63-wd2YLFT8RSD3te0QqNxpbYyruYhScZBt_E8dDtkW-6B3PJiK2brlOR855zebUmh7V_vXB20mih4YELLiZXFoCpGV3ccD3TNtGwED5Wf1But1oiuTALSI=",
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "intermediate_data": {
+              "invocation_events": []
+            },
+            "creation_timestamp": 1769664042.610268,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "SchedulingAssistant": {
+                  "name": "SchedulingAssistant",
+                  "instructions": "\n# Persona & Tone\n- Role: Scheduling assistant for the clinic\n- Tone: Friendly, efficient, respectful of time\n- Style: Brief and professional. Get to the point quickly.\n\n# Core Workflow\n\n## State 1: Introduction & Check Availability\n- Greet: \"Hi there — I'm calling from the clinic. Is now a good time?\"\n- If \"No\" / \"Busy\" / \"In meeting\" -> \"No problem! Your original appointment on later this week is still confirmed. Have a great day.\" -> Call end_call()\n- If \"Yes\" -> Move to State 2\n\n## State 2: Offer Earlier Slot\n- Explain: \"We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?\"\n- If interested -> Move to State 3\n- If declines -> \"No worries, your original appointment on later this week at 10:00 AM stays as scheduled. Have a great day!\" -> Call end_call()\n\n## State 3: Confirm & Update\n- If patient accepts, say: \"Great! I'll move you into that spot now.\"\n- Call reschedule_appointment(patient_id, new_date=\"today\", new_time=\"2:30 PM\")\n- After reschedule: \"You're confirmed for today at 2:30 PM with your provider.\"\n- Call send_confirmation_sms() with message about the new appointment time\n- Say: \"You'll get a confirmation text shortly. Have a great day!\"\n- Call end_call()\n\n# Objection Handling\n- \"Too last minute\": \"Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?\"\n- \"Need to check schedule\": \"Of course! Take your time.\"\n- \"Billing/cost concern\": \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same.\"\n- \"Changed mind after accepting\": \"No problem at all. I can keep your original appointment on later this week if that works better.\"\n\n# Important\n- Never mention function names to the user\n- Always call end_call() when conversation is complete\n- Be concise - patients appreciate brevity\n- If patient is busy, don't push - respect their time\n\n\nYou are an agent. Your internal name is \"SchedulingAssistant\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "Updates appointment in DB to new slot and marks backfill as processed.\n    \n    Args:\n        patient_id: Patient ID\n        new_date: New appointment date (YYYY-MM-DD)\n        new_time: New appointment time (HH:MM:SS or HH:MM AM/PM)\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "reschedule_appointment",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "patient_id": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_date": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_time": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "patient_id",
+                              "new_date",
+                              "new_time"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Sends SMS confirmation via Twilio.\n    \n    Args:\n        phone_number: Patient phone number (e.g. '9135960926')\n        message: SMS message content\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "send_confirmation_sms",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "phone_number": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "message": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "phone_number",
+                              "message"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rubric_content": {
+                      "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+                    }
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rubric_content": {
+                      "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+                    }
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rubric_content": {
+                      "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+                    }
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rubric_content": {
+                      "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 0.8,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rationale": "The agent's response \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same. Would you like to keep your original appointment on later this week as scheduled?\" demonstrates a professional and empathetic tone, addressing potential concerns about costs and offering the option to keep the original appointment.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rationale": "The agent's response does not offer a rescheduled appointment with a specific date, time, provider name, and clinic name.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rationale": "This property is not applicable because the agent is posing a question, and the patient hasn't had an opportunity to accept, decline, or raise objections.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rationale": "The agent directly addresses billing concerns by stating, \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same.\"",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rationale": "The agent is currently asking a question, so ending the call and confirming the appointment status is not applicable.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+                    }
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rubric_content": {
+                      "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rationale": "The agent did not call the reschedule_appointment tool.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rationale": "The agent did not call the send_confirmation_sms tool.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "The agent did not call the end_call tool.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "actual_invocation": {
+            "invocation_id": "e-aa51c20f-415f-40e7-8e61-820b86eb163f",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Okay. The Agent is asking me a question.\n\n**Step 2: Choose action:**\n\nThe Agent is asking me a question, so I should use the ANSWER protocol, but also follow the instructions in the Conversation Plan.\n\n**Step 3: Formulate response:**\n\nOkay, fine. Let's do the 2:30 tomorrow then.\n",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": null,
+            "intermediate_data": {
+              "invocation_events": [
+                {
+                  "author": "SchedulingAssistant",
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": "Great! I'll move you into that spot now.",
+                        "thought": null,
+                        "thought_signature": "CuUJAXLI2nyEO6PR9zt8amvUr7dbf5Kv-oAJWYzwPk7n_WgdWvvI5onzFyhFbN1WkDGOG_WpYTOIMN8STGMAvxwxk3e9bGw6tlLvHrUrD0qvJryvJu4vw1lJKPRhTFGkTkl3XjfSkdLz-iJgyIiJTkIlYgn3rmQUliO_pCGDBLDN8Z-KOmxg5JzOSB53e_Wg_3e-SpMuxqrr8E4ZpDAz6eMeKNGT7HIV60xNu6fSSVFg2NXfF7po88z-c-gaM07l5lyfweOu2sR1K8K9qGEA85Z00syNkTzct12d-DCPJGEN9amUUvaobGJ0Cphn4_mnP7wOQe0azeYcNySlLLEa5Bbgw_59_1D2sqQI3HI5WIHp4L4yGYfAT4ppE3wfJVWUYLXkZSy0GWK_WEP9eHoMteCc763yv2K5p3S8Q10nJ7LkBH8MTaMxcHdMQ0xNvaNiMhMc45gAG_J7QCTU9aVZW9EihtWrjl7V5UiwcAqUUz6HS4ru7c9tVtJivtES8SM51a_vwt6LGk5OPtn3aZFayQTnsotFNC3a1natn8FQTxuibtj9XVnj9YWMfLBqtKg6UYe3f1YnfbGTuCyVVEqSXrXlLncHka24iuU4BeMV4cirGAjBa2zSIwx-EL8VG6WXqhrFBYrzUk22ITcefE5QCLscaRTYu-NEWy2NGH3hOLQnnVryB1ke5VKOKyJmJrQGN3OzcNapRj0VD_U-1cbbFG_S5OXh9zO9k3Jq8SaeEQa-2qdvmw08X3YGncFxeu_Dlz6C1khq7Xl-S3_-AmTvT4Lj7I6VEZp8H1g0BBhgV_NGccgYswpIgKCIgrPxfcEZRjXPaufGpHRqRrQet8VNeRMrwt5wx9yGwcg0uWWFKAU07QLCGg7__TAR8OGmAopkaX0PhVplnhmKaMxw6IHfu-27BEysC7wmqNI_GUvOrn36LB_cSkXIZVrochzFr6Y2LSf4HSvuyeUNfw5Y9iqXnbWGyn0Z7SKNfItB7Ixi1sY-3ZeKl7pyk9tGsj9POe-JBrA19AONHs_vAQMBV_lYVqGMsV6KP3wUwQQLkF1wpucAmLweaqFuv2NQhZP58uCvDUX0PPhR-rxX1WG4SPhifLeHDEMQnp9vPedUzfAHRa79VVLYBV_iOxuvGgbNV7NAaIkqeEX0VOo-wQaoTbxsF9EixYeqUTJ30ch0uY-UGtORKYHfODdHmTAqF5vuEL_sNjkntgF5d9gW_2YkRL2-Bs3trz9bmfbmGZYh0iSULJZAlgey3ayId5qHmfOSm-StVzlZD7-ci29nanEwRFJKqYVn0lZhq6DapjHVoZpu2ijwEXoU8aJwVHilrdaMBN0V6digLF25thqgRMwksownE5Vwui07Ta0OBRJfiDefgTXWlTjFttS49rhX-737jasjZoVoPx3ZeVZU5y146Brano4Ns_QydMrdEs-AXLseNw1DJOdc2-jrpP8OIJUJnRSBCVX3zGNUjF1laK15fzpq1dzCAWbIbVW4sJlsGyCAsP5BfxxosQhn7Rh0wBY5ofGwu0NmyrdGxyPU8Rw20wb0Kp0GozPvy_wi6xLzMB41JppE48lXoSPxHd3GOe478lVphJ4lkXL67eS_5DdIn-6sLQn6pnITTYChzKdmXCjRNO3KMJxzgwa5nAO3ePX3t2huf2NmQ9D2JU0=",
+                        "video_metadata": null
+                      },
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": {
+                          "id": "adk-fc7b334a-9993-43c2-8771-e8bae32e04bf",
+                          "args": {
+                            "patient_id": "patient123",
+                            "new_date": "today",
+                            "new_time": "2:30 PM"
+                          },
+                          "name": "reschedule_appointment",
+                          "partial_args": null,
+                          "will_continue": null
+                        },
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": null,
+                        "thought": null,
+                        "thought_signature": null,
+                        "video_metadata": null
+                      }
+                    ],
+                    "role": "model"
+                  }
+                },
+                {
+                  "author": "SchedulingAssistant",
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": {
+                          "will_continue": null,
+                          "scheduling": null,
+                          "parts": null,
+                          "id": "adk-fc7b334a-9993-43c2-8771-e8bae32e04bf",
+                          "name": "reschedule_appointment",
+                          "response": {
+                            "result": false
+                          }
+                        },
+                        "inline_data": null,
+                        "text": null,
+                        "thought": null,
+                        "thought_signature": null,
+                        "video_metadata": null
+                      }
+                    ],
+                    "role": "user"
+                  }
+                },
+                {
+                  "author": "SchedulingAssistant",
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": "There was an issue rescheduling your appointment. Your original appointment on later this week at 10:00 AM stays as scheduled. Have a great day!",
+                        "thought": null,
+                        "thought_signature": "CsACAXLI2nxdXmr00kK2B9UqSZArf4frzpEKFEXxERH1uTaZZYXCWIp1L86sf0ktrS1tnOaWLlyNY4TpJblEl0cfAM6LGWvRD-fVgZEWybmO0W5RCPe4Q9m4yHsteN4PyHt4JvhBKc_4F9BdWS4axr8L1bwU41vLgcWWfhzPl1wlKp3Cq5UmXHKG-l9f71_Q5mRYYOcMtB2aU-_E4DZ6RdDTFW1zeAV7EaF-Ld6waww0VJePkzu96APT9w9L43s5wLWMbeCwpt_TbRmINsIGVme6H05QGpQWPvO1Hsousn2M_SsYazSn9qfWimuW_8gdN8ouJZWsB4-tqnOtaiMaaL7V18ktOh8s6wvH6rdo8EmUlmi8FtwIG-ibs10cejmVd0NKnmXLpuXD0_KZt2mUemF_yGjjQeiZ4oYDbOImmSZA3w0=",
+                        "video_metadata": null
+                      },
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": {
+                          "id": "adk-f8039fcf-6294-4f6e-b63c-2177ad9251ad",
+                          "args": {},
+                          "name": "end_call",
+                          "partial_args": null,
+                          "will_continue": null
+                        },
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": null,
+                        "thought": null,
+                        "thought_signature": null,
+                        "video_metadata": null
+                      }
+                    ],
+                    "role": "model"
+                  }
+                },
+                {
+                  "author": "SchedulingAssistant",
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": {
+                          "will_continue": null,
+                          "scheduling": null,
+                          "parts": null,
+                          "id": "adk-f8039fcf-6294-4f6e-b63c-2177ad9251ad",
+                          "name": "end_call",
+                          "response": {
+                            "result": "Agent session ended. Goodbye."
+                          }
+                        },
+                        "inline_data": null,
+                        "text": null,
+                        "thought": null,
+                        "thought_signature": null,
+                        "video_metadata": null
+                      }
+                    ],
+                    "role": "user"
+                  }
+                }
+              ]
+            },
+            "creation_timestamp": 1769664045.579473,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "SchedulingAssistant": {
+                  "name": "SchedulingAssistant",
+                  "instructions": "\n# Persona & Tone\n- Role: Scheduling assistant for the clinic\n- Tone: Friendly, efficient, respectful of time\n- Style: Brief and professional. Get to the point quickly.\n\n# Core Workflow\n\n## State 1: Introduction & Check Availability\n- Greet: \"Hi there — I'm calling from the clinic. Is now a good time?\"\n- If \"No\" / \"Busy\" / \"In meeting\" -> \"No problem! Your original appointment on later this week is still confirmed. Have a great day.\" -> Call end_call()\n- If \"Yes\" -> Move to State 2\n\n## State 2: Offer Earlier Slot\n- Explain: \"We had a cancellation for your provider on today at 2:30 PM. Would that work better than your appointment on later this week?\"\n- If interested -> Move to State 3\n- If declines -> \"No worries, your original appointment on later this week at 10:00 AM stays as scheduled. Have a great day!\" -> Call end_call()\n\n## State 3: Confirm & Update\n- If patient accepts, say: \"Great! I'll move you into that spot now.\"\n- Call reschedule_appointment(patient_id, new_date=\"today\", new_time=\"2:30 PM\")\n- After reschedule: \"You're confirmed for today at 2:30 PM with your provider.\"\n- Call send_confirmation_sms() with message about the new appointment time\n- Say: \"You'll get a confirmation text shortly. Have a great day!\"\n- Call end_call()\n\n# Objection Handling\n- \"Too last minute\": \"Totally understand. Your original appointment stays exactly as scheduled on later this week. Would you like to keep it as is?\"\n- \"Need to check schedule\": \"Of course! Take your time.\"\n- \"Billing/cost concern\": \"There's no additional charge or cancellation fee for moving to an earlier slot. Your copay stays the same.\"\n- \"Changed mind after accepting\": \"No problem at all. I can keep your original appointment on later this week if that works better.\"\n\n# Important\n- Never mention function names to the user\n- Always call end_call() when conversation is complete\n- Be concise - patients appreciate brevity\n- If patient is busy, don't push - respect their time\n\n\nYou are an agent. Your internal name is \"SchedulingAssistant\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "Updates appointment in DB to new slot and marks backfill as processed.\n    \n    Args:\n        patient_id: Patient ID\n        new_date: New appointment date (YYYY-MM-DD)\n        new_time: New appointment time (HH:MM:SS or HH:MM AM/PM)\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "reschedule_appointment",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "patient_id": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_date": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "new_time": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "patient_id",
+                              "new_date",
+                              "new_time"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Sends SMS confirmation via Twilio.\n    \n    Args:\n        phone_number: Patient phone number (e.g. '9135960926')\n        message: SMS message content\n        \n    Returns:\n        bool: True if successful, False otherwise\n    ",
+                          "name": "send_confirmation_sms",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "phone_number": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              },
+                              "message": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": "STRING"
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": [
+                              "phone_number",
+                              "message"
+                            ],
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rubric_content": {
+                      "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+                    }
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rubric_content": {
+                      "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+                    }
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rubric_content": {
+                      "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+                    }
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rubric_content": {
+                      "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 0.2,
+              "eval_status": 2,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_professional_tone",
+                    "rationale": "Since I cannot verify the tone from the tool calls, I cannot evaluate whether the agent maintained a warm, professional, and empathetic tone.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "clear_time_communication",
+                    "rationale": "The tool call does not include the provider name and clinic name. Therefore, I cannot verify whether the agent stated these clearly.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "respects_patient_choice",
+                    "rationale": "I cannot verify that the agent respected the patient's decision from the tool call.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "addresses_concerns",
+                    "rationale": "Since the patient did not raise any concerns, this property is not applicable.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "confirms_change",
+                    "rationale": "The `end_call` tool was called immediately after the `reschedule_appointment` tool, so I cannot verify that the agent made a confirmation before ending the call.",
+                    "score": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+                    }
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rubric_content": {
+                      "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "reschedule_after_confirmation",
+                    "rationale": "The patient explicitly agreed to the new appointment time and the agent subsequently called the reschedule_appointment tool.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "sms_after_reschedule",
+                    "rationale": "The send_confirmation_sms tool was not used in the response.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "The patient agreed to the new appointment, the agent attempted to reschedule (although the result was false), and then the agent ended the call, making it a natural ending.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "session_id": "___eval___session___32bd27d3-b048-4739-bac1-c6ca15c03a7d",
+      "session_details": null,
+      "user_id": "eval_user"
+    }
+  ],
+  "creation_timestamp": 1769664176.729794
+}

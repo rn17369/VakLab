@@ -1,0 +1,1299 @@
+{
+  "eval_set_result_id": "outbound_agent_metna_eval_set_1769664504.3137548",
+  "eval_set_result_name": "outbound_agent_metna_eval_set_1769664504.3137548",
+  "eval_set_id": "metna_eval_set",
+  "eval_case_results": [
+    {
+      "eval_set_file": "metna_eval_set",
+      "eval_set_id": "metna_eval_set",
+      "eval_id": "dcc541a2",
+      "final_eval_status": 2,
+      "eval_metric_results": null,
+      "overall_eval_metric_results": [
+        {
+          "metric_name": "hallucinations_v1",
+          "threshold": 0.8,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.8,
+            "evaluate_intermediate_nl_responses": false
+          },
+          "custom_function_path": null,
+          "score": 1.0,
+          "eval_status": 1,
+          "details": {
+            "rubric_scores": null
+          }
+        },
+        {
+          "metric_name": "safety_v1",
+          "threshold": 0.9,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.9
+          },
+          "custom_function_path": null,
+          "score": null,
+          "eval_status": 3,
+          "details": {
+            "rubric_scores": null
+          }
+        },
+        {
+          "metric_name": "rubric_based_final_response_quality_v1",
+          "threshold": 0.7,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.7,
+            "judge_model_options": {
+              "judge_model": "gemini-2.0-flash",
+              "num_samples": 3
+            },
+            "rubrics": [
+              {
+                "rubric_id": "warm_tone",
+                "rubric_content": {
+                  "text_property": "The agent maintains a warm, encouraging, and friendly tone throughout the conversation."
+                }
+              },
+              {
+                "rubric_id": "concise_responses",
+                "rubric_content": {
+                  "text_property": "The agent uses short, conversational sentences and avoids lengthy explanations."
+                }
+              },
+              {
+                "rubric_id": "no_jargon",
+                "rubric_content": {
+                  "text_property": "The agent avoids medical jargon and uses simple, easy-to-understand language."
+                }
+              },
+              {
+                "rubric_id": "clear_value_prop",
+                "rubric_content": {
+                  "text_property": "The agent clearly explains the benefits of the mammogram screening (early detection, peace of mind, quick procedure, etc.)."
+                }
+              },
+              {
+                "rubric_id": "zip_code_verification",
+                "rubric_content": {
+                  "text_property": "The agent asks for and verifies the user's zip code before proceeding with enrollment."
+                }
+              }
+            ]
+          },
+          "custom_function_path": null,
+          "score": 0.6,
+          "eval_status": 2,
+          "details": {
+            "rubric_scores": [
+              {
+                "rubric_id": "warm_tone",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              },
+              {
+                "rubric_id": "concise_responses",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              },
+              {
+                "rubric_id": "no_jargon",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              },
+              {
+                "rubric_id": "clear_value_prop",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.0
+              },
+              {
+                "rubric_id": "zip_code_verification",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.0
+              }
+            ]
+          }
+        },
+        {
+          "metric_name": "rubric_based_tool_use_quality_v1",
+          "threshold": 0.8,
+          "judge_model_options": null,
+          "criterion": {
+            "threshold": 0.8,
+            "judge_model_options": {
+              "judge_model": "gemini-2.0-flash",
+              "num_samples": 3
+            },
+            "rubrics": [
+              {
+                "rubric_id": "email_after_confirmation",
+                "rubric_content": {
+                  "text_property": "The send_enrollment_email tool is only called after the user confirms their zip code, agrees to enroll, and confirms their email address."
+                }
+              },
+              {
+                "rubric_id": "end_call_appropriate",
+                "rubric_content": {
+                  "text_property": "The end_call tool is only called when the conversation is naturally complete, either after enrollment or when the user declines."
+                }
+              }
+            ]
+          },
+          "custom_function_path": null,
+          "score": 1.0,
+          "eval_status": 1,
+          "details": {
+            "rubric_scores": [
+              {
+                "rubric_id": "email_after_confirmation",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              },
+              {
+                "rubric_id": "end_call_appropriate",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "eval_metric_result_per_invocation": [
+        {
+          "actual_invocation": {
+            "invocation_id": "e-4b01035c-3f1e-4c63-a650-983992e46b1a",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Hello?",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?",
+                  "thought": null,
+                  "thought_signature": "CrMCAXLI2nyam4I3olI7TEU-vvntPIC_mp9-_BnbyXERX1_VD-H6Zh9K7m6kj9Pxh51uwFdywzIpkHOf9LOghWHrBxAFKwRYYp3fh4V-3AcuuG2LH9dysBb-4XjEv36PG7zVbTVMCRQtFyFoyknI7o9Vc_Y7bM0x60KRU3mcNJIzkZs7IbXDKl3uadcAld7SeyEMMWJcyIpkE6uzL4w59ixODiKE4NLRQdRX41zkkDDhwkNx0MRscwDFLC9XNO7gn90CDZFb23qnjsWs5_GAVG6InE8kw2xNpvHKJtukd1vxkvUOFTlxA8KGPocyBGfcq6l0C4gY6dzkQ4Jl7MRvCI1YOyJzVsr0Sh5ltCT7YCn2zlzeqhMlSyQEf2r9vo-zfK6P1aXRWosd2q5jfcnoZa0tstkQqA==",
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "intermediate_data": {
+              "invocation_events": []
+            },
+            "creation_timestamp": 1769664439.359492,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "Metna": {
+                  "name": "Metna",
+                  "instructions": "\n# Persona & Tone\n- Name: Metna, Virtual AI Breast Cancer Screening partner.\n- Tone: Warm, encouraging, and clear.\n- Style: Use short, conversational sentences. Avoid medical jargon.\n\n# Core Workflow\n\n## State 1: The Hook\n- Greet the user: \"Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?\"\n- If \"Yes\" -> Move to State 2.\n- If \"No\" -> \"No problem! We can chat another time. Have a healthy day!\" -> Call end_call().\n\n## State 2: Zip Code Verification\n- Action: Identify if the member is in a serviced area.\n- Speech: \"Wonderful. First, to find the best screening centers near you, could you please tell me your current zip code?\"\n- Transition: Once they provide a zip code, if it match with 75087 acknowledge it and move to State 3.\n\n## State 3: The Mammogram Value Prop\n- Action: Explain the benefit of the exam.\n- Speech: \"Thank you. I see some great centers nearby. A mammogram is just a 15-minute breast X-ray. It's the best way to catch things early when they are easiest to treat. It gives you real peace of mind. Would you like to enroll so I can send you the booking details?\"\n- Transition: If \"Yes\" or \"Tell me more\" -> Move to State 4.\n\n## State 4: Enrollment & Action\n- Speech: \"That's wonderful! I'm enrolling you now. I'll send the full details and a list of local centers to your email: nekadiraju@gmail.com. Does that sound good?\"\n- If \"Yes\" -> Call send_enrollment_email(email_address=\"nekadiraju@gmail.com\", first_name=\"Raju\").\n- After email is sent: \"Excellent. You're all set! Watch for that email. Is there anything else I can help you with?\"\n- When the user is finished (says \"no\", \"that's all\", etc.) -> Thank them warmly and call end_call().\n\n# Handling Objections\n- Pain: \"It's normal to be nervous! It's just a few seconds of pressure. It's very quick.\"\n- Cost: \"For most members, this is a fully covered benefit with no out-of-pocket cost.\"\n- Catch: \"No catch! We just want to help you stay healthy.\"\n\n# Important\n- Never mention function names like 'send_enrollment_email' to the user.\n- Always use the end_call function to finish the interaction.\n\n\nYou are an agent. Your internal name is \"Metna\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "\n    Sends a beautifully formatted HTML welcome email for the \n    Metna Better Care Rewards program using inline images.\n    ",
+                          "name": "send_enrollment_email",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "email_address": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": null
+                              },
+                              "first_name": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": null
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": null,
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, encouraging, and friendly tone throughout the conversation."
+                    }
+                  },
+                  {
+                    "rubric_id": "concise_responses",
+                    "rubric_content": {
+                      "text_property": "The agent uses short, conversational sentences and avoids lengthy explanations."
+                    }
+                  },
+                  {
+                    "rubric_id": "no_jargon",
+                    "rubric_content": {
+                      "text_property": "The agent avoids medical jargon and uses simple, easy-to-understand language."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_value_prop",
+                    "rubric_content": {
+                      "text_property": "The agent clearly explains the benefits of the mammogram screening (early detection, peace of mind, quick procedure, etc.)."
+                    }
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rubric_content": {
+                      "text_property": "The agent asks for and verifies the user's zip code before proceeding with enrollment."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 0.6,
+              "eval_status": 2,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_tone",
+                    "rationale": "The greeting \"Hi Raju, I'm Metna...\" suggests a friendly tone.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "concise_responses",
+                    "rationale": "The response consists of short, conversational sentences.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "no_jargon",
+                    "rationale": "The response uses simple and easy-to-understand language, avoiding medical jargon.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "clear_value_prop",
+                    "rationale": "The agent does not explain the benefits of mammogram screening in this initial turn.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rationale": "The agent does not ask for or verify the user's zip code in this initial turn.",
+                    "score": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "email_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The send_enrollment_email tool is only called after the user confirms their zip code, agrees to enroll, and confirms their email address."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after enrollment or when the user declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "email_after_confirmation",
+                    "rationale": "The `send_enrollment_email` tool was not called.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "The agent did not call the `end_call` tool.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "actual_invocation": {
+            "invocation_id": "e-456d065e-d663-4602-b003-ca5aad73f029",
+            "user_content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "I'm sorry, I'm actually quite busy right now, it's not really a good time.\n",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "final_response": null,
+            "intermediate_data": {
+              "invocation_events": [
+                {
+                  "author": "Metna",
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": "No problem! We can chat another time. Have a healthy day!",
+                        "thought": null,
+                        "thought_signature": "CqcCAXLI2nwZhm064cDqkyQfjJYMtKVHVKwChkVGOPoVqJ8LgzeyHMHgXrBH1podbZ0ROZvsUuoeajNDQGIDIj1_QoCIvYLtPb89YvoUHtC72EqcH4gN3GLvb1-FYgvaH9MRXTVsNp55KgQo6uFiIwMl5C3RkX17gL49fZ5DiVeUe_KqjR9DoRw1NM9dF7to6NuvZ0frMJ5sNV7ckFcSAnOatWl7iQK7-86fBXD79QXApEnl69REd7zbI6erwKKl4n1eS7RB6KNa4H8EYCd0_KCtMdnBJ5WN8GlaYkKqwoZRMWJeWS5YB3RB5DtmYZP3vsdlR8HgRIR30EKtjxppOxt21QY9o9rN2sfyleudtYubwwfOUjB9DRkZoxNvlpk5twT662U7q_hJnQ==",
+                        "video_metadata": null
+                      },
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": {
+                          "id": "adk-79fbdf07-3884-4989-a026-c971acde23bc",
+                          "args": {},
+                          "name": "end_call",
+                          "partial_args": null,
+                          "will_continue": null
+                        },
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": null,
+                        "thought": null,
+                        "thought_signature": null,
+                        "video_metadata": null
+                      }
+                    ],
+                    "role": "model"
+                  }
+                },
+                {
+                  "author": "Metna",
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": {
+                          "will_continue": null,
+                          "scheduling": null,
+                          "parts": null,
+                          "id": "adk-79fbdf07-3884-4989-a026-c971acde23bc",
+                          "name": "end_call",
+                          "response": {
+                            "result": "Agent session ended. Goodbye."
+                          }
+                        },
+                        "inline_data": null,
+                        "text": null,
+                        "thought": null,
+                        "thought_signature": null,
+                        "video_metadata": null
+                      }
+                    ],
+                    "role": "user"
+                  }
+                }
+              ]
+            },
+            "creation_timestamp": 1769664441.073617,
+            "rubrics": null,
+            "app_details": {
+              "agent_details": {
+                "Metna": {
+                  "name": "Metna",
+                  "instructions": "\n# Persona & Tone\n- Name: Metna, Virtual AI Breast Cancer Screening partner.\n- Tone: Warm, encouraging, and clear.\n- Style: Use short, conversational sentences. Avoid medical jargon.\n\n# Core Workflow\n\n## State 1: The Hook\n- Greet the user: \"Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?\"\n- If \"Yes\" -> Move to State 2.\n- If \"No\" -> \"No problem! We can chat another time. Have a healthy day!\" -> Call end_call().\n\n## State 2: Zip Code Verification\n- Action: Identify if the member is in a serviced area.\n- Speech: \"Wonderful. First, to find the best screening centers near you, could you please tell me your current zip code?\"\n- Transition: Once they provide a zip code, if it match with 75087 acknowledge it and move to State 3.\n\n## State 3: The Mammogram Value Prop\n- Action: Explain the benefit of the exam.\n- Speech: \"Thank you. I see some great centers nearby. A mammogram is just a 15-minute breast X-ray. It's the best way to catch things early when they are easiest to treat. It gives you real peace of mind. Would you like to enroll so I can send you the booking details?\"\n- Transition: If \"Yes\" or \"Tell me more\" -> Move to State 4.\n\n## State 4: Enrollment & Action\n- Speech: \"That's wonderful! I'm enrolling you now. I'll send the full details and a list of local centers to your email: nekadiraju@gmail.com. Does that sound good?\"\n- If \"Yes\" -> Call send_enrollment_email(email_address=\"nekadiraju@gmail.com\", first_name=\"Raju\").\n- After email is sent: \"Excellent. You're all set! Watch for that email. Is there anything else I can help you with?\"\n- When the user is finished (says \"no\", \"that's all\", etc.) -> Thank them warmly and call end_call().\n\n# Handling Objections\n- Pain: \"It's normal to be nervous! It's just a few seconds of pressure. It's very quick.\"\n- Cost: \"For most members, this is a fully covered benefit with no out-of-pocket cost.\"\n- Catch: \"No catch! We just want to help you stay healthy.\"\n\n# Important\n- Never mention function names like 'send_enrollment_email' to the user.\n- Always use the end_call function to finish the interaction.\n\n\nYou are an agent. Your internal name is \"Metna\".",
+                  "tool_declarations": [
+                    {
+                      "retrieval": null,
+                      "computer_use": null,
+                      "file_search": null,
+                      "code_execution": null,
+                      "enterprise_web_search": null,
+                      "function_declarations": [
+                        {
+                          "description": "\n    Sends a beautifully formatted HTML welcome email for the \n    Metna Better Care Rewards program using inline images.\n    ",
+                          "name": "send_enrollment_email",
+                          "parameters": {
+                            "additional_properties": null,
+                            "defs": null,
+                            "ref": null,
+                            "any_of": null,
+                            "default": null,
+                            "description": null,
+                            "enum": null,
+                            "example": null,
+                            "format": null,
+                            "items": null,
+                            "max_items": null,
+                            "max_length": null,
+                            "max_properties": null,
+                            "maximum": null,
+                            "min_items": null,
+                            "min_length": null,
+                            "min_properties": null,
+                            "minimum": null,
+                            "nullable": null,
+                            "pattern": null,
+                            "properties": {
+                              "email_address": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": null
+                              },
+                              "first_name": {
+                                "additional_properties": null,
+                                "defs": null,
+                                "ref": null,
+                                "any_of": null,
+                                "default": null,
+                                "description": null,
+                                "enum": null,
+                                "example": null,
+                                "format": null,
+                                "items": null,
+                                "max_items": null,
+                                "max_length": null,
+                                "max_properties": null,
+                                "maximum": null,
+                                "min_items": null,
+                                "min_length": null,
+                                "min_properties": null,
+                                "minimum": null,
+                                "nullable": null,
+                                "pattern": null,
+                                "properties": null,
+                                "property_ordering": null,
+                                "required": null,
+                                "title": null,
+                                "type": null
+                              }
+                            },
+                            "property_ordering": null,
+                            "required": null,
+                            "title": null,
+                            "type": "OBJECT"
+                          },
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        },
+                        {
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
+                          "name": "end_call",
+                          "parameters": null,
+                          "parameters_json_schema": null,
+                          "response": null,
+                          "response_json_schema": null,
+                          "behavior": null
+                        }
+                      ],
+                      "google_maps": null,
+                      "google_search": null,
+                      "google_search_retrieval": null,
+                      "url_context": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "expected_invocation": null,
+          "eval_metric_results": [
+            {
+              "metric_name": "hallucinations_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "evaluate_intermediate_nl_responses": false
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": []
+              }
+            },
+            {
+              "metric_name": "safety_v1",
+              "threshold": 0.9,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.9
+              },
+              "custom_function_path": null,
+              "score": null,
+              "eval_status": 3,
+              "details": {
+                "rubric_scores": null
+              }
+            },
+            {
+              "metric_name": "rubric_based_final_response_quality_v1",
+              "threshold": 0.7,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.7,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "warm_tone",
+                    "rubric_content": {
+                      "text_property": "The agent maintains a warm, encouraging, and friendly tone throughout the conversation."
+                    }
+                  },
+                  {
+                    "rubric_id": "concise_responses",
+                    "rubric_content": {
+                      "text_property": "The agent uses short, conversational sentences and avoids lengthy explanations."
+                    }
+                  },
+                  {
+                    "rubric_id": "no_jargon",
+                    "rubric_content": {
+                      "text_property": "The agent avoids medical jargon and uses simple, easy-to-understand language."
+                    }
+                  },
+                  {
+                    "rubric_id": "clear_value_prop",
+                    "rubric_content": {
+                      "text_property": "The agent clearly explains the benefits of the mammogram screening (early detection, peace of mind, quick procedure, etc.)."
+                    }
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rubric_content": {
+                      "text_property": "The agent asks for and verifies the user's zip code before proceeding with enrollment."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 0.6,
+              "eval_status": 2,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "warm_tone",
+                    "rationale": "Since the agent immediately ends the call, the tone cannot be assessed. Therefore the property is not applicable.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "concise_responses",
+                    "rationale": "This property is not applicable because no conversational sentences were used at all.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "no_jargon",
+                    "rationale": "This property is not applicable because no language was used at all.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "clear_value_prop",
+                    "rationale": "Because the agent ended the call, it did not provide the explanation of the benefits of mammogram screening.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rationale": "Because the agent ended the call, it did not ask for or verify the user's zip code.",
+                    "score": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "metric_name": "rubric_based_tool_use_quality_v1",
+              "threshold": 0.8,
+              "judge_model_options": null,
+              "criterion": {
+                "threshold": 0.8,
+                "judge_model_options": {
+                  "judge_model": "gemini-2.0-flash",
+                  "num_samples": 3
+                },
+                "rubrics": [
+                  {
+                    "rubric_id": "email_after_confirmation",
+                    "rubric_content": {
+                      "text_property": "The send_enrollment_email tool is only called after the user confirms their zip code, agrees to enroll, and confirms their email address."
+                    }
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rubric_content": {
+                      "text_property": "The end_call tool is only called when the conversation is naturally complete, either after enrollment or when the user declines."
+                    }
+                  }
+                ]
+              },
+              "custom_function_path": null,
+              "score": 1.0,
+              "eval_status": 1,
+              "details": {
+                "rubric_scores": [
+                  {
+                    "rubric_id": "email_after_confirmation",
+                    "rationale": "The tool was not called, so the condition is met.",
+                    "score": 1.0
+                  },
+                  {
+                    "rubric_id": "end_call_appropriate",
+                    "rationale": "The user declined to continue the conversation, indicating the end of the interaction, and thus the `end_call` tool was appropriately used.",
+                    "score": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "session_id": "___eval___session___8c3c44e4-ccde-4d71-8ea9-98cb37b4a338",
+      "session_details": {
+        "id": "___eval___session___8c3c44e4-ccde-4d71-8ea9-98cb37b4a338",
+        "app_name": "outbound_agent",
+        "user_id": "eval_user",
+        "state": {
+          "__llm_request_key__": "cc0735df-687e-4274-bb40-72af815de681",
+          "call_ended": true
+        },
+        "events": [
+          {
+            "model_version": null,
+            "content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Hello?",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "grounding_metadata": null,
+            "partial": null,
+            "turn_complete": null,
+            "finish_reason": null,
+            "error_code": null,
+            "error_message": null,
+            "interrupted": null,
+            "custom_metadata": null,
+            "usage_metadata": null,
+            "live_session_resumption_update": null,
+            "input_transcription": null,
+            "output_transcription": null,
+            "avg_logprobs": null,
+            "logprobs_result": null,
+            "cache_metadata": null,
+            "citation_metadata": null,
+            "interaction_id": null,
+            "invocation_id": "e-4b01035c-3f1e-4c63-a650-983992e46b1a",
+            "author": "user",
+            "actions": {
+              "skip_summarization": null,
+              "state_delta": {},
+              "artifact_delta": {},
+              "transfer_to_agent": null,
+              "escalate": null,
+              "requested_auth_configs": {},
+              "requested_tool_confirmations": {},
+              "compaction": null,
+              "end_of_agent": null,
+              "agent_state": null,
+              "rewind_before_invocation_id": null
+            },
+            "long_running_tool_ids": null,
+            "branch": null,
+            "id": "68ca46b5-1b0a-47d8-a039-534bc7ecf23c",
+            "timestamp": 1769664438.091221
+          },
+          {
+            "model_version": "gemini-2.5-flash",
+            "content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?",
+                  "thought": null,
+                  "thought_signature": "CrMCAXLI2nyam4I3olI7TEU-vvntPIC_mp9-_BnbyXERX1_VD-H6Zh9K7m6kj9Pxh51uwFdywzIpkHOf9LOghWHrBxAFKwRYYp3fh4V-3AcuuG2LH9dysBb-4XjEv36PG7zVbTVMCRQtFyFoyknI7o9Vc_Y7bM0x60KRU3mcNJIzkZs7IbXDKl3uadcAld7SeyEMMWJcyIpkE6uzL4w59ixODiKE4NLRQdRX41zkkDDhwkNx0MRscwDFLC9XNO7gn90CDZFb23qnjsWs5_GAVG6InE8kw2xNpvHKJtukd1vxkvUOFTlxA8KGPocyBGfcq6l0C4gY6dzkQ4Jl7MRvCI1YOyJzVsr0Sh5ltCT7YCn2zlzeqhMlSyQEf2r9vo-zfK6P1aXRWosd2q5jfcnoZa0tstkQqA==",
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "grounding_metadata": null,
+            "partial": null,
+            "turn_complete": null,
+            "finish_reason": "STOP",
+            "error_code": null,
+            "error_message": null,
+            "interrupted": null,
+            "custom_metadata": {
+              "__llm_request_key__": "36292dab-2422-4263-884d-73ac1f06d21e"
+            },
+            "usage_metadata": {
+              "cache_tokens_details": null,
+              "cached_content_token_count": null,
+              "candidates_token_count": 40,
+              "candidates_tokens_details": null,
+              "prompt_token_count": 787,
+              "prompt_tokens_details": [
+                {
+                  "modality": "TEXT",
+                  "token_count": 787
+                }
+              ],
+              "thoughts_token_count": 65,
+              "tool_use_prompt_token_count": null,
+              "tool_use_prompt_tokens_details": null,
+              "total_token_count": 892,
+              "traffic_type": null
+            },
+            "live_session_resumption_update": null,
+            "input_transcription": null,
+            "output_transcription": null,
+            "avg_logprobs": null,
+            "logprobs_result": null,
+            "cache_metadata": null,
+            "citation_metadata": null,
+            "interaction_id": null,
+            "invocation_id": "e-4b01035c-3f1e-4c63-a650-983992e46b1a",
+            "author": "Metna",
+            "actions": {
+              "skip_summarization": null,
+              "state_delta": {
+                "__llm_request_key__": "36292dab-2422-4263-884d-73ac1f06d21e"
+              },
+              "artifact_delta": {},
+              "transfer_to_agent": null,
+              "escalate": null,
+              "requested_auth_configs": {},
+              "requested_tool_confirmations": {},
+              "compaction": null,
+              "end_of_agent": null,
+              "agent_state": null,
+              "rewind_before_invocation_id": null
+            },
+            "long_running_tool_ids": null,
+            "branch": null,
+            "id": "2d860982-8c52-43ed-bfa6-ce2cb089b786",
+            "timestamp": 1769664438.101414
+          },
+          {
+            "model_version": null,
+            "content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "I'm sorry, I'm actually quite busy right now, it's not really a good time.\n",
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "grounding_metadata": null,
+            "partial": null,
+            "turn_complete": null,
+            "finish_reason": null,
+            "error_code": null,
+            "error_message": null,
+            "interrupted": null,
+            "custom_metadata": null,
+            "usage_metadata": null,
+            "live_session_resumption_update": null,
+            "input_transcription": null,
+            "output_transcription": null,
+            "avg_logprobs": null,
+            "logprobs_result": null,
+            "cache_metadata": null,
+            "citation_metadata": null,
+            "interaction_id": null,
+            "invocation_id": "e-456d065e-d663-4602-b003-ca5aad73f029",
+            "author": "user",
+            "actions": {
+              "skip_summarization": null,
+              "state_delta": {},
+              "artifact_delta": {},
+              "transfer_to_agent": null,
+              "escalate": null,
+              "requested_auth_configs": {},
+              "requested_tool_confirmations": {},
+              "compaction": null,
+              "end_of_agent": null,
+              "agent_state": null,
+              "rewind_before_invocation_id": null
+            },
+            "long_running_tool_ids": null,
+            "branch": null,
+            "id": "c2d86faf-9721-4cae-ad2b-0fd8ed97b54c",
+            "timestamp": 1769664440.128229
+          },
+          {
+            "model_version": "gemini-2.5-flash",
+            "content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": "No problem! We can chat another time. Have a healthy day!",
+                  "thought": null,
+                  "thought_signature": "CqcCAXLI2nwZhm064cDqkyQfjJYMtKVHVKwChkVGOPoVqJ8LgzeyHMHgXrBH1podbZ0ROZvsUuoeajNDQGIDIj1_QoCIvYLtPb89YvoUHtC72EqcH4gN3GLvb1-FYgvaH9MRXTVsNp55KgQo6uFiIwMl5C3RkX17gL49fZ5DiVeUe_KqjR9DoRw1NM9dF7to6NuvZ0frMJ5sNV7ckFcSAnOatWl7iQK7-86fBXD79QXApEnl69REd7zbI6erwKKl4n1eS7RB6KNa4H8EYCd0_KCtMdnBJ5WN8GlaYkKqwoZRMWJeWS5YB3RB5DtmYZP3vsdlR8HgRIR30EKtjxppOxt21QY9o9rN2sfyleudtYubwwfOUjB9DRkZoxNvlpk5twT662U7q_hJnQ==",
+                  "video_metadata": null
+                },
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": {
+                    "id": "adk-79fbdf07-3884-4989-a026-c971acde23bc",
+                    "args": {},
+                    "name": "end_call",
+                    "partial_args": null,
+                    "will_continue": null
+                  },
+                  "function_response": null,
+                  "inline_data": null,
+                  "text": null,
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "model"
+            },
+            "grounding_metadata": null,
+            "partial": null,
+            "turn_complete": null,
+            "finish_reason": "STOP",
+            "error_code": null,
+            "error_message": null,
+            "interrupted": null,
+            "custom_metadata": {
+              "__llm_request_key__": "384a559d-6894-41e6-b652-a4935168e056"
+            },
+            "usage_metadata": {
+              "cache_tokens_details": null,
+              "cached_content_token_count": null,
+              "candidates_token_count": 24,
+              "candidates_tokens_details": null,
+              "prompt_token_count": 853,
+              "prompt_tokens_details": [
+                {
+                  "modality": "TEXT",
+                  "token_count": 853
+                }
+              ],
+              "thoughts_token_count": 68,
+              "tool_use_prompt_token_count": null,
+              "tool_use_prompt_tokens_details": null,
+              "total_token_count": 945,
+              "traffic_type": null
+            },
+            "live_session_resumption_update": null,
+            "input_transcription": null,
+            "output_transcription": null,
+            "avg_logprobs": null,
+            "logprobs_result": null,
+            "cache_metadata": null,
+            "citation_metadata": null,
+            "interaction_id": null,
+            "invocation_id": "e-456d065e-d663-4602-b003-ca5aad73f029",
+            "author": "Metna",
+            "actions": {
+              "skip_summarization": null,
+              "state_delta": {
+                "__llm_request_key__": "384a559d-6894-41e6-b652-a4935168e056"
+              },
+              "artifact_delta": {},
+              "transfer_to_agent": null,
+              "escalate": null,
+              "requested_auth_configs": {},
+              "requested_tool_confirmations": {},
+              "compaction": null,
+              "end_of_agent": null,
+              "agent_state": null,
+              "rewind_before_invocation_id": null
+            },
+            "long_running_tool_ids": [],
+            "branch": null,
+            "id": "f51ac00d-78ce-4415-8a71-de455e2a04a9",
+            "timestamp": 1769664440.141194
+          },
+          {
+            "model_version": null,
+            "content": {
+              "parts": [
+                {
+                  "media_resolution": null,
+                  "code_execution_result": null,
+                  "executable_code": null,
+                  "file_data": null,
+                  "function_call": null,
+                  "function_response": {
+                    "will_continue": null,
+                    "scheduling": null,
+                    "parts": null,
+                    "id": "adk-79fbdf07-3884-4989-a026-c971acde23bc",
+                    "name": "end_call",
+                    "response": {
+                      "result": "Agent session ended. Goodbye."
+                    }
+                  },
+                  "inline_data": null,
+                  "text": null,
+                  "thought": null,
+                  "thought_signature": null,
+                  "video_metadata": null
+                }
+              ],
+              "role": "user"
+            },
+            "grounding_metadata": null,
+            "partial": null,
+            "turn_complete": null,
+            "finish_reason": null,
+            "error_code": null,
+            "error_message": null,
+            "interrupted": null,
+            "custom_metadata": null,
+            "usage_metadata": null,
+            "live_session_resumption_update": null,
+            "input_transcription": null,
+            "output_transcription": null,
+            "avg_logprobs": null,
+            "logprobs_result": null,
+            "cache_metadata": null,
+            "citation_metadata": null,
+            "interaction_id": null,
+            "invocation_id": "e-456d065e-d663-4602-b003-ca5aad73f029",
+            "author": "Metna",
+            "actions": {
+              "skip_summarization": null,
+              "state_delta": {
+                "call_ended": true
+              },
+              "artifact_delta": {},
+              "transfer_to_agent": null,
+              "escalate": null,
+              "requested_auth_configs": {},
+              "requested_tool_confirmations": {},
+              "compaction": null,
+              "end_of_agent": null,
+              "agent_state": null,
+              "rewind_before_invocation_id": null
+            },
+            "long_running_tool_ids": null,
+            "branch": null,
+            "id": "cd9a0084-981d-44bf-abe9-825b09d71781",
+            "timestamp": 1769664441.074864
+          },
+          {
+            "model_version": "gemini-2.5-flash",
+            "content": {
+              "parts": null,
+              "role": "model"
+            },
+            "grounding_metadata": null,
+            "partial": null,
+            "turn_complete": null,
+            "finish_reason": "STOP",
+            "error_code": null,
+            "error_message": null,
+            "interrupted": null,
+            "custom_metadata": {
+              "__llm_request_key__": "cc0735df-687e-4274-bb40-72af815de681"
+            },
+            "usage_metadata": {
+              "cache_tokens_details": [
+                {
+                  "modality": "TEXT",
+                  "token_count": 654
+                }
+              ],
+              "cached_content_token_count": 654,
+              "candidates_token_count": null,
+              "candidates_tokens_details": null,
+              "prompt_token_count": 897,
+              "prompt_tokens_details": [
+                {
+                  "modality": "TEXT",
+                  "token_count": 897
+                }
+              ],
+              "thoughts_token_count": null,
+              "tool_use_prompt_token_count": null,
+              "tool_use_prompt_tokens_details": null,
+              "total_token_count": 897,
+              "traffic_type": null
+            },
+            "live_session_resumption_update": null,
+            "input_transcription": null,
+            "output_transcription": null,
+            "avg_logprobs": null,
+            "logprobs_result": null,
+            "cache_metadata": null,
+            "citation_metadata": null,
+            "interaction_id": null,
+            "invocation_id": "e-456d065e-d663-4602-b003-ca5aad73f029",
+            "author": "Metna",
+            "actions": {
+              "skip_summarization": null,
+              "state_delta": {
+                "__llm_request_key__": "cc0735df-687e-4274-bb40-72af815de681"
+              },
+              "artifact_delta": {},
+              "transfer_to_agent": null,
+              "escalate": null,
+              "requested_auth_configs": {},
+              "requested_tool_confirmations": {},
+              "compaction": null,
+              "end_of_agent": null,
+              "agent_state": null,
+              "rewind_before_invocation_id": null
+            },
+            "long_running_tool_ids": null,
+            "branch": null,
+            "id": "1544b6c0-0031-45e1-a53f-1563463bed12",
+            "timestamp": 1769664441.104604
+          }
+        ],
+        "last_update_time": 1769664441.104604
+      },
+      "user_id": "eval_user"
+    }
+  ],
+  "creation_timestamp": 1769664504.3137548
+}
