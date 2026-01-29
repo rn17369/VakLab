@@ -84,7 +84,15 @@ class OutboundOrchestrator(BaseAgent):
         # 1. Extract call context
         phone_number = ctx.user_id  # Expecting phone number as user_id
         member_id = ctx.session.state.get("member_id")
-        campaign_type = ctx.session.state.get("campaign", "hedis_gap_closure")
+        
+        # Detect campaign from session.app_name (set by evalset or runner)
+        app_name = ctx.session.app_name or ""
+        campaign_type = ctx.session.state.get("campaign")
+        if not campaign_type:
+            if "appointment" in app_name.lower():
+                campaign_type = "appointment_backfill"
+            else:
+                campaign_type = "hedis_gap_closure"
         
         logging.info(f"Orchestrator starting for phone: {phone_number}, campaign: {campaign_type}")
         
@@ -118,7 +126,21 @@ class OutboundOrchestrator(BaseAgent):
         # 1. Extract context
         phone_number = ctx.user_id 
         member_id = ctx.session.state.get("member_id")
-        campaign_type = ctx.session.state.get("campaign", "hedis_gap_closure")
+        
+        # Detect campaign from session.app_name (set by evalset or runner)
+        # ADK stores app_name as a direct session attribute, not in state
+        app_name = ctx.session.app_name or ""
+        logger.info(f"Orchestrator: app_name from session: '{app_name}'")
+        
+        campaign_type = ctx.session.state.get("campaign")
+        if not campaign_type:
+            # Infer from app_name (e.g., "appointment_backfill")
+            if "appointment" in app_name.lower():
+                campaign_type = "appointment_backfill"
+            else:
+                campaign_type = "hedis_gap_closure"
+        
+        logger.info(f"Orchestrator: Using campaign_type: {campaign_type}")
         
         # 2. Load context
         context_data = self._load_context_data(phone_number, member_id, campaign_type)

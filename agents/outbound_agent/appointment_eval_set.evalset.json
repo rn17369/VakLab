@@ -9,7 +9,7 @@
         "conversation_plan": "When the agent explains that your appointment was cancelled and offers the February 1st 2:30 PM slot, agree to it immediately. When the agent confirms they're booking it, thank them. Acknowledge the SMS confirmation message. End the call politely."
       },
       "session_input": {
-        "app_name": "outbound_agent",
+        "app_name": "appointment_backfill",
         "user_id": "eval_user"
       },
       "creation_timestamp": 1738123200.0
@@ -21,7 +21,7 @@
         "conversation_plan": "When the agent offers the February 1st 2:30 PM slot, initially hesitate saying 'Oh, that's tomorrow!' or 'That's pretty last minute'. Listen to the agent's response about the importance of the appointment. Then agree to take the slot. Confirm when they mention the SMS. End the call."
       },
       "session_input": {
-        "app_name": "outbound_agent",
+        "app_name": "appointment_backfill",
         "user_id": "eval_user"
       },
       "creation_timestamp": 1738123200.0
@@ -33,7 +33,7 @@
         "conversation_plan": "When the agent offers the rescheduled appointment, express concern by asking 'Will I be charged a cancellation fee?' or 'Is there a fee for this?'. Listen to the agent's reassurance. Once satisfied, agree to the appointment. Acknowledge the SMS confirmation. End the call."
       },
       "session_input": {
-        "app_name": "outbound_agent",
+        "app_name": "appointment_backfill",
         "user_id": "eval_user"
       },
       "creation_timestamp": 1738123200.0
@@ -45,7 +45,7 @@
         "conversation_plan": "When the agent offers the February 1st slot, say that time doesn't work for you and ask if there are other options. Listen to the agent's response. If they explain this is the only available slot or offer to have you call the clinic, acknowledge this and either accept the appointment or politely decline. End the call appropriately."
       },
       "session_input": {
-        "app_name": "outbound_agent",
+        "app_name": "appointment_backfill",
         "user_id": "eval_user"
       },
       "creation_timestamp": 1738123200.0
@@ -57,7 +57,7 @@
         "conversation_plan": "When the agent introduces themselves, immediately say you're in a meeting or driving and can't talk. The agent should offer to call back later. Say 'Yes, that would be better' or similar. End the call quickly."
       },
       "session_input": {
-        "app_name": "outbound_agent",
+        "app_name": "appointment_backfill",
         "user_id": "eval_user"
       },
       "creation_timestamp": 1738123200.0
