@@ -66,7 +66,7 @@ class MetnaAgent(BaseOutboundAgent):
 
         super().__init__(
             name="Metna",
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             instruction=instruction,
             tools=[send_enrollment_email, end_call],
             context_data=member_data

@@ -66,7 +66,7 @@ NEVER say "tool_code" or write code in your responses. Just speak naturally and 
 
         super().__init__(
             name="Metna",
-            model="gemini-2.0-flash",  # Using stable flash model
+            model="gemini-2.5-flash",  # Using stable flash model
             instruction=instruction,
             tools=[send_enrollment_email, end_call],
         )

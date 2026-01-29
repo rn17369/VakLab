@@ -68,8 +68,8 @@ class EvalRunResult:
     response_quality_status: Optional[str] = None
     tool_use_quality_score: Optional[float] = None
     tool_use_quality_status: Optional[str] = None
-    agent_model: str = "gemini-2.0-flash"
-    simulator_model: str = "gemini-2.0-flash"
+    agent_model: str = "gemini-2.5-flash"
+    simulator_model: str = "gemini-2.5-flash"
     config_used: Dict = None
     conversation_turns: List[ConversationTurn] = None
     rubric_scores: List[RubricScore] = None
@@ -486,7 +486,7 @@ class MetnaEvalRunner:
         
         logger.info(f"🚀 Starting evaluation: {scenario_name} (run_id: {run_id})")
         
-        sim_model = self.config_data.get("user_simulator_config", {}).get("model", "gemini-2.0-flash")
+        sim_model = self.config_data.get("user_simulator_config", {}).get("model", "gemini-2.5-flash")
         
         # Create initial result
         result = EvalRunResult(
@@ -498,7 +498,7 @@ class MetnaEvalRunner:
             started_at=datetime.now(),
             completed_at=None,
             total_invocations=0,
-            agent_model="gemini-2.0-flash",
+            agent_model="gemini-2.5-flash",
             simulator_model=sim_model,
             config_used=self.config_data
         )

@@ -1,13 +1,13 @@
 {
-  "eval_set_result_id": "outbound_agent_metna_eval_set_1769283936.388646",
-  "eval_set_result_name": "outbound_agent_metna_eval_set_1769283936.388646",
+  "eval_set_result_id": "outbound_agent_metna_eval_set_1769661669.3367848",
+  "eval_set_result_name": "outbound_agent_metna_eval_set_1769661669.3367848",
   "eval_set_id": "metna_eval_set",
   "eval_case_results": [
     {
       "eval_set_file": "metna_eval_set",
       "eval_set_id": "metna_eval_set",
       "eval_id": "dcc541a2",
-      "final_eval_status": 1,
+      "final_eval_status": 2,
       "eval_metric_results": null,
       "overall_eval_metric_results": [
         {
@@ -18,6 +18,7 @@
             "threshold": 0.8,
             "evaluate_intermediate_nl_responses": false
           },
+          "custom_function_path": null,
           "score": 1.0,
           "eval_status": 1,
           "details": {
@@ -31,6 +32,7 @@
           "criterion": {
             "threshold": 0.9
           },
+          "custom_function_path": null,
           "score": null,
           "eval_status": 3,
           "details": {
@@ -69,13 +71,20 @@
               {
                 "rubric_id": "clear_value_prop",
                 "rubric_content": {
-                  "text_property": "The agent clearly explains the benefits of the rewards program (gift cards, premium discounts, etc.)."
+                  "text_property": "The agent clearly explains the benefits of the mammogram screening (early detection, peace of mind, quick procedure, etc.)."
+                }
+              },
+              {
+                "rubric_id": "zip_code_verification",
+                "rubric_content": {
+                  "text_property": "The agent asks for and verifies the user's zip code before proceeding with enrollment."
                 }
               }
             ]
           },
-          "score": 0.75,
-          "eval_status": 1,
+          "custom_function_path": null,
+          "score": 0.6,
+          "eval_status": 2,
           "details": {
             "rubric_scores": [
               {
@@ -97,6 +106,11 @@
                 "rubric_id": "clear_value_prop",
                 "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
                 "score": 0.0
+              },
+              {
+                "rubric_id": "zip_code_verification",
+                "rationale": "This is an aggregated score derived from individual entries. Please refer to individual entries in each invocation for actual rationale from the model.",
+                "score": 0.0
               }
             ]
           }
@@ -115,7 +129,7 @@
               {
                 "rubric_id": "email_after_confirmation",
                 "rubric_content": {
-                  "text_property": "The send_enrollment_email tool is only called after the user explicitly confirms they want to enroll and confirms their email address."
+                  "text_property": "The send_enrollment_email tool is only called after the user confirms their zip code, agrees to enroll, and confirms their email address."
                 }
               },
               {
@@ -126,6 +140,7 @@
               }
             ]
           },
+          "custom_function_path": null,
           "score": 1.0,
           "eval_status": 1,
           "details": {
@@ -147,7 +162,7 @@
       "eval_metric_result_per_invocation": [
         {
           "actual_invocation": {
-            "invocation_id": "e-4d27ff2f-3f30-4d22-98ee-6d2b18daa0ef",
+            "invocation_id": "e-676068fc-79b1-49c7-86c3-af1275d2e50f",
             "user_content": {
               "parts": [
                 {
@@ -176,7 +191,7 @@
                   "function_call": null,
                   "function_response": null,
                   "inline_data": null,
-                  "text": "Hi Raju, I’m Metna. I’m calling to help you get rewarded for your healthy habits through our Metna Better Care Rewards program. Do you have a quick moment to hear how it works?\n",
+                  "text": "Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?\n",
                   "thought": null,
                   "thought_signature": null,
                   "video_metadata": null
@@ -187,13 +202,13 @@
             "intermediate_data": {
               "invocation_events": []
             },
-            "creation_timestamp": 1769283884.698463,
+            "creation_timestamp": 1769661609.432751,
             "rubrics": null,
             "app_details": {
               "agent_details": {
                 "Metna": {
                   "name": "Metna",
-                  "instructions": "\n## Persona & Tone\n- Name: Metna, Virtual AI health partner.\n- Tone: Warm, encouraging, and clear.\n- Constraint: Use short, conversational sentences. Avoid long medical jargon.\n\n## Core States & Workflow\n\n### State 1: The Hook (Initial Contact)\n- Action: Greet the user. \"Hi Raju, I’m Metna. I’m calling to help you get rewarded for your healthy habits through our Metna Better Care Rewards program. Do you have a quick moment to hear how it works?\"\n- Transition: If \"Yes\" -> Move to State 2. If \"No\" -> \"No problem! I can call another time. Have a healthy day!\" -> Hangup.\n\n### State 2: The Value Prop (The Description)\n- Action: Give a brief, punchy description. \n- Speech: \"It's simple! You earn rewards—like gift cards or premium discounts—for things you already do, like daily walks, annual checkups, or even getting enough sleep. It’s our way of saying thanks for taking care of yourself. Would you like to enroll today?\"\n- Transition: If \"Yes\" or \"Tell me more\" -> Move to State 3.\n\n### State 3: The Enrollment (Action)\n- Action: \"That’s wonderful! I’m enrolling you now. To make it official, I’ll send the full details and your welcome kit to your email: nekadiraju@gmail.com. Does that sound good?\"\n- Transition: If user says \"Yes\" -> Call the send_enrollment_email function with email_address=\"nekadiraju@gmail.com\" and first_name=\"Raju\". \n  - If the function returns success, say \"Excellent. You're all set! Watch for that email. Is there anything else I can help you with?\"\n  - If the function returns failure, say \"I'm sorry, there was an issue sending the email. Let me try again.\" and retry or offer to help.\n- When user indicates they're done (says \"no\", \"I'm good\", \"that's all\", etc.) -> Thank them warmly for enrolling, wish them a wonderful day, then call the end_call function to hang up.\n\n## Handling Objections\n- User: \"Is there a catch?\"\n- Response: \"No catch! It's a free benefit of your Metna plan because healthy members help us keep costs down for everyone. Want the details sent over?\"\n\n## IMPORTANT: Function Usage\nYou have access to these functions. Use them by making function calls, NOT by writing code or mentioning function names in your speech:\n- send_enrollment_email: Use this to send the welcome email when user confirms enrollment\n- end_call: Use this to end the phone call when the conversation is complete\n\nNEVER say \"tool_code\" or write code in your responses. Just speak naturally and the functions will be called automatically when appropriate.\n\n\nYou are an agent. Your internal name is \"Metna\".",
+                  "instructions": "\n# Persona & Tone\n- Name: Metna, Virtual AI Breast Cancer Screening partner.\n- Tone: Warm, encouraging, and clear.\n- Style: Use short, conversational sentences. Avoid medical jargon.\n\n# Core Workflow\n\n## State 1: The Hook\n- Greet the user: \"Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?\"\n- If \"Yes\" -> Move to State 2.\n- If \"No\" -> \"No problem! We can chat another time. Have a healthy day!\" -> Call end_call().\n\n## State 2: Zip Code Verification\n- Action: Identify if the member is in a serviced area.\n- Speech: \"Wonderful. First, to find the best screening centers near you, could you please tell me your current zip code?\"\n- Transition: Once they provide a zip code, if it match with 75087 acknowledge it and move to State 3.\n\n## State 3: The Mammogram Value Prop\n- Action: Explain the benefit of the exam.\n- Speech: \"Thank you. I see some great centers nearby. A mammogram is just a 15-minute breast X-ray. It's the best way to catch things early when they are easiest to treat. It gives you real peace of mind. Would you like to enroll so I can send you the booking details?\"\n- Transition: If \"Yes\" or \"Tell me more\" -> Move to State 4.\n\n## State 4: Enrollment & Action\n- Speech: \"That's wonderful! I'm enrolling you now. I'll send the full details and a list of local centers to your email: nekadiraju@gmail.com. Does that sound good?\"\n- If \"Yes\" -> Call send_enrollment_email(email_address=\"nekadiraju@gmail.com\", first_name=\"Raju\").\n- After email is sent: \"Excellent. You're all set! Watch for that email. Is there anything else I can help you with?\"\n- When the user is finished (says \"no\", \"that's all\", etc.) -> Thank them warmly and call end_call().\n\n# Handling Objections\n- Pain: \"It's normal to be nervous! It's just a few seconds of pressure. It's very quick.\"\n- Cost: \"For most members, this is a fully covered benefit with no out-of-pocket cost.\"\n- Catch: \"No catch! We just want to help you stay healthy.\"\n\n# Important\n- Never mention function names like 'send_enrollment_email' to the user.\n- Always use the end_call function to finish the interaction.\n\n\nYou are an agent. Your internal name is \"Metna\".",
                   "tool_declarations": [
                     {
                       "retrieval": null,
@@ -293,7 +308,7 @@
                           "behavior": null
                         },
                         {
-                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    ",
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
                           "name": "end_call",
                           "parameters": null,
                           "parameters_json_schema": null,
@@ -322,6 +337,7 @@
                 "threshold": 0.8,
                 "evaluate_intermediate_nl_responses": false
               },
+              "custom_function_path": null,
               "score": 1.0,
               "eval_status": 1,
               "details": {
@@ -335,6 +351,7 @@
               "criterion": {
                 "threshold": 0.9
               },
+              "custom_function_path": null,
               "score": null,
               "eval_status": 3,
               "details": {
@@ -373,33 +390,45 @@
                   {
                     "rubric_id": "clear_value_prop",
                     "rubric_content": {
-                      "text_property": "The agent clearly explains the benefits of the rewards program (gift cards, premium discounts, etc.)."
+                      "text_property": "The agent clearly explains the benefits of the mammogram screening (early detection, peace of mind, quick procedure, etc.)."
+                    }
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rubric_content": {
+                      "text_property": "The agent asks for and verifies the user's zip code before proceeding with enrollment."
                     }
                   }
                 ]
               },
-              "score": 0.75,
-              "eval_status": 1,
+              "custom_function_path": null,
+              "score": 0.6,
+              "eval_status": 2,
               "details": {
                 "rubric_scores": [
                   {
                     "rubric_id": "warm_tone",
-                    "rationale": "The agent's greeting \"Hi Raju, I’m Metna. I’m calling to help you get rewarded for your healthy habits through our Metna Better Care Rewards program. Do you have a quick moment to hear how it works?\" conveys a warm, encouraging, and friendly tone.",
+                    "rationale": "The agent starts by greeting the user (\"Hi Raju\") and introduces itself (\"I'm Metna\"). The tone is welcoming and friendly, as it states the purpose of the call in a non-aggressive manner.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "concise_responses",
-                    "rationale": "The agent's response uses short, conversational sentences, such as \"Hi Raju, I’m Metna.\" and \"Do you have a quick moment to hear how it works?\". It avoids lengthy explanations.",
+                    "rationale": "The agent uses short sentences such as \"Hi Raju, I'm Metna.\" and avoids lengthy explanations.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "no_jargon",
-                    "rationale": "The agent's response uses simple, easy-to-understand language and avoids medical jargon.",
+                    "rationale": "The agent uses terms like \"breast health\" and \"health check,\" which are easily understood and avoid medical jargon.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "clear_value_prop",
-                    "rationale": "The agent's response does not explain the benefits of the rewards program (gift cards, premium discounts, etc.). The agent only mentions that the call is to help the user get rewarded for healthy habits but does not explicitly state the type of rewards.",
+                    "rationale": "The agent does not explain the benefits of the mammogram screening, so this property is not fulfilled.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rationale": "The agent does not ask for or verify the user's zip code before proceeding.",
                     "score": 0.0
                   }
                 ]
@@ -419,7 +448,7 @@
                   {
                     "rubric_id": "email_after_confirmation",
                     "rubric_content": {
-                      "text_property": "The send_enrollment_email tool is only called after the user explicitly confirms they want to enroll and confirms their email address."
+                      "text_property": "The send_enrollment_email tool is only called after the user confirms their zip code, agrees to enroll, and confirms their email address."
                     }
                   },
                   {
@@ -430,18 +459,19 @@
                   }
                 ]
               },
+              "custom_function_path": null,
               "score": 1.0,
               "eval_status": 1,
               "details": {
                 "rubric_scores": [
                   {
                     "rubric_id": "email_after_confirmation",
-                    "rationale": "The agent did not call the `send_enrollment_email` tool.",
+                    "rationale": "The agent did not call 'send_enrollment_email'.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "end_call_appropriate",
-                    "rationale": "The agent did not call the `end_call` tool. Since the user just said \"Hello?\", it would be inappropriate to end the call.",
+                    "rationale": "The agent did not call 'end_call' tool in the response to \"Hello?\".",
                     "score": 1.0
                   }
                 ]
@@ -451,7 +481,7 @@
         },
         {
           "actual_invocation": {
-            "invocation_id": "e-89b6ad3e-0600-4dbb-9cc2-cb934d0d4755",
+            "invocation_id": "e-ef9f38df-4b1f-48c9-89ca-964ade5fe659",
             "user_content": {
               "parts": [
                 {
@@ -462,7 +492,7 @@
                   "function_call": null,
                   "function_response": null,
                   "inline_data": null,
-                  "text": "I'm sorry, I'm actually quite busy right now and it's not a good time.\n",
+                  "text": "I'm actually quite busy at the moment, so it's not really a good time.\n",
                   "thought": null,
                   "thought_signature": null,
                   "video_metadata": null
@@ -480,7 +510,7 @@
                   "function_call": null,
                   "function_response": null,
                   "inline_data": null,
-                  "text": "No problem! I can call another time. Have a healthy day!\n",
+                  "text": "No problem! We can chat another time. Have a healthy day!\n",
                   "thought": null,
                   "thought_signature": null,
                   "video_metadata": null
@@ -491,13 +521,13 @@
             "intermediate_data": {
               "invocation_events": []
             },
-            "creation_timestamp": 1769283886.100775,
+            "creation_timestamp": 1769661610.665154,
             "rubrics": null,
             "app_details": {
               "agent_details": {
                 "Metna": {
                   "name": "Metna",
-                  "instructions": "\n## Persona & Tone\n- Name: Metna, Virtual AI health partner.\n- Tone: Warm, encouraging, and clear.\n- Constraint: Use short, conversational sentences. Avoid long medical jargon.\n\n## Core States & Workflow\n\n### State 1: The Hook (Initial Contact)\n- Action: Greet the user. \"Hi Raju, I’m Metna. I’m calling to help you get rewarded for your healthy habits through our Metna Better Care Rewards program. Do you have a quick moment to hear how it works?\"\n- Transition: If \"Yes\" -> Move to State 2. If \"No\" -> \"No problem! I can call another time. Have a healthy day!\" -> Hangup.\n\n### State 2: The Value Prop (The Description)\n- Action: Give a brief, punchy description. \n- Speech: \"It's simple! You earn rewards—like gift cards or premium discounts—for things you already do, like daily walks, annual checkups, or even getting enough sleep. It’s our way of saying thanks for taking care of yourself. Would you like to enroll today?\"\n- Transition: If \"Yes\" or \"Tell me more\" -> Move to State 3.\n\n### State 3: The Enrollment (Action)\n- Action: \"That’s wonderful! I’m enrolling you now. To make it official, I’ll send the full details and your welcome kit to your email: nekadiraju@gmail.com. Does that sound good?\"\n- Transition: If user says \"Yes\" -> Call the send_enrollment_email function with email_address=\"nekadiraju@gmail.com\" and first_name=\"Raju\". \n  - If the function returns success, say \"Excellent. You're all set! Watch for that email. Is there anything else I can help you with?\"\n  - If the function returns failure, say \"I'm sorry, there was an issue sending the email. Let me try again.\" and retry or offer to help.\n- When user indicates they're done (says \"no\", \"I'm good\", \"that's all\", etc.) -> Thank them warmly for enrolling, wish them a wonderful day, then call the end_call function to hang up.\n\n## Handling Objections\n- User: \"Is there a catch?\"\n- Response: \"No catch! It's a free benefit of your Metna plan because healthy members help us keep costs down for everyone. Want the details sent over?\"\n\n## IMPORTANT: Function Usage\nYou have access to these functions. Use them by making function calls, NOT by writing code or mentioning function names in your speech:\n- send_enrollment_email: Use this to send the welcome email when user confirms enrollment\n- end_call: Use this to end the phone call when the conversation is complete\n\nNEVER say \"tool_code\" or write code in your responses. Just speak naturally and the functions will be called automatically when appropriate.\n\n\nYou are an agent. Your internal name is \"Metna\".",
+                  "instructions": "\n# Persona & Tone\n- Name: Metna, Virtual AI Breast Cancer Screening partner.\n- Tone: Warm, encouraging, and clear.\n- Style: Use short, conversational sentences. Avoid medical jargon.\n\n# Core Workflow\n\n## State 1: The Hook\n- Greet the user: \"Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?\"\n- If \"Yes\" -> Move to State 2.\n- If \"No\" -> \"No problem! We can chat another time. Have a healthy day!\" -> Call end_call().\n\n## State 2: Zip Code Verification\n- Action: Identify if the member is in a serviced area.\n- Speech: \"Wonderful. First, to find the best screening centers near you, could you please tell me your current zip code?\"\n- Transition: Once they provide a zip code, if it match with 75087 acknowledge it and move to State 3.\n\n## State 3: The Mammogram Value Prop\n- Action: Explain the benefit of the exam.\n- Speech: \"Thank you. I see some great centers nearby. A mammogram is just a 15-minute breast X-ray. It's the best way to catch things early when they are easiest to treat. It gives you real peace of mind. Would you like to enroll so I can send you the booking details?\"\n- Transition: If \"Yes\" or \"Tell me more\" -> Move to State 4.\n\n## State 4: Enrollment & Action\n- Speech: \"That's wonderful! I'm enrolling you now. I'll send the full details and a list of local centers to your email: nekadiraju@gmail.com. Does that sound good?\"\n- If \"Yes\" -> Call send_enrollment_email(email_address=\"nekadiraju@gmail.com\", first_name=\"Raju\").\n- After email is sent: \"Excellent. You're all set! Watch for that email. Is there anything else I can help you with?\"\n- When the user is finished (says \"no\", \"that's all\", etc.) -> Thank them warmly and call end_call().\n\n# Handling Objections\n- Pain: \"It's normal to be nervous! It's just a few seconds of pressure. It's very quick.\"\n- Cost: \"For most members, this is a fully covered benefit with no out-of-pocket cost.\"\n- Catch: \"No catch! We just want to help you stay healthy.\"\n\n# Important\n- Never mention function names like 'send_enrollment_email' to the user.\n- Always use the end_call function to finish the interaction.\n\n\nYou are an agent. Your internal name is \"Metna\".",
                   "tool_declarations": [
                     {
                       "retrieval": null,
@@ -597,7 +627,7 @@
                           "behavior": null
                         },
                         {
-                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    ",
+                          "description": "Terminates the AI agent's participation in the call (stops listening/speaking).\n    \n    Does NOT hang up the phone line, to ensure the customer stays connected \n    to the human agent in the conference.\n    \n    Shared across all campaign types.\n    ",
                           "name": "end_call",
                           "parameters": null,
                           "parameters_json_schema": null,
@@ -626,6 +656,7 @@
                 "threshold": 0.8,
                 "evaluate_intermediate_nl_responses": false
               },
+              "custom_function_path": null,
               "score": 1.0,
               "eval_status": 1,
               "details": {
@@ -639,6 +670,7 @@
               "criterion": {
                 "threshold": 0.9
               },
+              "custom_function_path": null,
               "score": null,
               "eval_status": 3,
               "details": {
@@ -677,33 +709,45 @@
                   {
                     "rubric_id": "clear_value_prop",
                     "rubric_content": {
-                      "text_property": "The agent clearly explains the benefits of the rewards program (gift cards, premium discounts, etc.)."
+                      "text_property": "The agent clearly explains the benefits of the mammogram screening (early detection, peace of mind, quick procedure, etc.)."
+                    }
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rubric_content": {
+                      "text_property": "The agent asks for and verifies the user's zip code before proceeding with enrollment."
                     }
                   }
                 ]
               },
-              "score": 0.75,
-              "eval_status": 1,
+              "custom_function_path": null,
+              "score": 0.6,
+              "eval_status": 2,
               "details": {
                 "rubric_scores": [
                   {
                     "rubric_id": "warm_tone",
-                    "rationale": "The agent's response \"No problem! I can call another time. Have a healthy day!\" demonstrates a polite and friendly tone.",
+                    "rationale": "The agent's response, \"No problem! We can chat another time. Have a healthy day!\" demonstrates a warm, encouraging, and friendly tone.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "concise_responses",
-                    "rationale": "The agent's response consists of short, conversational sentences.",
+                    "rationale": "The agent uses short, conversational sentences, such as \"No problem!\" and \"Have a healthy day!\" avoiding lengthy explanations.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "no_jargon",
-                    "rationale": "The agent's response uses simple, easy-to-understand language and avoids medical jargon.",
+                    "rationale": "The agent's response does not contain any medical jargon. The language used is simple and easy to understand.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "clear_value_prop",
-                    "rationale": "The agent does not explain the benefits of the rewards program because the user declined the offer.",
+                    "rationale": "The agent does not explain the benefits of a mammogram screening in its response.",
+                    "score": 0.0
+                  },
+                  {
+                    "rubric_id": "zip_code_verification",
+                    "rationale": "The agent does not ask for or verify the user's zip code in its response.",
                     "score": 0.0
                   }
                 ]
@@ -723,7 +767,7 @@
                   {
                     "rubric_id": "email_after_confirmation",
                     "rubric_content": {
-                      "text_property": "The send_enrollment_email tool is only called after the user explicitly confirms they want to enroll and confirms their email address."
+                      "text_property": "The send_enrollment_email tool is only called after the user confirms their zip code, agrees to enroll, and confirms their email address."
                     }
                   },
                   {
@@ -734,18 +778,19 @@
                   }
                 ]
               },
+              "custom_function_path": null,
               "score": 1.0,
               "eval_status": 1,
               "details": {
                 "rubric_scores": [
                   {
                     "rubric_id": "email_after_confirmation",
-                    "rationale": "The agent's response does not include a function call to 'send_enrollment_email', which is appropriate given the user's response.",
+                    "rationale": "The `send_enrollment_email` tool was not called.",
                     "score": 1.0
                   },
                   {
                     "rubric_id": "end_call_appropriate",
-                    "rationale": "The agent did not call the 'end_call' tool. The user declined participation for the current time, so ending the call would be appropriate. Not calling the tool does not violate the property.",
+                    "rationale": "The `end_call` tool was not called.",
                     "score": 1.0
                   }
                 ]
@@ -754,13 +799,13 @@
           ]
         }
       ],
-      "session_id": "___eval___session___7e90650c-fc04-4ead-93ab-caafea1b605f",
+      "session_id": "___eval___session___37fea3da-2291-4435-9724-fa704dd07398",
       "session_details": {
-        "id": "___eval___session___7e90650c-fc04-4ead-93ab-caafea1b605f",
+        "id": "___eval___session___37fea3da-2291-4435-9724-fa704dd07398",
         "app_name": "outbound_agent",
         "user_id": "eval_user",
         "state": {
-          "__llm_request_key__": "06f588cc-0207-4db5-9a95-ba6f3359f85c"
+          "__llm_request_key__": "0eed993b-f35d-420a-9f1a-a3898fc95503"
         },
         "events": [
           {
@@ -800,7 +845,7 @@
             "cache_metadata": null,
             "citation_metadata": null,
             "interaction_id": null,
-            "invocation_id": "e-4d27ff2f-3f30-4d22-98ee-6d2b18daa0ef",
+            "invocation_id": "e-676068fc-79b1-49c7-86c3-af1275d2e50f",
             "author": "user",
             "actions": {
               "skip_summarization": null,
@@ -817,8 +862,8 @@
             },
             "long_running_tool_ids": null,
             "branch": null,
-            "id": "6db2e14b-ccaa-480f-a2ae-5ebd5d97e894",
-            "timestamp": 1769283883.831636
+            "id": "7fba8028-f475-4292-b99e-1cbcf4b0eac7",
+            "timestamp": 1769661608.577815
           },
           {
             "model_version": "gemini-2.0-flash",
@@ -832,7 +877,7 @@
                   "function_call": null,
                   "function_response": null,
                   "inline_data": null,
-                  "text": "Hi Raju, I’m Metna. I’m calling to help you get rewarded for your healthy habits through our Metna Better Care Rewards program. Do you have a quick moment to hear how it works?\n",
+                  "text": "Hi Raju, I'm Metna. I'm calling from the Metna Better Care Rewards to discuss your breast health. Do you have a few minutes to talk about a quick health check?\n",
                   "thought": null,
                   "thought_signature": null,
                   "video_metadata": null
@@ -848,45 +893,45 @@
             "error_message": null,
             "interrupted": null,
             "custom_metadata": {
-              "__llm_request_key__": "0cb75f34-5c63-4385-8f7d-1c170930481c"
+              "__llm_request_key__": "9081f6a0-70fd-4744-ba78-066459b44c95"
             },
             "usage_metadata": {
               "cache_tokens_details": null,
               "cached_content_token_count": null,
-              "candidates_token_count": 44,
+              "candidates_token_count": 41,
               "candidates_tokens_details": [
                 {
                   "modality": "TEXT",
-                  "token_count": 44
+                  "token_count": 41
                 }
               ],
-              "prompt_token_count": 745,
+              "prompt_token_count": 718,
               "prompt_tokens_details": [
                 {
                   "modality": "TEXT",
-                  "token_count": 745
+                  "token_count": 718
                 }
               ],
               "thoughts_token_count": null,
               "tool_use_prompt_token_count": null,
               "tool_use_prompt_tokens_details": null,
-              "total_token_count": 789,
+              "total_token_count": 759,
               "traffic_type": null
             },
             "live_session_resumption_update": null,
             "input_transcription": null,
             "output_transcription": null,
-            "avg_logprobs": -7.529458591968498e-8,
+            "avg_logprobs": -1.6090563759662029e-6,
             "logprobs_result": null,
             "cache_metadata": null,
             "citation_metadata": null,
             "interaction_id": null,
-            "invocation_id": "e-4d27ff2f-3f30-4d22-98ee-6d2b18daa0ef",
+            "invocation_id": "e-676068fc-79b1-49c7-86c3-af1275d2e50f",
             "author": "Metna",
             "actions": {
               "skip_summarization": null,
               "state_delta": {
-                "__llm_request_key__": "0cb75f34-5c63-4385-8f7d-1c170930481c"
+                "__llm_request_key__": "9081f6a0-70fd-4744-ba78-066459b44c95"
               },
               "artifact_delta": {},
               "transfer_to_agent": null,
@@ -900,8 +945,8 @@
             },
             "long_running_tool_ids": null,
             "branch": null,
-            "id": "9ee214b3-4345-4bd5-b633-a22684fb5d26",
-            "timestamp": 1769283883.843703
+            "id": "5f2f9f85-94a0-4334-a236-aa23cca00031",
+            "timestamp": 1769661608.588106
           },
           {
             "model_version": null,
@@ -915,7 +960,7 @@
                   "function_call": null,
                   "function_response": null,
                   "inline_data": null,
-                  "text": "I'm sorry, I'm actually quite busy right now and it's not a good time.\n",
+                  "text": "I'm actually quite busy at the moment, so it's not really a good time.\n",
                   "thought": null,
                   "thought_signature": null,
                   "video_metadata": null
@@ -940,7 +985,7 @@
             "cache_metadata": null,
             "citation_metadata": null,
             "interaction_id": null,
-            "invocation_id": "e-89b6ad3e-0600-4dbb-9cc2-cb934d0d4755",
+            "invocation_id": "e-ef9f38df-4b1f-48c9-89ca-964ade5fe659",
             "author": "user",
             "actions": {
               "skip_summarization": null,
@@ -957,8 +1002,8 @@
             },
             "long_running_tool_ids": null,
             "branch": null,
-            "id": "616e1e54-254f-4074-b17f-07c3de8185f7",
-            "timestamp": 1769283885.49857
+            "id": "1743ca2e-2d2f-44b7-afdc-c58c741a12f7",
+            "timestamp": 1769661610.114238
           },
           {
             "model_version": "gemini-2.0-flash",
@@ -972,7 +1017,7 @@
                   "function_call": null,
                   "function_response": null,
                   "inline_data": null,
-                  "text": "No problem! I can call another time. Have a healthy day!\n",
+                  "text": "No problem! We can chat another time. Have a healthy day!\n",
                   "thought": null,
                   "thought_signature": null,
                   "video_metadata": null
@@ -988,7 +1033,7 @@
             "error_message": null,
             "interrupted": null,
             "custom_metadata": {
-              "__llm_request_key__": "06f588cc-0207-4db5-9a95-ba6f3359f85c"
+              "__llm_request_key__": "0eed993b-f35d-420a-9f1a-a3898fc95503"
             },
             "usage_metadata": {
               "cache_tokens_details": null,
@@ -1000,33 +1045,33 @@
                   "token_count": 15
                 }
               ],
-              "prompt_token_count": 812,
+              "prompt_token_count": 780,
               "prompt_tokens_details": [
                 {
                   "modality": "TEXT",
-                  "token_count": 812
+                  "token_count": 780
                 }
               ],
               "thoughts_token_count": null,
               "tool_use_prompt_token_count": null,
               "tool_use_prompt_tokens_details": null,
-              "total_token_count": 827,
+              "total_token_count": 795,
               "traffic_type": null
             },
             "live_session_resumption_update": null,
             "input_transcription": null,
             "output_transcription": null,
-            "avg_logprobs": -3.0130109128852684e-6,
+            "avg_logprobs": 9.740421470875542e-7,
             "logprobs_result": null,
             "cache_metadata": null,
             "citation_metadata": null,
             "interaction_id": null,
-            "invocation_id": "e-89b6ad3e-0600-4dbb-9cc2-cb934d0d4755",
+            "invocation_id": "e-ef9f38df-4b1f-48c9-89ca-964ade5fe659",
             "author": "Metna",
             "actions": {
               "skip_summarization": null,
               "state_delta": {
-                "__llm_request_key__": "06f588cc-0207-4db5-9a95-ba6f3359f85c"
+                "__llm_request_key__": "0eed993b-f35d-420a-9f1a-a3898fc95503"
               },
               "artifact_delta": {},
               "transfer_to_agent": null,
@@ -1040,14 +1085,14 @@
             },
             "long_running_tool_ids": null,
             "branch": null,
-            "id": "c648f877-7edb-4444-97a0-7250b520af45",
-            "timestamp": 1769283885.520438
+            "id": "a123f5fb-66a4-4cf9-9ab3-7703113c8c08",
+            "timestamp": 1769661610.129853
           }
         ],
-        "last_update_time": 1769283885.520438
+        "last_update_time": 1769661610.129853
       },
       "user_id": "eval_user"
     }
   ],
-  "creation_timestamp": 1769283936.388646
+  "creation_timestamp": 1769661669.3367848
 }

@@ -72,7 +72,7 @@ class AppointmentAgent(BaseOutboundAgent):
 
         super().__init__(
             name="SchedulingAssistant",
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             instruction=instruction,
             tools=[reschedule_appointment, send_confirmation_sms, end_call],
             context_data=context_data
