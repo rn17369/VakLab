@@ -52,10 +52,9 @@ class OutboundOrchestrator(BaseAgent):
             from .campaigns.appointment_agent import AppointmentAgent
             return AppointmentAgent(context_data=context_data)
         else:
-            # Default fallback to HEDIS
-            logging.warning(f"Unknown campaign type '{campaign_type}', defaulting to HEDIS")
-            from .campaigns.hedis_agent import MetnaAgent
-            return MetnaAgent(member_data=context_data)
+                logger.warning(f"Unknown campaign type '{campaign_type}', defaulting to HEDIS")
+                from .campaigns.hedis_agent import MetnaAgent
+                return MetnaAgent(member_data=context_data)
 
     def _load_context_data(self, phone_number: str, member_id: str, campaign_type: str):
         """Load context data based on campaign type.
