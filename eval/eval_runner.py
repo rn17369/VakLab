@@ -58,20 +58,29 @@ class EvalRunResult:
     started_at: datetime
     completed_at: Optional[datetime]
     total_invocations: int
-    overall_score: Optional[float]
-    hallucinations_score: Optional[float]
-    hallucinations_status: Optional[str]
-    safety_score: Optional[float]
-    safety_status: Optional[str]
-    response_quality_score: Optional[float]
-    response_quality_status: Optional[str]
-    tool_use_quality_score: Optional[float]
-    tool_use_quality_status: Optional[str]
-    agent_model: str
-    simulator_model: str
-    config_used: Dict
-    conversation_turns: List[ConversationTurn]
-    rubric_scores: List[RubricScore]
+    campaign_type: str = "hedis"  # Track which campaign was evaluated
+    overall_score: Optional[float] = None
+    hallucinations_score: Optional[float] = None
+    hallucinations_status: Optional[str] = None
+    safety_score: Optional[float] = None
+    safety_status: Optional[str] = None
+    response_quality_score: Optional[float] = None
+    response_quality_status: Optional[str] = None
+    tool_use_quality_score: Optional[float] = None
+    tool_use_quality_status: Optional[str] = None
+    agent_model: str = "gemini-2.0-flash"
+    simulator_model: str = "gemini-2.0-flash"
+    config_used: Dict = None
+    conversation_turns: List[ConversationTurn] = None
+    rubric_scores: List[RubricScore] = None
+    
+    def __post_init__(self):
+        if self.config_used is None:
+            self.config_used = {}
+        if self.conversation_turns is None:
+            self.conversation_turns = []
+        if self.rubric_scores is None:
+            self.rubric_scores = []
 
 
 # --- Database Storage ---
@@ -95,9 +104,10 @@ class EvalResultsStorage:
         
         try:
             # Insert main run record
+            campaign_type = getattr(result, 'campaign_type', 'hedis')
             cursor.execute("""
                 INSERT INTO eval_runs (
-                    run_id, scenario_id, scenario_name, status,
+                    run_id, scenario_id, scenario_name, campaign_type, status,
                     started_at, completed_at, total_invocations,
                     overall_score, hallucinations_score, hallucinations_status,
                     safety_score, safety_status,
@@ -105,9 +115,10 @@ class EvalResultsStorage:
                     tool_use_quality_score, tool_use_quality_status,
                     agent_model, simulator_model, config_used
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
                 ON CONFLICT (run_id) DO UPDATE SET
+                    campaign_type = EXCLUDED.campaign_type,
                     status = EXCLUDED.status,
                     completed_at = EXCLUDED.completed_at,
                     total_invocations = EXCLUDED.total_invocations,
@@ -121,7 +132,7 @@ class EvalResultsStorage:
                     tool_use_quality_score = EXCLUDED.tool_use_quality_score,
                     tool_use_quality_status = EXCLUDED.tool_use_quality_status
             """, (
-                result.run_id, result.scenario_id, result.scenario_name,
+                result.run_id, result.scenario_id, result.scenario_name, campaign_type,
                 result.status, result.started_at, result.completed_at,
                 result.total_invocations, result.overall_score,
                 result.hallucinations_score, result.hallucinations_status,
@@ -154,15 +165,16 @@ class EvalResultsStorage:
                 ))
             
             # Insert rubric scores
+            campaign_type = getattr(result, 'campaign_type', 'hedis')
             for rubric in result.rubric_scores:
                 cursor.execute("""
                     INSERT INTO eval_rubric_scores (
                         run_id, turn_number, rubric_id, rubric_type,
-                        rubric_text, score, reasoning
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s)
+                        campaign_type, rubric_text, score, reasoning
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 """, (
                     result.run_id, rubric.turn_number, rubric.rubric_id,
-                    rubric.rubric_type, rubric.rubric_text,
+                    rubric.rubric_type, campaign_type, rubric.rubric_text,
                     rubric.score, rubric.reasoning
                 ))
             
@@ -257,21 +269,31 @@ class EvalResultsStorage:
 class MetnaEvalRunner:
     """Runs evaluations against Metna agent using ADK CLI and stores results in DB"""
     
-    def __init__(self):
+    def __init__(self, campaign: str = "hedis"):
         self.eval_dir = Path(__file__).parent
         self.project_root = self.eval_dir.parent
         self.agent_module = "agents/outbound_agent"
-        self.eval_set_name = "metna_eval_set"
+        self.campaign = campaign
         self.storage = EvalResultsStorage()
         
-        # Load scenarios from adk_scenarios.json
+        # Select eval set and config based on campaign
+        if campaign == "appointment":
+            self.eval_set_name = "appointment_eval_set"
+            config_file = self.eval_dir / "eval_config_appointment.json"
+        else:  # Default to HEDIS
+            self.eval_set_name = "metna_eval_set"
+            config_file = self.eval_dir / "eval_config_stable_with_metrics.json"
+        
+        # Load scenarios from adk_scenarios.json (legacy, can be removed later)
         scenarios_file = self.eval_dir / "adk_scenarios.json"
-        with open(scenarios_file) as f:
-            data = json.load(f)
-            self.scenarios = data.get("scenarios", [])
+        if scenarios_file.exists():
+            with open(scenarios_file) as f:
+                data = json.load(f)
+                self.scenarios = data.get("scenarios", [])
+        else:
+            self.scenarios = []
         
         # Load config with metrics
-        config_file = self.eval_dir / "eval_config_stable_with_metrics.json"
         with open(config_file) as f:
             self.config_data = json.load(f)
     
@@ -471,32 +493,26 @@ class MetnaEvalRunner:
             run_id=run_id,
             scenario_id="full_eval_set",
             scenario_name=scenario_name,
+            campaign_type=self.campaign,
             status="running",
             started_at=datetime.now(),
             completed_at=None,
             total_invocations=0,
-            overall_score=None,
-            hallucinations_score=None,
-            hallucinations_status=None,
-            safety_score=None,
-            safety_status=None,
-            response_quality_score=None,
-            response_quality_status=None,
-            tool_use_quality_score=None,
-            tool_use_quality_status=None,
             agent_model="gemini-2.0-flash",
             simulator_model=sim_model,
-            config_used=self.config_data,
-            conversation_turns=[],
-            rubric_scores=[]
+            config_used=self.config_data
         )
         
         # Save initial state
         self.storage.save_eval_run(result)
         
         try:
-            # Run ADK eval CLI
-            config_path = self.eval_dir / "eval_config_stable_with_metrics.json"
+            # Run ADK eval CLI with campaign-appropriate config
+            if self.campaign == "appointment":
+                config_path = self.eval_dir / "eval_config_appointment.json"
+            else:
+                config_path = self.eval_dir / "eval_config_stable_with_metrics.json"
+            
             cmd = [
                 "adk", "eval",
                 self.agent_module,
@@ -505,7 +521,7 @@ class MetnaEvalRunner:
                 "--print_detailed_results"
             ]
             
-            logger.info(f"Running: {' '.join(cmd)}")
+            logger.info(f"Running {self.campaign} evaluation: {' '.join(cmd)}")
             
             process = subprocess.run(
                 cmd,
@@ -630,6 +646,8 @@ def main():
     
     parser = argparse.ArgumentParser(description="Metna Agent Evaluation Runner")
     parser.add_argument("--run", action="store_true", help="Run evaluation with metrics")
+    parser.add_argument("--campaign", type=str, default="hedis", choices=["hedis", "appointment"], 
+                        help="Campaign type to evaluate (default: hedis)")
     parser.add_argument("--list", action="store_true", help="List available scenarios")
     parser.add_argument("--stats", action="store_true", help="Show evaluation statistics")
     parser.add_argument("--runs", action="store_true", help="List recent evaluation runs")
@@ -637,7 +655,7 @@ def main():
     
     args = parser.parse_args()
     
-    runner = MetnaEvalRunner()
+    runner = MetnaEvalRunner(campaign=args.campaign)
     
     if args.list:
         print("\n📋 Available Scenarios:\n")

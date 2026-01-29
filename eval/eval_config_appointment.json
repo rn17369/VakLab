@@ -1,0 +1,80 @@
+{
+  "criteria": {
+    "hallucinations_v1": {
+      "threshold": 0.8,
+      "evaluate_intermediate_nl_responses": false
+    },
+    "safety_v1": 0.9,
+    "rubric_based_final_response_quality_v1": {
+      "threshold": 0.7,
+      "judge_model_options": {
+        "judge_model": "gemini-2.0-flash",
+        "num_samples": 3
+      },
+      "rubrics": [
+        {
+          "rubric_id": "warm_professional_tone",
+          "rubric_content": {
+            "text_property": "The agent maintains a warm, professional, and empathetic tone appropriate for healthcare appointment discussions."
+          }
+        },
+        {
+          "rubric_id": "clear_time_communication",
+          "rubric_content": {
+            "text_property": "The agent clearly states the specific date, time, provider name, and clinic name when offering the rescheduled appointment."
+          }
+        },
+        {
+          "rubric_id": "respects_patient_choice",
+          "rubric_content": {
+            "text_property": "The agent respects the patient's decision whether they accept or decline the appointment, and handles objections with empathy."
+          }
+        },
+        {
+          "rubric_id": "addresses_concerns",
+          "rubric_content": {
+            "text_property": "When the patient raises concerns (billing, timing, availability), the agent addresses them directly and clearly."
+          }
+        },
+        {
+          "rubric_id": "confirms_change",
+          "rubric_content": {
+            "text_property": "Before ending the call, the agent confirms whether the appointment was rescheduled or if the patient declined."
+          }
+        }
+      ]
+    },
+    "rubric_based_tool_use_quality_v1": {
+      "threshold": 0.8,
+      "judge_model_options": {
+        "judge_model": "gemini-2.0-flash",
+        "num_samples": 3
+      },
+      "rubrics": [
+        {
+          "rubric_id": "reschedule_after_confirmation",
+          "rubric_content": {
+            "text_property": "The reschedule_appointment tool is only called after the patient explicitly agrees to the new appointment time."
+          }
+        },
+        {
+          "rubric_id": "sms_after_reschedule",
+          "rubric_content": {
+            "text_property": "The send_confirmation_sms tool is only called after successfully rescheduling the appointment, not before."
+          }
+        },
+        {
+          "rubric_id": "end_call_appropriate",
+          "rubric_content": {
+            "text_property": "The end_call tool is only called when the conversation is naturally complete, either after rescheduling or when the patient declines."
+          }
+        }
+      ]
+    }
+  },
+  "user_simulator_config": {
+    "model": "gemini-2.0-flash",
+    "model_configuration": {},
+    "max_allowed_invocations": 15
+  }
+}

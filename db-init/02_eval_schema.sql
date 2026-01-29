@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS eval_runs (
     run_id VARCHAR(100) UNIQUE NOT NULL,
     scenario_id VARCHAR(100) NOT NULL,
     scenario_name VARCHAR(255) NOT NULL,
+    campaign_type VARCHAR(100) DEFAULT 'hedis', -- Track which campaign was evaluated
     status VARCHAR(50) DEFAULT 'running', -- running, passed, failed, not_evaluated
     started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     completed_at TIMESTAMP,
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS eval_rubric_scores (
     run_id VARCHAR(100) REFERENCES eval_runs(run_id) ON DELETE CASCADE,
     turn_number INTEGER,
     rubric_id VARCHAR(100) NOT NULL,
+    campaign_type VARCHAR(100) DEFAULT 'hedis', -- Track which campaign's rubrics were used
     rubric_type VARCHAR(50), -- 'response_quality' or 'tool_use'
     rubric_text TEXT,
     score DECIMAL(5,4),
