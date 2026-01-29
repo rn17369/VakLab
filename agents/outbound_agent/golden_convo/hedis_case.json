@@ -1,0 +1,76 @@
+{
+  "use_case": "HEDIS_gap_closure",
+  "objective": "Raise awareness of preventive care gap and enable next step using personalized context",
+  "estimated_duration_seconds": 55,
+  "member_context": {
+    "member_name": "Linda Martinez",
+    "date_of_birth": "1968-04-12",
+    "health_plan": "Blue Horizon Health",
+    "primary_care_provider": "Dr. Emily Chen",
+    "service_gap": "Mammogram",
+    "last_known_service_date": "2023-01-18",
+    "preferred_location": {
+      "facility_name": "Lakeside Imaging Center",
+      "city": "Plano",
+      "state": "TX"
+    }
+  },
+  "conversation": [
+    {
+      "speaker": "agent",
+      "utterance": "Hi Linda — this is a quick call from Blue Horizon Health regarding your preventive care. Is now an okay time?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Yeah, I have a minute. What’s this about?"
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Thanks. I’m calling because our records show you may be due for a routine screening your primary care provider, Dr. Chen, usually recommends. Nothing urgent — just want to make sure it doesn’t get overlooked."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "I thought I already did most of that stuff."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "You may have. The one that looks overdue is a mammogram — the last one we see was early last year. Does that sound about right?"
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Yeah, that might be right. I just haven’t gotten around to scheduling it again."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "That’s completely understandable. If it helps, I can send you scheduling options near you — it looks like you’ve gone to Lakeside Imaging in Plano before."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Okay, but is that actually covered? I don’t want to deal with billing issues."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Totally fair question. Preventive mammograms are typically covered, and I’ll include coverage details in the follow-up so you can review everything before booking."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Alright, that works."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Great. I’ll send a short message with the details and nearby options. If you’ve already completed it or decide to wait, no action needed."
+    },
+    {
+      "speaker": "patient",
+      "utterance": "Sounds good."
+    },
+    {
+      "speaker": "agent",
+      "utterance": "Thanks for your time today, Linda. Take care."
+    }
+  ],
+  "follow_up_sms": {
+    "channel": "sms",
+    "content": "Hi Linda — this is a follow-up from Blue Horizon Health. You may be due for a routine mammogram. Here are scheduling options near Lakeside Imaging in Plano, along with coverage details: [link]. If you’ve already completed this, no action needed."
+  }
+}
