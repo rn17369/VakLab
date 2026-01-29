@@ -1,15 +1,25 @@
-# VakLab - Voice AI Agent for Health Reward Campaign
+# VakLab - Multi-Campaign Voice AI Agent Platform
 
-Enterprise-grade Voice AI Agent Framework built with PGoogle Cloud AI, Pipecat,  and Twilio for automated outbound calling campaigns.
+Enterprise-grade Voice AI Agent Framework built with Google Cloud AI, Pipecat, and Twilio for automated outbound calling campaigns.
 
 ## 🎯 Overview
 
-VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in health rewards programs. The agent uses:
-- **Google Gemini 3 Flash** for natural language understanding and generation
+VakLab is an intelligent Voice AI platform that makes outbound calls for multiple healthcare campaigns. The platform uses a **modular orchestrator pattern** that routes calls to campaign-specific agents:
+
+### Supported Campaigns
+
+| Campaign | Agent | Purpose | Tools |
+|----------|-------|---------|-------|
+| **HEDIS Gap Closure** | MetnaAgent | Breast cancer screening rewards enrollment | `send_enrollment_email`, `end_call` |
+| **Appointment Backfill** | SchedulingAssistant | Fill cancelled appointment slots | `reschedule_appointment`, `send_confirmation_sms`, `end_call` |
+
+### Technology Stack
+- **Google Gemini 2.0 Flash** for natural language understanding and generation
+- **Google ADK** for agent development and evaluation framework
 - **Google Cloud Speech-to-Text** for real-time transcription
 - **Google Cloud Text-to-Speech** for natural voice synthesis
 - **Pipecat AI** for real-time audio pipeline processing
-- **Twilio** for telephony infrastructure
+- **Twilio** for telephony infrastructure (voice + SMS)
 
 ---
 
@@ -48,9 +58,12 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 │  │  (TwiML)        │    │              ┌──────┴──────┐                   │ │
 │  └─────────────────┘    │              │   Tools     │                   │ │
 │                         │              ├─────────────┤                   │ │
-│  ┌─────────────────┐    │              │ • send_email│                   │ │
-│  │  /twilio/       │    │              │ • end_call  │                   │ │
-│  │  stream         │◀──▶│              └─────────────┘                   │ │
+│  ┌─────────────────┐    │              │ Campaign Tools:   │                   │ │
+│  │  /twilio/       │    │              │ • send_email      │                   │ │
+│  │  stream         │◀──▶│              │ • reschedule_appt │                   │ │
+│  │  (WebSocket)    │    │              │ • send_sms        │                   │ │
+│  └─────────────────┘    │              │ • end_call        │                   │ │
+│                         │              └───────────────────┘                   │ │
 │  │  (WebSocket)    │    │                                                 │ │
 │  └─────────────────┘    └─────────────────────────────────────────────────┘ │
 │                                                                              │
@@ -63,9 +76,29 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
                               └────────────────────────┘
 ```
 
+### Orchestrator Pattern
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   OutboundOrchestrator                      │
+│  • Detects campaign type from session.app_name              │
+│  • Loads campaign-specific context from database            │
+│  • Instantiates appropriate agent dynamically               │
+└─────────────────────────────────────────────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+    ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+    │   MetnaAgent    │ │SchedulingAssist│ │  [Future Agent] │
+    │   (HEDIS)       │ │  (Appointment)  │ │                 │
+    └─────────────────┘ └─────────────────┘ └─────────────────┘
+```
+
 ---
 
-## 📞 Call Flow Diagram
+## 📞 Call Flow Diagrams
+
+### HEDIS Campaign (Mammogram Screening)
 ```mermaid
 flowchart TD
   Start([Start]) --> Hook["State 1:\nThe Hook"]
@@ -86,13 +119,31 @@ flowchart TD
   Enroll -->|No| EndThank
 ```
 
+### Appointment Backfill Campaign
+
+```mermaid
+flowchart TD
+  Start([Start]) --> Greeting["Greeting:\n'Hi, calling from the clinic'"]
+
+  Greeting -->|Bad time| EndKeep["Keep original appointment\nend_call()"]
+  Greeting -->|Good time| Offer["Offer Slot:\n'We have an opening...'"]
+
+  Offer -->|Accept| Reschedule["reschedule_appointment()"]
+  Reschedule --> SMS["send_confirmation_sms()"]
+  SMS --> EndConfirm["Confirm & end_call()"]
+
+  Offer -->|Decline| EndKeep
+  Offer -->|Concern| HandleConcern["Address billing/timing"]
+  HandleConcern --> Offer
+```
+
 ---
 
 ## 🔄 Sequence Diagram
 
 ```
 ┌──────┐   ┌────────┐   ┌────────┐   ┌────────────┐   ┌──────────┐   ┌────────┐
-│User  │   │ Twilio │   │ FastAPI│   │BCSGapAgent │   │ Metna    │   │ Tools  │
+│User  │   │ Twilio │   │ FastAPI│   │Orchestrator│   │CampaignAgt│  │ Tools  │
 └──┬───┘   └──┬─────┘   └──┬─────┘   └────┬───────┘   └────┬─────┘   └──┬─────┘
    │           │            │              │               │            │
    │  Answer   │            │              │               │            │
@@ -123,7 +174,8 @@ flowchart TD
 | Component | Technology |
 |-----------|------------|
 | **Framework** | FastAPI + Pipecat AI |
-| **LLM** | Google Gemini 3 Flash Preview |
+| **LLM** | Google Gemini 2.0 Flash |
+| **Agent Framework** | Google ADK (Agent Development Kit) |
 | **Speech-to-Text** | Google Cloud STT |
 | **Text-to-Speech** | Google Cloud TTS (Journey-F voice) |
 | **Voice Activity Detection** | Silero VAD |
@@ -218,7 +270,10 @@ docker compose up -d
 docker ps
 ```
 
-The database will be initialized with seed data from `db-init/init.sql`.
+The database will be initialized with seed data from:
+- `db-init/01_init.sql` - Core schema + HEDIS member data
+- `db-init/02_eval_schema.sql` - Evaluation tracking tables
+- `db-init/03_clinic_scheduler.sql` - Clinic/appointment data for backfill campaign
 
 ### Step 5: Start ngrok Tunnel
 
@@ -270,37 +325,58 @@ This will:
 ## 📁 Project Structure
 
 ```
-gcp_hackthon/
+VakLab/
 ├── main.py                     # FastAPI application entry point
 ├── requirements.txt            # Python dependencies
 ├── docker-compose.yml          # PostgreSQL container config
-├── .env                        # Environment variables
-├── cool-furnace-*.json         # Google Cloud credentials
+├── .env                        # Environment variables (see .env.example)
+├── run_appointment_eval.sh     # Helper script for appointment eval
 │
 ├── agents/
 │   └── outbound_agent/
 │       ├── __init__.py
-│       ├── agent.py            # MetnaAgent (LLM instructions)
-│       └── tools.py            # Tool functions (email, end_call)
+│       ├── orchestrator.py            # OutboundOrchestrator (routes to agents)
+│       ├── metna_eval_set.evalset.json     # HEDIS evaluation scenarios
+│       ├── appointment_eval_set.evalset.json # Appointment eval scenarios
+│       │
+│       ├── campaigns/                 # Campaign-specific agents
+│       │   ├── base.py                # BaseOutboundAgent class
+│       │   ├── hedis_agent.py         # MetnaAgent (HEDIS campaign)
+│       │   └── appointment_agent.py   # SchedulingAssistant (Appointment)
+│       │
+│       ├── tools/                     # Campaign-specific tools
+│       │   ├── shared.py              # end_call (shared)
+│       │   ├── hedis_tools.py         # send_enrollment_email
+│       │   └── appointment_tools.py   # reschedule_appointment, send_sms
+│       │
+│       ├── data/                      # Context loaders
+│       │   ├── hedis_context.py       # _get_member_data
+│       │   └── appointment_context.py # _get_appointment_data
+│       │
+│       └── golden_convo/              # Golden conversation examples
+│           ├── hedis_case.json
+│           └── appt_case.json
+│
+├── eval/
+│   ├── eval_runner.py                # Evaluation runner (--campaign flag)
+│   ├── eval_config_appointment.json  # Appointment eval metrics
+│   ├── eval_config_stable_with_metrics.json # HEDIS eval metrics
+│   └── results/                       # Evaluation results
 │
 ├── routers/
-│   ├── __init__.py
 │   ├── health.py               # Health check endpoint
 │   ├── outbound_twillio.py     # Twilio webhooks & call handling
 │   └── pipe_bot.py             # Pipecat pipeline configuration
 │
 ├── utils/
-│   ├── __init__.py
-│   ├── audio.py                # Audio utilities
 │   ├── db.py                   # Database connection
 │   ├── env.py                  # Environment helpers
 │   └── security.py             # Security utilities
 │
-├── entities/
-│   └── twilio.py               # Twilio entity models
-│
 └── db-init/
-    └── init.sql                # Database initialization script
+    ├── 01_init.sql             # Core schema + HEDIS seed data
+    ├── 02_eval_schema.sql      # Evaluation tracking schema
+    └── 03_clinic_scheduler.sql # Clinic/appointment schema
 ```
 
 ---
@@ -322,10 +398,10 @@ vad_analyzer=SileroVADAnalyzer(
 )
 ```
 
-### LLM Configuration (agent.py)
+### LLM Configuration (campaigns/*.py)
 
 ```python
-model="gemini-3-flash-preview",
+model="gemini-2.0-flash",
 planner=BuiltInPlanner(
     thinking_config=types.ThinkingConfig(
         thinking_budget=0  # Minimal thinking for lower latency
@@ -335,17 +411,45 @@ planner=BuiltInPlanner(
 
 ---
 
-## 🧪 Testing
+## 🧪 Evaluation & Testing
 
-### Test Email Function
+### Running ADK Evaluations
+
+```bash
+# HEDIS Campaign Evaluation
+adk eval agents/outbound_agent metna_eval_set \
+    --config_file_path eval/eval_config_stable_with_metrics.json \
+    --print_detailed_results
+
+# Appointment Campaign Evaluation
+./run_appointment_eval.sh
+# Or manually:
+adk eval agents/outbound_agent appointment_eval_set \
+    --config_file_path eval/eval_config_appointment.json \
+    --print_detailed_results
+```
+
+### Evaluation Metrics
+
+| Metric | HEDIS Target | Appointment Target |
+|--------|--------------|--------------------|
+| Hallucinations | ≥ 0.8 | ≥ 0.8 |
+| Response Quality | ≥ 0.7 | ≥ 0.7 |
+| Tool Use Quality | ≥ 0.8 | ≥ 0.8 |
+| Safety | ≥ 0.9 | ≥ 0.9 |
+
+---
+
+## 🧪 Manual Manual Testing
+
+### Test HEDIS Email Function
 
 ```bash
 python -c "
-from agents.outbound_agent.tools import send_enrollment_email
+from agents.outbound_agent.tools.hedis_tools import send_enrollment_email
 result = send_enrollment_email('test@example.com', 'TestUser')
 print(f'Email sent: {result}')
 "
-```
 
 ### Test Database Connection
 
