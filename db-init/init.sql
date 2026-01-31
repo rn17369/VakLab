@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS target_members_detail (
 INSERT INTO target_members_detail (member_id, phone_number, member_first_name, member_last_name, member_email, campaign_name, zip_code, csr_name, csr_phone_number)
 VALUES 
     ('1001', '9135960926', 'Raju', 'Nekadi', 'nekadiraju@gmail.com', 'Metna Breast Screening Partner Program', '75087', 'Trang', '2147154963')
+    ('1002',)
 ON CONFLICT (member_id) DO UPDATE SET 
     campaign_name = EXCLUDED.campaign_name,
     zip_code = EXCLUDED.zip_code;

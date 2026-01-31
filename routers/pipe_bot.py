@@ -25,8 +25,68 @@ from pipecat.transports.websocket.fastapi import FastAPIWebsocketTransport, Fast
 # Project imports
 from agents.outbound_agent.agent import MetnaAgent
 from agents.outbound_agent.tools import _get_member_data
+from utils.transcript_manager import transcript_manager
 
 load_dotenv(override=True)
+
+
+# Custom processor to capture and broadcast transcripts
+from pipecat.processors.frame_processor import FrameProcessor
+from pipecat.frames.frames import (
+    Frame,
+    TranscriptionFrame,
+    TextFrame,
+    LLMResponseStartFrame,
+    LLMResponseEndFrame,
+    TTSStartedFrame,
+    TTSStoppedFrame,
+)
+
+
+class TranscriptCaptureProcessor(FrameProcessor):
+    """Captures STT and LLM output frames and broadcasts to UI"""
+    
+    def __init__(self, call_sid: str):
+        super().__init__()
+        self.call_sid = call_sid
+        self._current_llm_response = ""
+        self._is_capturing_llm = False
+    
+    async def process_frame(self, frame: Frame, direction):
+        # Capture user speech (STT output)
+        if isinstance(frame, TranscriptionFrame):
+            text = frame.text.strip()
+            if text:
+                logger.info(f"[TRANSCRIPT-STT] Customer: {text}")
+                await transcript_manager.add_transcript_message(
+                    self.call_sid,
+                    speaker="Customer",
+                    text=text,
+                    message_type="speech"
+                )
+        
+        # Capture AI responses (LLM output)
+        elif isinstance(frame, LLMResponseStartFrame):
+            self._is_capturing_llm = True
+            self._current_llm_response = ""
+        
+        elif isinstance(frame, TextFrame) and self._is_capturing_llm:
+            self._current_llm_response += frame.text
+        
+        elif isinstance(frame, LLMResponseEndFrame):
+            if self._current_llm_response.strip():
+                logger.info(f"[TRANSCRIPT-LLM] AI: {self._current_llm_response}")
+                await transcript_manager.add_transcript_message(
+                    self.call_sid,
+                    speaker="AI",
+                    text=self._current_llm_response,
+                    message_type="speech"
+                )
+            self._is_capturing_llm = False
+            self._current_llm_response = ""
+        
+        # Pass frame through to next processor
+        await self.push_frame(frame, direction)
 
 
 async def run_pipe_bot(
@@ -45,6 +105,9 @@ async def run_pipe_bot(
         # 1. Lookup member data
         member_data = _get_member_data(to_number, member_id, campaign)
         logger.info(f"Member data: {member_data}")
+        
+        # Initialize transcript for this call
+        await transcript_manager.start_call(call_sid, member_data)
         
         metna_agent = MetnaAgent(member_data=member_data)
         logger.info(f"Agent initialized")
@@ -161,20 +224,24 @@ async def run_pipe_bot(
         )
         logger.info(f"Transport created")
 
-        # 6. Build pipeline - proper flow for conversation
-        # Audio -> STT -> User Aggregator -> LLM -> TTS -> Audio Out -> Assistant Aggregator
+        # 6. Build pipeline - proper flow for conversation with transcript capture
+        # Create transcript capture processor
+        transcript_processor = TranscriptCaptureProcessor(call_sid)
+        
+        # Audio -> STT -> User Aggregator -> Transcript Capture -> LLM -> TTS -> Audio Out -> Assistant Aggregator
         pipeline = Pipeline(
             [
                 transport.input(),
                 stt,
                 user_aggregator,
+                transcript_processor,  # Capture transcripts here
                 llm,
                 tts,
                 transport.output(),
                 assistant_aggregator,
             ]
         )
-        logger.info(f"Pipeline created with STT->LLM->TTS flow")
+        logger.info(f"Pipeline created with STT->Transcript->LLM->TTS flow")
 
         task = PipelineTask(
             pipeline,
@@ -208,6 +275,15 @@ async def run_pipe_bot(
                 call_state["is_emailed"] = True
                 
                 logger.info(f"✓ Enrollment email sent to {email} for {name}")
+                
+                # Add to transcript
+                await transcript_manager.add_transcript_message(
+                    call_sid,
+                    speaker="System",
+                    text=f"📧 Enrollment email sent to {email}",
+                    message_type="tool_call"
+                )
+                
                 await params.result_callback(f"Successfully sent enrollment email to {email}")
             except Exception as e:
                 logger.error(f"Failed to send email: {e}")
@@ -216,6 +292,15 @@ async def run_pipe_bot(
         async def handle_end_call(params: FunctionCallParams):
             """Handle the end_call function call"""
             logger.info(f"[TOOL] end_call triggered - ending conversation")
+            
+            # Add to transcript
+            await transcript_manager.add_transcript_message(
+                call_sid,
+                speaker="System",
+                text="📞 Call ended by AI",
+                message_type="system"
+            )
+            
             await params.result_callback("Call ended. Goodbye!")
             # Queue EndFrame to terminate the pipeline
             await task.queue_frames([EndFrame()])
@@ -237,6 +322,7 @@ async def run_pipe_bot(
         @transport.event_handler("on_client_disconnected")
         async def on_client_disconnected(transport, client):
             logger.info(f"[EVENT] Pipecat bot call ended for {call_sid}")
+            await transcript_manager.end_call(call_sid, reason="disconnected")
             await task.cancel()
 
         runner = PipelineRunner()

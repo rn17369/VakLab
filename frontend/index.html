@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VakLab Live Call Transcripts</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📞 VakLab Live Call Transcripts</h1>
+            <div class="connection-status">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar: Active Calls List -->
+            <aside class="sidebar">
+                <h2>Active Calls</h2>
+                <div id="activeCallsList" class="calls-list">
+                    <p class="empty-state">No active calls</p>
+                </div>
+            </aside>
+
+            <!-- Main: Transcript View -->
+            <main class="transcript-view">
+                <div id="noCallSelected" class="empty-state-main">
+                    <div class="empty-icon">💬</div>
+                    <h2>No Call Selected</h2>
+                    <p>Select a call from the sidebar or wait for an incoming call to see the live transcript</p>
+                </div>
+
+                <div id="transcriptContainer" class="transcript-container" style="display: none;">
+                    <div class="call-header">
+                        <div class="call-info">
+                            <h2 id="callMemberName">-</h2>
+                            <div class="call-meta">
+                                <span id="callPhone">-</span>
+                                <span class="separator">•</span>
+                                <span id="callCampaign">-</span>
+                                <span class="separator">•</span>
+                                <span class="call-status-badge" id="callStatus">Active</span>
+                            </div>
+                        </div>
+                        <div class="call-timing">
+                            <span id="callDuration">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="transcript-messages" id="transcriptMessages">
+                        <!-- Messages will be dynamically added here -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
