@@ -109,7 +109,7 @@ async def make_call():
             call = twilio_client.calls.create(
                 to=phone_number,
                 from_=TWILIO_NUMBER,
-                url=f"https://{clean_domain}{twilio_path}/voice-entry?phone={phone_number}&member_id={quote(str(member_id))}&campaign={quote(campaign_name)}"
+                url=f"https://{clean_domain}{twilio_path}/voice-entry?phone={quote(phone_number)}&member_id={quote(str(member_id))}&campaign={quote(campaign_name)}"
             )
             return {
                 "status": "queued", 
@@ -134,6 +134,9 @@ async def make_call():
 @router.post("/voice-entry")
 def voice_entry(req: Request, phone: str = None, member_id: str = None, campaign: str = None):
     """Return TwiML that connects the call to a Media Stream"""
+    # Normalize phone number (strip spaces)
+    phone = phone.strip() if phone else None
+    
     logger.info("=" * 80)
     logger.info(f"📞 /voice-entry called with phone={phone}, member_id={member_id}, campaign={campaign}")
     
@@ -149,15 +152,27 @@ def voice_entry(req: Request, phone: str = None, member_id: str = None, campaign
         logger.info(f"   WebSocket URL: {ws_url}")
         logger.info(f"   Callback URL: {callback_url}")
 
+        # Enable call recording
+        response = VoiceResponse()
+        response.say("This call may be recorded for quality and training purposes.")
+        
         stream = Stream(url=ws_url, statusCallback=callback_url)
         stream.parameter(name="from_phone", value=phone or "")
         stream.parameter(name="to_phone", value=TWILIO_NUMBER)
         stream.parameter(name="member_id", value=member_id or "")
         stream.parameter(name="campaign", value=campaign or "")
+        
         connect = Connect()
         connect.append(stream)
-        response = VoiceResponse()
         response.append(connect)
+        
+        # Start recording the call
+        response.record(
+            recording_status_callback=callback_url,
+            recording_status_callback_event=['completed'],
+            recording_channels='dual',  # Separate tracks for each party
+            trim='do-not-trim'
+        )
 
         twiml_response = str(response)
         logger.info(f"✓ TwiML generated successfully:")
@@ -209,8 +224,8 @@ async def twilio_websocket(ws: WebSocket):
 
     try:
         call_sid = start_event["start"]["callSid"]
-        from_phone = start_event["start"]["customParameters"].get("from_phone", "unknown")
-        to_phone = start_event["start"]["customParameters"].get("to_phone", "unknown")
+        from_phone = start_event["start"]["customParameters"].get("from_phone", "unknown").strip()
+        to_phone = start_event["start"]["customParameters"].get("to_phone", "unknown").strip()
         member_id = start_event["start"]["customParameters"].get("member_id")
         campaign = start_event["start"]["customParameters"].get("campaign")
         stream_sid = start_event["streamSid"]

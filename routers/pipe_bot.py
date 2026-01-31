@@ -61,8 +61,10 @@ async def run_pipe_bot(
         
         # 3. Setup Google services
         logger.info(f"Setting up Google STT service...")
+        credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "cool-furnace-483603-b2-fdd4814415cb.json")
+        logger.info(f"Using credentials from: {credentials_path}")
         stt = GoogleSTTService(
-            credentials_path="/Users/rn/Documents/gcp_hackthon/cool-furnace-483603-b2-fdd4814415cb.json",
+            credentials_path=credentials_path,
             sample_rate=8000,
         )
         logger.info(f"STT service created")
@@ -184,7 +186,7 @@ async def run_pipe_bot(
 
         logger.info(f"Setting up Google TTS service...")
         tts = GoogleTTSService(
-            credentials_path="/Users/rn/Documents/gcp_hackthon/cool-furnace-483603-b2-fdd4814415cb.json",
+            credentials_path=credentials_path,
             voice_id="en-US-Journey-F",  # Female voice
             sample_rate=8000
         )
