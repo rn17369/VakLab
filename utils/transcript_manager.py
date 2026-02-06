@@ -84,6 +84,30 @@ class TranscriptManager:
             "message": message
         })
     
+    async def start_ai_stream(self, call_sid: str):
+        """Signal start of AI streaming response"""
+        await self._broadcast({
+            "type": "ai_stream_start",
+            "call_sid": call_sid,
+            "timestamp": datetime.utcnow().isoformat()
+        })
+    
+    async def stream_ai_chunk(self, call_sid: str, chunk: str):
+        """Stream a chunk of AI response text"""
+        await self._broadcast({
+            "type": "ai_stream_chunk",
+            "call_sid": call_sid,
+            "chunk": chunk
+        })
+    
+    async def end_ai_stream(self, call_sid: str):
+        """Signal end of AI streaming response"""
+        await self._broadcast({
+            "type": "ai_stream_end",
+            "call_sid": call_sid,
+            "timestamp": datetime.utcnow().isoformat()
+        })
+    
     async def end_call(self, call_sid: str, reason: str = "completed"):
         """Mark a call as ended"""
         async with self._lock:

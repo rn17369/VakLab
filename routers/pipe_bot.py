@@ -34,17 +34,45 @@ load_dotenv(override=True)
 from pipecat.processors.frame_processor import FrameProcessor
 from pipecat.frames.frames import (
     Frame,
+    StartFrame,
     TranscriptionFrame,
     TextFrame,
-    LLMResponseStartFrame,
-    LLMResponseEndFrame,
+    LLMFullResponseStartFrame,
+    LLMFullResponseEndFrame,
     TTSStartedFrame,
     TTSStoppedFrame,
 )
 
 
-class TranscriptCaptureProcessor(FrameProcessor):
-    """Captures STT and LLM output frames and broadcasts to UI"""
+class UserTranscriptProcessor(FrameProcessor):
+    """Captures user speech from STT (TranscriptionFrame)"""
+    
+    def __init__(self, call_sid: str):
+        super().__init__()
+        self.call_sid = call_sid
+        self._last_transcript = ""
+    
+    async def process_frame(self, frame: Frame, direction):
+        await super().process_frame(frame, direction)
+        await self.push_frame(frame, direction)
+        
+        # Capture TranscriptionFrame - these are the final transcriptions from STT
+        if isinstance(frame, TranscriptionFrame):
+            text = frame.text.strip()
+            # Only send if text is meaningful and different from last (avoid duplicates)
+            if text and len(text) > 1 and text != self._last_transcript:
+                self._last_transcript = text
+                logger.info(f"[TRANSCRIPT-USER] Customer: {text}")
+                await transcript_manager.add_transcript_message(
+                    self.call_sid,
+                    speaker="Customer",
+                    text=text,
+                    message_type="speech"
+                )
+
+
+class AITranscriptProcessor(FrameProcessor):
+    """Captures AI responses from LLM - streams text as it comes"""
     
     def __init__(self, call_sid: str):
         super().__init__()
@@ -53,40 +81,27 @@ class TranscriptCaptureProcessor(FrameProcessor):
         self._is_capturing_llm = False
     
     async def process_frame(self, frame: Frame, direction):
-        # Capture user speech (STT output)
-        if isinstance(frame, TranscriptionFrame):
-            text = frame.text.strip()
-            if text:
-                logger.info(f"[TRANSCRIPT-STT] Customer: {text}")
-                await transcript_manager.add_transcript_message(
-                    self.call_sid,
-                    speaker="Customer",
-                    text=text,
-                    message_type="speech"
-                )
+        await super().process_frame(frame, direction)
+        await self.push_frame(frame, direction)
         
-        # Capture AI responses (LLM output)
-        elif isinstance(frame, LLMResponseStartFrame):
+        # Capture AI responses - stream text chunks as they come
+        if isinstance(frame, LLMFullResponseStartFrame):
             self._is_capturing_llm = True
             self._current_llm_response = ""
+            logger.info(f"[STREAM] AI stream started")
+            await transcript_manager.start_ai_stream(self.call_sid)
         
         elif isinstance(frame, TextFrame) and self._is_capturing_llm:
             self._current_llm_response += frame.text
+            if frame.text.strip():
+                logger.info(f"[STREAM] AI chunk: '{frame.text}'")
+                await transcript_manager.stream_ai_chunk(self.call_sid, frame.text)
         
-        elif isinstance(frame, LLMResponseEndFrame):
-            if self._current_llm_response.strip():
-                logger.info(f"[TRANSCRIPT-LLM] AI: {self._current_llm_response}")
-                await transcript_manager.add_transcript_message(
-                    self.call_sid,
-                    speaker="AI",
-                    text=self._current_llm_response,
-                    message_type="speech"
-                )
+        elif isinstance(frame, LLMFullResponseEndFrame):
+            logger.info(f"[STREAM] AI stream ended, full: {self._current_llm_response[:50]}...")
+            await transcript_manager.end_ai_stream(self.call_sid)
             self._is_capturing_llm = False
             self._current_llm_response = ""
-        
-        # Pass frame through to next processor
-        await self.push_frame(frame, direction)
 
 
 async def run_pipe_bot(
@@ -117,7 +132,7 @@ async def run_pipe_bot(
         # first_name = member_data.get("member_first_name", "there") if member_data else "there"
         # campaign_name = member_data.get("campaign_name", "program") if member_data else "program"
         # logger.info(f"First name: {first_name}, Campaign: {campaign_name}")
-        # greeting = f"Hi {first_name}, I'm Metna. I'm calling to help you get rewarded for our {campaign_name}. Do you have a moment?"
+        # greeting = f"Hi {first_name}, I'm Vaklab. I'm calling to help you get rewarded for our {campaign_name}. Do you have a moment?"
         # instruction = metna_agent._manual_instruction + f"\n\nStart the conversation with this greeting: {greeting}"
         instruction = metna_agent._manual_instruction
         first_name = member_data.get("member_first_name", "there") if member_data else "there"  # Still needed for logging
@@ -126,7 +141,7 @@ async def run_pipe_bot(
         # 3. Setup Google services
         logger.info(f"Setting up Google STT service...")
         stt = GoogleSTTService(
-            credentials_path="/Users/rn/Documents/gcp_hackthon/cool-furnace-483603-b2-fdd4814415cb.json",
+            credentials_path="/Users/rn/Documents/VakLab/cool-furnace-483603-b2-24ef3e1da681.json",
             sample_rate=8000,
         )
         logger.info(f"STT service created")
@@ -172,7 +187,7 @@ async def run_pipe_bot(
         ]
         
         llm = GoogleLLMService(
-            model="gemini-3-flash-preview",  # Using Gemini 3 for hackathon
+            model="gemini-2.5-flash-lite",
             api_key=os.getenv("GOOGLE_API_KEY"),
             system_instruction=instruction,
             tools=tools
@@ -181,7 +196,7 @@ async def run_pipe_bot(
 
         logger.info(f"Setting up Google TTS service...")
         tts = GoogleTTSService(
-            credentials_path="/Users/rn/Documents/gcp_hackthon/cool-furnace-483603-b2-fdd4814415cb.json",
+            credentials_path="/Users/rn/Documents/VakLab/cool-furnace-483603-b2-24ef3e1da681.json",
             voice_id="en-US-Journey-F",  # Female voice
             sample_rate=8000
         )
@@ -225,23 +240,27 @@ async def run_pipe_bot(
         logger.info(f"Transport created")
 
         # 6. Build pipeline - proper flow for conversation with transcript capture
-        # Create transcript capture processor
-        transcript_processor = TranscriptCaptureProcessor(call_sid)
+        # Create transcript capture processor for user speech (BEFORE aggregator, right after STT)
+        user_transcript_processor = UserTranscriptProcessor(call_sid)
         
-        # Audio -> STT -> User Aggregator -> Transcript Capture -> LLM -> TTS -> Audio Out -> Assistant Aggregator
+        # Create a second transcript capture processor for AI responses (after LLM)
+        ai_transcript_processor = AITranscriptProcessor(call_sid)
+        
+        # Audio -> STT -> User Transcript -> User Aggregator -> LLM -> AI Transcript -> TTS -> Audio Out -> Assistant Aggregator
         pipeline = Pipeline(
             [
                 transport.input(),
                 stt,
+                user_transcript_processor,  # Capture user transcripts here (before aggregator consumes them)
                 user_aggregator,
-                transcript_processor,  # Capture transcripts here
                 llm,
+                ai_transcript_processor,    # Capture AI responses here  
                 tts,
                 transport.output(),
                 assistant_aggregator,
             ]
         )
-        logger.info(f"Pipeline created with STT->Transcript->LLM->TTS flow")
+        logger.info(f"Pipeline created with STT->Transcript->LLM->Transcript->TTS flow")
 
         task = PipelineTask(
             pipeline,

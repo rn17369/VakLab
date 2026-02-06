@@ -26,17 +26,66 @@ That question inspired **Metna** — an empathetic, AI-powered voice agent desig
 
 ### Architecture Overview
 
+### Real-Time Voice Pipeline
+
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   Twilio        │────▶│   FastAPI        │────▶│  Google ADK     │
-│   (Telephony)   │     │   (API Layer)    │     │  Agent (Gemini) │
-└─────────────────┘     └──────────────────┘     └─────────────────┘
-                                                          │
-                                                          ▼
-                        ┌──────────────────┐     ┌─────────────────┐
-                        │   PostgreSQL     │◀────│  Email Service  │
-                        │   (Eval Data)    │     │  (Confirmation) │
-                        └──────────────────┘     └─────────────────┘
+┌─────────────────┐     ┌──────────────────────────────────────────────────────┐
+│                 │     │                    Pipecat Pipeline                   │
+│   Twilio        │     │  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌───────┐ │
+│   Media Stream  │◀───▶│  │ Google  │──▶│ Gemini  │──▶│ Google  │──▶│ Audio │ │
+│   (WebSocket)   │     │  │  STT    │   │   LLM   │   │  TTS    │   │  Out  │ │
+│                 │     │  └─────────┘   └─────────┘   └─────────┘   └───────┘ │
+└─────────────────┘     └──────────────────────┬───────────────────────────────┘
+                                               │
+                                               ▼
+                        ┌──────────────────────────────────────────┐
+                        │          Transcript Manager              │
+                        │    (Real-time WebSocket to UI)           │
+                        └──────────────────────────────────────────┘
+                                               │
+                        ┌──────────────────────┴───────────────────┐
+                        ▼                                          ▼
+                ┌───────────────┐                         ┌────────────────┐
+                │  Live UI      │                         │  PostgreSQL    │
+                │  Dashboard    │                         │  (Call Logs)   │
+                └───────────────┘                         └────────────────┘
+```
+
+### Evaluation Framework Flow
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────────────────┐
+│  Conversation   │     │   ADK Eval       │     │     Evaluation Metrics      │
+│  Scenarios      │────▶│   Runner         │────▶│  ┌─────────────────────────┐│
+│  (JSON)         │     │  (User Sim)      │     │  │ • Response Quality      ││
+└─────────────────┘     └──────────────────┘     │  │ • Tool Usage Quality    ││
+                                                 │  │ • Hallucination Check   ││
+                                                 │  │ • Custom Rubrics        ││
+                                                 │  └─────────────────────────┘│
+                                                 └──────────────┬──────────────┘
+                                                                │
+                                                                ▼
+                        ┌──────────────────┐           ┌─────────────────┐
+                        │   PostgreSQL     │◀──────────│  Eval Results   │
+                        │   (Eval Data)    │           │  (Scores/Turns) │
+                        └──────────────────┘           └─────────────────┘
+```
+
+### Agent Tools & Services
+
+```
+                        ┌──────────────────┐
+                        │  Google ADK      │
+                        │  Agent (Rebecca) │
+                        └────────┬─────────┘
+                                 │
+           ┌─────────────────────┼─────────────────────┐
+           ▼                     ▼                     ▼
+   ┌───────────────┐    ┌───────────────┐    ┌───────────────┐
+   │ send_email()  │    │ end_call()    │    │ transfer_to   │
+   │ Enrollment    │    │ Graceful      │    │ _agent()      │
+   │ Confirmation  │    │ Termination   │    │ Human Handoff │
+   └───────────────┘    └───────────────┘    └───────────────┘
 ```
 
 ### Tech Stack
@@ -196,11 +245,12 @@ After multiple iterations, the agent achieved:
 
 ## 🔮 Future Enhancements
 
-1. **Multi-language Support** — Spanish, Vietnamese, Mandarin
-2. **Sentiment Analysis** — Detect frustration and adapt tone
-3. **Callback Scheduling** — Integrate with calendar APIs
-4. **A/B Testing** — Compare different conversation scripts
-5. **Real-time Dashboard** — Live visualization of call outcomes
+1. **Turn Key Solution** — One-click deployment for healthcare organizations
+2. **Multi-language Support** — Spanish, Vietnamese, Mandarin
+3. **Sentiment Analysis** — Detect frustration and adapt tone
+4. **Callback Scheduling** — Integrate with calendar APIs
+5. **A/B Testing** — Compare different conversation scripts
+6. **Real-time Dashboard** — Live visualization of call outcomes
 
 ## 🙏 Acknowledgments
 
