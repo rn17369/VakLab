@@ -1,4 +1,4 @@
-# Metna: AI-Powered Healthcare Outreach Agent
+# Vaklab: AI-Powered Healthcare Outreach Agent
 
 ## 🎯 Inspiration
 
@@ -20,7 +20,7 @@ I asked myself:
 
 > *"What if no one ever missed a life-saving screening simply because they didn't understand, forgot, or felt overwhelmed?"*
 
-That question inspired **Metna** — an empathetic, AI-powered voice agent designed to proactively reach Medicare members and guide them through breast cancer screening with care, clarity, and compassion.
+That question inspired **Vaklab** — an empathetic, AI-powered voice agent designed to proactively reach Medicare members and guide them through breast cancer screening with care, clarity, and compassion.
 
 ## 🏗️ How I Built It
 
@@ -105,7 +105,7 @@ The agent follows a carefully designed conversation flow:
 
 ```python
 # Simplified flow
-1. Hook: "Hi {name}! This is Metna calling about your health benefits..."
+1. Hook: "Hi {name}! This is Rebecca from Vaklab calling about your health benefits..."
 2. Zip Code Verification: "Can I confirm your zip code is {zip}?"
 3. Value Proposition: "Your plan covers FREE mammogram screenings..."
 4. Enrollment: "Would you like me to send you the details via email?"

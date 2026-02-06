@@ -1,6 +1,7 @@
 """
-Metna Agent Evaluation Framework
+Vaklab Agent Evaluation Framework
 Runs user simulation evaluations with metrics using ADK CLI and stores results in PostgreSQL
+"""
 """
 
 import os
@@ -254,14 +255,14 @@ class EvalResultsStorage:
 
 # --- Evaluation Runner ---
 
-class MetnaEvalRunner:
-    """Runs evaluations against Metna agent using ADK CLI and stores results in DB"""
+class VaklabEvalRunner:
+    """Runs evaluations against Vaklab agent using ADK CLI and stores results in DB"""
     
     def __init__(self):
         self.eval_dir = Path(__file__).parent
         self.project_root = self.eval_dir.parent
         self.agent_module = "agents/outbound_agent"
-        self.eval_set_name = "metna_eval_set"
+        self.eval_set_name = "vaklab_eval_set"
         self.storage = EvalResultsStorage()
         
         # Load scenarios from adk_scenarios.json
@@ -338,8 +339,8 @@ class MetnaEvalRunner:
                     current_user = user_match.group(1).strip().strip('"\'')
             
             # Check for agent responses  
-            elif 'Agent:' in line or 'agent_response' in line or 'Metna:' in line:
-                agent_match = re.search(r'(?:Agent:|Metna:|agent_response["\']?:\s*["\'])(.+)', line)
+            elif 'Agent:' in line or 'agent_response' in line or 'Rebecca:' in line:
+                agent_match = re.search(r'(?:Agent:|Rebecca:|agent_response["\']?:\s*["\'])(.+)', line)
                 if agent_match:
                     current_agent = agent_match.group(1).strip().strip('"\'')
             
@@ -628,7 +629,7 @@ def main():
     """CLI entry point for running evaluations"""
     import argparse
     
-    parser = argparse.ArgumentParser(description="Metna Agent Evaluation Runner")
+    parser = argparse.ArgumentParser(description="Vaklab Agent Evaluation Runner")
     parser.add_argument("--run", action="store_true", help="Run evaluation with metrics")
     parser.add_argument("--list", action="store_true", help="List available scenarios")
     parser.add_argument("--stats", action="store_true", help="Show evaluation statistics")
@@ -637,7 +638,7 @@ def main():
     
     args = parser.parse_args()
     
-    runner = MetnaEvalRunner()
+    runner = VaklabEvalRunner()
     
     if args.list:
         print("\n📋 Available Scenarios:\n")
