@@ -1,12 +1,12 @@
 {
-  "eval_set_id": "metna_eval_set",
-  "name": "metna_eval_set",
+  "eval_set_id": "vaklab_eval_set",
+  "name": "vaklab_eval_set",
   "eval_cases": [
     {
       "eval_id": "81752354",
       "conversation_scenario": {
         "starting_prompt": "Hello?",
-        "conversation_plan": "Express interest when Metna introduces the rewards program. Ask briefly how it works. When the agent explains, say you'd like to enroll. Confirm your email address when asked. Thank the agent and end the call."
+        "conversation_plan": "Express interest when Rebecca introduces the rewards program. Ask briefly how it works. When the agent explains, say you'd like to enroll. Confirm your email address when asked. Thank the agent and end the call."
       },
       "session_input": {
         "app_name": "outbound_agent",
@@ -18,7 +18,7 @@
       "eval_id": "cccee72c",
       "conversation_scenario": {
         "starting_prompt": "Hello?",
-        "conversation_plan": "When Metna introduces the rewards program, express skepticism by asking 'Is there a catch?' or 'What's the catch?'. Listen to the agent's response. If satisfied, agree to enroll and confirm your email. End the call politely."
+        "conversation_plan": "When Rebecca introduces the rewards program, express skepticism by asking 'Is there a catch?' or 'What's the catch?'. Listen to the agent's response. If satisfied, agree to enroll and confirm your email. End the call politely."
       },
       "session_input": {
         "app_name": "outbound_agent",
@@ -30,7 +30,7 @@
       "eval_id": "dcc541a2",
       "conversation_scenario": {
         "starting_prompt": "Hello?",
-        "conversation_plan": "When Metna introduces herself, immediately say you're busy or it's not a good time. The agent should offer to call back later. Agree and end the call."
+        "conversation_plan": "When Rebecca introduces herself, immediately say you're busy or it's not a good time. The agent should offer to call back later. Agree and end the call."
       },
       "session_input": {
         "app_name": "outbound_agent",
@@ -42,7 +42,7 @@
       "eval_id": "b910b16d",
       "conversation_scenario": {
         "starting_prompt": "Hello?",
-        "conversation_plan": "When Metna introduces the rewards program, ask what kinds of rewards are available. Then ask how you earn them. Ask if it costs anything. Finally, decide to enroll and confirm your email."
+        "conversation_plan": "When Rebecca introduces the rewards program, ask what kinds of rewards are available. Then ask how you earn them. Ask if it costs anything. Finally, decide to enroll and confirm your email."
       },
       "session_input": {
         "app_name": "outbound_agent",
@@ -54,7 +54,7 @@
       "eval_id": "0ed00274",
       "conversation_scenario": {
         "starting_prompt": "Hello?",
-        "conversation_plan": "When Metna introduces the rewards program, politely decline by saying you're not interested right now. The agent should thank you and end the call gracefully."
+        "conversation_plan": "When Rebecca introduces the rewards program, politely decline by saying you're not interested right now. The agent should thank you and end the call gracefully."
       },
       "session_input": {
         "app_name": "outbound_agent",

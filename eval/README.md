@@ -1,6 +1,6 @@
-# Metna Agent Evaluation Framework
+# Vaklab Agent Evaluation Framework
 
-This directory contains the evaluation framework for testing the Metna outbound agent using Google ADK's User Simulation feature. All evaluation results are stored in PostgreSQL for UI display.
+This directory contains the evaluation framework for testing the Vaklab outbound agent using Google ADK's User Simulation feature. All evaluation results are stored in PostgreSQL for UI display.
 
 ## 📁 Structure
 
@@ -16,7 +16,7 @@ eval/
 
 ## 🎯 Scenarios
 
-The eval set `metna_eval_set` contains 5 test scenarios for the Breast Cancer Screening Partner Program:
+The eval set `vaklab_eval_set` contains 5 test scenarios for the Breast Cancer Screening Partner Program:
 
 | # | Scenario | Description |
 |---|----------|-------------|
@@ -51,7 +51,7 @@ python -m eval.eval_runner --list
 
 ```bash
 # Run evaluation with metrics
-adk eval agents/outbound_agent metna_eval_set \
+adk eval agents/outbound_agent vaklab_eval_set \
     --config_file_path eval/eval_config_stable_with_metrics.json \
     --print_detailed_results
 ```
