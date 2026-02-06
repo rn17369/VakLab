@@ -25,8 +25,83 @@ from pipecat.transports.websocket.fastapi import FastAPIWebsocketTransport, Fast
 # Project imports
 from agents.outbound_agent.agent import MetnaAgent
 from agents.outbound_agent.tools import _get_member_data
+from utils.transcript_manager import transcript_manager
 
 load_dotenv(override=True)
+
+
+# Custom processor to capture and broadcast transcripts
+from pipecat.processors.frame_processor import FrameProcessor
+from pipecat.frames.frames import (
+    Frame,
+    StartFrame,
+    TranscriptionFrame,
+    TextFrame,
+    LLMFullResponseStartFrame,
+    LLMFullResponseEndFrame,
+    TTSStartedFrame,
+    TTSStoppedFrame,
+)
+
+
+class UserTranscriptProcessor(FrameProcessor):
+    """Captures user speech from STT (TranscriptionFrame)"""
+    
+    def __init__(self, call_sid: str):
+        super().__init__()
+        self.call_sid = call_sid
+        self._last_transcript = ""
+    
+    async def process_frame(self, frame: Frame, direction):
+        await super().process_frame(frame, direction)
+        await self.push_frame(frame, direction)
+        
+        # Capture TranscriptionFrame - these are the final transcriptions from STT
+        if isinstance(frame, TranscriptionFrame):
+            text = frame.text.strip()
+            # Only send if text is meaningful and different from last (avoid duplicates)
+            if text and len(text) > 1 and text != self._last_transcript:
+                self._last_transcript = text
+                logger.info(f"[TRANSCRIPT-USER] Customer: {text}")
+                await transcript_manager.add_transcript_message(
+                    self.call_sid,
+                    speaker="Customer",
+                    text=text,
+                    message_type="speech"
+                )
+
+
+class AITranscriptProcessor(FrameProcessor):
+    """Captures AI responses from LLM - streams text as it comes"""
+    
+    def __init__(self, call_sid: str):
+        super().__init__()
+        self.call_sid = call_sid
+        self._current_llm_response = ""
+        self._is_capturing_llm = False
+    
+    async def process_frame(self, frame: Frame, direction):
+        await super().process_frame(frame, direction)
+        await self.push_frame(frame, direction)
+        
+        # Capture AI responses - stream text chunks as they come
+        if isinstance(frame, LLMFullResponseStartFrame):
+            self._is_capturing_llm = True
+            self._current_llm_response = ""
+            logger.info(f"[STREAM] AI stream started")
+            await transcript_manager.start_ai_stream(self.call_sid)
+        
+        elif isinstance(frame, TextFrame) and self._is_capturing_llm:
+            self._current_llm_response += frame.text
+            if frame.text.strip():
+                logger.info(f"[STREAM] AI chunk: '{frame.text}'")
+                await transcript_manager.stream_ai_chunk(self.call_sid, frame.text)
+        
+        elif isinstance(frame, LLMFullResponseEndFrame):
+            logger.info(f"[STREAM] AI stream ended, full: {self._current_llm_response[:50]}...")
+            await transcript_manager.end_ai_stream(self.call_sid)
+            self._is_capturing_llm = False
+            self._current_llm_response = ""
 
 
 async def run_pipe_bot(
@@ -46,6 +121,9 @@ async def run_pipe_bot(
         member_data = _get_member_data(to_number, member_id, campaign)
         logger.info(f"Member data: {member_data}")
         
+        # Initialize transcript for this call
+        await transcript_manager.start_call(call_sid, member_data)
+        
         metna_agent = MetnaAgent(member_data=member_data)
         logger.info(f"Agent initialized")
         
@@ -54,7 +132,7 @@ async def run_pipe_bot(
         # first_name = member_data.get("member_first_name", "there") if member_data else "there"
         # campaign_name = member_data.get("campaign_name", "program") if member_data else "program"
         # logger.info(f"First name: {first_name}, Campaign: {campaign_name}")
-        # greeting = f"Hi {first_name}, I'm Metna. I'm calling to help you get rewarded for our {campaign_name}. Do you have a moment?"
+        # greeting = f"Hi {first_name}, I'm Vaklab. I'm calling to help you get rewarded for our {campaign_name}. Do you have a moment?"
         # instruction = metna_agent._manual_instruction + f"\n\nStart the conversation with this greeting: {greeting}"
         instruction = metna_agent._manual_instruction
         first_name = member_data.get("member_first_name", "there") if member_data else "there"  # Still needed for logging
@@ -63,7 +141,7 @@ async def run_pipe_bot(
         # 3. Setup Google services
         logger.info(f"Setting up Google STT service...")
         stt = GoogleSTTService(
-            credentials_path="/Users/rn/Documents/gcp_hackthon/cool-furnace-483603-b2-fdd4814415cb.json",
+            credentials_path="/Users/rn/Documents/VakLab/cool-furnace-483603-b2-24ef3e1da681.json",
             sample_rate=8000,
         )
         logger.info(f"STT service created")
@@ -109,7 +187,7 @@ async def run_pipe_bot(
         ]
         
         llm = GoogleLLMService(
-            model="gemini-3-flash-preview",  # Using Gemini 3 for hackathon
+            model="gemini-2.5-flash-lite",
             api_key=os.getenv("GOOGLE_API_KEY"),
             system_instruction=instruction,
             tools=tools
@@ -118,7 +196,7 @@ async def run_pipe_bot(
 
         logger.info(f"Setting up Google TTS service...")
         tts = GoogleTTSService(
-            credentials_path="/Users/rn/Documents/gcp_hackthon/cool-furnace-483603-b2-fdd4814415cb.json",
+            credentials_path="/Users/rn/Documents/VakLab/cool-furnace-483603-b2-24ef3e1da681.json",
             voice_id="en-US-Journey-F",  # Female voice
             sample_rate=8000
         )
@@ -161,20 +239,28 @@ async def run_pipe_bot(
         )
         logger.info(f"Transport created")
 
-        # 6. Build pipeline - proper flow for conversation
-        # Audio -> STT -> User Aggregator -> LLM -> TTS -> Audio Out -> Assistant Aggregator
+        # 6. Build pipeline - proper flow for conversation with transcript capture
+        # Create transcript capture processor for user speech (BEFORE aggregator, right after STT)
+        user_transcript_processor = UserTranscriptProcessor(call_sid)
+        
+        # Create a second transcript capture processor for AI responses (after LLM)
+        ai_transcript_processor = AITranscriptProcessor(call_sid)
+        
+        # Audio -> STT -> User Transcript -> User Aggregator -> LLM -> AI Transcript -> TTS -> Audio Out -> Assistant Aggregator
         pipeline = Pipeline(
             [
                 transport.input(),
                 stt,
+                user_transcript_processor,  # Capture user transcripts here (before aggregator consumes them)
                 user_aggregator,
                 llm,
+                ai_transcript_processor,    # Capture AI responses here  
                 tts,
                 transport.output(),
                 assistant_aggregator,
             ]
         )
-        logger.info(f"Pipeline created with STT->LLM->TTS flow")
+        logger.info(f"Pipeline created with STT->Transcript->LLM->Transcript->TTS flow")
 
         task = PipelineTask(
             pipeline,
@@ -208,6 +294,15 @@ async def run_pipe_bot(
                 call_state["is_emailed"] = True
                 
                 logger.info(f"✓ Enrollment email sent to {email} for {name}")
+                
+                # Add to transcript
+                await transcript_manager.add_transcript_message(
+                    call_sid,
+                    speaker="System",
+                    text=f"📧 Enrollment email sent to {email}",
+                    message_type="tool_call"
+                )
+                
                 await params.result_callback(f"Successfully sent enrollment email to {email}")
             except Exception as e:
                 logger.error(f"Failed to send email: {e}")
@@ -216,6 +311,15 @@ async def run_pipe_bot(
         async def handle_end_call(params: FunctionCallParams):
             """Handle the end_call function call"""
             logger.info(f"[TOOL] end_call triggered - ending conversation")
+            
+            # Add to transcript
+            await transcript_manager.add_transcript_message(
+                call_sid,
+                speaker="System",
+                text="📞 Call ended by AI",
+                message_type="system"
+            )
+            
             await params.result_callback("Call ended. Goodbye!")
             # Queue EndFrame to terminate the pipeline
             await task.queue_frames([EndFrame()])
@@ -237,6 +341,7 @@ async def run_pipe_bot(
         @transport.event_handler("on_client_disconnected")
         async def on_client_disconnected(transport, client):
             logger.info(f"[EVENT] Pipecat bot call ended for {call_sid}")
+            await transcript_manager.end_call(call_sid, reason="disconnected")
             await task.cancel()
 
         runner = PipelineRunner()

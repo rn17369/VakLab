@@ -80,6 +80,7 @@ async def make_call():
     # Use DOMAIN from env, or default to localhost for local testing
     domain = DOMAIN or "http://localhost:8000"
     clean_domain = domain.replace("https://", "").replace("http://", "")
+    logger.info(f"🌐 Using domain: {domain} (cleaned: {clean_domain})")
     
     conn = get_db_connection()
     if not conn:
