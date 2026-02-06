@@ -5,11 +5,12 @@ Enterprise-grade Voice AI Agent Framework built with PGoogle Cloud AI, Pipecat, 
 ## 🎯 Overview
 
 VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in health rewards programs. The agent uses:
-- **Google Gemini 3 Flash** for natural language understanding and generation
+- **Google Gemini 3 Preview** for natural language understanding and generation
 - **Google Cloud Speech-to-Text** for real-time transcription
 - **Google Cloud Text-to-Speech** for natural voice synthesis
 - **Pipecat AI** for real-time audio pipeline processing
 - **Twilio** for telephony infrastructure
+- **Live Transcript Dashboard** for real-time call monitoring
 
 ---
 
@@ -42,7 +43,7 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 │  │  (Trigger)      │    │  ┌─────────┐   ┌─────────┐   ┌─────────────┐   │ │
 │  └─────────────────┘    │  │ Google  │   │ Google  │   │   Google    │   │ │
 │                         │  │  STT    │──▶│  LLM    │──▶│    TTS      │   │ │
-│  ┌─────────────────┐    │  │(Speech) │   │(Gemini) │   │  (Voice)    │   │ │
+│  ┌─────────────────┐    │  │(Speech) │   │(Gemini 3) │   │  (Voice)    │   │ │
 │  │  /twilio/       │    │  └─────────┘   └─────────┘   └─────────────┘   │ │
 │  │  voice-entry    │    │                     │                          │ │
 │  │  (TwiML)        │    │              ┌──────┴──────┐                   │ │
@@ -92,7 +93,7 @@ flowchart TD
 
 ```
 ┌──────┐   ┌────────┐   ┌────────┐   ┌────────────┐   ┌──────────┐   ┌────────┐
-│User  │   │ Twilio │   │ FastAPI│   │BCSGapAgent │   │ Metna    │   │ Tools  │
+│User  │   │ Twilio │   │ FastAPI│   │BCSGapAgent │   │ Rebecca  │   │ Tools  │
 └──┬───┘   └──┬─────┘   └──┬─────┘   └────┬───────┘   └────┬─────┘   └──┬─────┘
    │           │            │              │               │            │
    │  Answer   │            │              │               │            │
@@ -100,7 +101,7 @@ flowchart TD
    │           │  Webhook   │              │               │            │
    │           │──────────▶│  POST /outbound-call  ──────▶│            │
    │           │            │─────────────▶│ _get_member_data│         │
-   │           │            │              │──────────────▶│ instantiate Metna
+   │           │            │              │──────────────▶│ instantiate Rebecca
    │           │            │              │               │   run_live │
    │           │            │              │               │──────────▶│
    │           │            │              │  "Hi {first_name}..."       │
@@ -123,7 +124,7 @@ flowchart TD
 | Component | Technology |
 |-----------|------------|
 | **Framework** | FastAPI + Pipecat AI |
-| **LLM** | Google Gemini 3 Flash Preview |
+| **LLM** | Google Gemini 2.5 Flash |
 | **Speech-to-Text** | Google Cloud STT |
 | **Text-to-Speech** | Google Cloud TTS (Journey-F voice) |
 | **Voice Activity Detection** | Silero VAD |
@@ -264,6 +265,51 @@ This will:
 | `/twilio/voice-entry` | POST | Twilio webhook for TwiML |
 | `/twilio/stream` | WebSocket | Audio streaming endpoint |
 | `/twilio/callback` | POST | Call status callbacks |
+| `/ui` | GET | Live Transcript Dashboard |
+| `/ui/transcripts` | WebSocket | Real-time transcript stream |
+
+---
+
+## 📺 Live Transcript Dashboard
+
+VakLab includes a real-time transcript dashboard that shows the conversation as it happens.
+
+### Accessing the Dashboard
+
+1. Start the server (see Setup Instructions)
+2. Open your browser and navigate to:
+   ```
+   http://localhost:8000/ui
+   ```
+
+### Features
+
+- **Real-time transcription** — See Rebecca's responses and customer speech live
+- **Visual call status** — Green indicator when call is in progress
+- **Speaker identification** — Rebecca (AI) on the left in blue, Customer on the right in green
+- **Auto-scroll** — Transcript automatically scrolls as new messages appear
+- **Call state tracking** — Shows "Call in progress" and "Call complete" banners
+
+### How It Works
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│   Pipecat       │────▶│   Transcript     │────▶│   WebSocket     │
+│   Pipeline      │     │   Manager        │     │   Broadcast     │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
+                                                          │
+                                                          ▼
+                                                 ┌─────────────────┐
+                                                 │   Browser UI    │
+                                                 │   Dashboard     │
+                                                 └─────────────────┘
+```
+
+The dashboard connects via WebSocket and receives:
+- `call_started` — When a new call begins (includes customer name)
+- `transcript_message` — Customer speech from STT
+- `ai_stream_start` / `ai_stream_chunk` / `ai_stream_end` — Rebecca's responses (streamed)
+- `call_ended` — When the call completes
 
 ---
 
@@ -280,8 +326,11 @@ gcp_hackthon/
 ├── agents/
 │   └── outbound_agent/
 │       ├── __init__.py
-│       ├── agent.py            # MetnaAgent (LLM instructions)
+│       ├── agent.py            # VaklabAgent (Rebecca - LLM instructions)
 │       └── tools.py            # Tool functions (email, end_call)
+│
+├── frontend/
+│   └── index.html              # Live Transcript Dashboard UI
 │
 ├── routers/
 │   ├── __init__.py
@@ -291,10 +340,10 @@ gcp_hackthon/
 │
 ├── utils/
 │   ├── __init__.py
-│   ├── audio.py                # Audio utilities
 │   ├── db.py                   # Database connection
 │   ├── env.py                  # Environment helpers
-│   └── security.py             # Security utilities
+│   ├── security.py             # Security utilities
+│   └── transcript_manager.py   # Real-time transcript broadcasting
 │
 ├── entities/
 │   └── twilio.py               # Twilio entity models
@@ -325,7 +374,7 @@ vad_analyzer=SileroVADAnalyzer(
 ### LLM Configuration (agent.py)
 
 ```python
-model="gemini-3-flash-preview",
+model="gemini-2.5-flash-lite-preview-06-17",
 planner=BuiltInPlanner(
     thinking_config=types.ThinkingConfig(
         thinking_budget=0  # Minimal thinking for lower latency
@@ -392,7 +441,7 @@ INFO: Starting Pipecat bot for call CA123...
 INFO: Member data: {'member_first_name': 'Raju', ...}
 INFO: [EVENT] Pipecat bot connected for Raju
 INFO: [GREETING] Triggered LLM to generate greeting
-DEBUG: GoogleTTSService: Generating TTS [Hi Raju, I'm Metna...]
+DEBUG: GoogleTTSService: Generating TTS [Hi Raju, I'm Rebecca...]
 INFO: [TOOL] send_enrollment_email called for Raju at raju@example.com
 INFO: ✓ Email successfully sent to raju@example.com
 INFO: [TOOL] end_call triggered - ending conversation
