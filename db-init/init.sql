@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS campaign_target_member_call_list (
 
 INSERT INTO campaign_target_member_call_list (member_id, phone_number, campaign_name, call_status)
 VALUES 
-    ('1001', '9135960926', 'Vaklab Preventive Health Screening', 'Not Called')
+    ('1001', '+18323300697', 'Vaklab Preventive Health Screening', 'Not Called')
 ON CONFLICT (member_id) DO NOTHING;
 
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS target_members_detail (
 -- Insert seed data for testing
 INSERT INTO target_members_detail (member_id, phone_number, member_first_name, member_last_name, member_email, campaign_name, zip_code, csr_name, csr_phone_number)
 VALUES 
-    ('1001', '9135960926', 'Raju', 'Nekadi', 'nekadiraju@gmail.com', 'Vaklab Preventive Health Screening', '75087', 'Trang', '2147154963')
+    ('1001', '8323300697', 'Moojan', 'Hakim', 'mh42527@my.utexas.edu', 'Vaklab Preventive Health Screening', '75087', 'Trang', '2147154963')
     --('1002',)
 ON CONFLICT (member_id) DO UPDATE SET 
     campaign_name = EXCLUDED.campaign_name,

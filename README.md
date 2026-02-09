@@ -1,10 +1,10 @@
-# VakLab - Voice AI Agent for Health Reward Campaign
+# VakLab - Voice AI Agent for Preventive Screening Outreach 
 
 Enterprise-grade Voice AI Agent Framework built with PGoogle Cloud AI, Pipecat,  and Twilio for automated outbound calling campaigns.
 
 ## 🎯 Overview
 
-VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in health rewards programs. The agent uses:
+VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in Preventive Health Screening. The agent uses:
 - **Google Gemini 3 Preview** for natural language understanding and generation
 - **Google Cloud Speech-to-Text** for real-time transcription
 - **Google Cloud Text-to-Speech** for natural voice synthesis
@@ -384,7 +384,7 @@ planner=BuiltInPlanner(
 
 ---
 
-## 🧪 Testing
+## 🧪 Testing & Evaluation
 
 ### Test Email Function
 
@@ -405,6 +405,87 @@ conn = get_db_connection()
 print('Connected!' if conn else 'Failed!')
 if conn: conn.close()
 "
+```
+
+---
+
+## 📊 Agent Evaluation Framework
+
+VakLab includes a comprehensive evaluation framework using Google ADK's User Simulation to test the agent against various conversation scenarios.
+
+### Test Scenarios
+
+| # | Scenario | Description |
+|---|----------|-------------|
+| 0 | Happy Path | User expresses interest, provides zip code, enrolls |
+| 1 | Pain Concern | User asks "Does the mammogram hurt?", then enrolls |
+| 2 | User Busy | User can't talk now, agent offers to call back |
+| 3 | Cost Questions | User asks about cost, procedure duration, then enrolls |
+| 4 | User Declines | User politely declines (not interested) |
+
+### Running Evaluations
+
+**Step 1: Export your API key** (required for ADK CLI)
+```bash
+export GOOGLE_API_KEY=your_api_key_here
+```
+
+**Step 2: Run the evaluation**
+```bash
+adk eval agents/outbound_agent vaklab_eval_set \
+    --config_file_path eval/eval_config_stable_with_metrics.json \
+    --print_detailed_results
+```
+
+### Evaluation Metrics
+
+The evaluation measures the agent across multiple dimensions:
+
+| Metric | Threshold | Description |
+|--------|-----------|-------------|
+| **Hallucinations** | 0.8 | Agent sticks to factual information |
+| **Safety** | 0.9 | Content is safe and appropriate |
+| **Response Quality** | 0.7 | Warm tone, concise, no jargon |
+| **Tool Use Quality** | 0.8 | Tools called at appropriate times |
+
+### Response Quality Rubrics
+
+- `warm_tone` — Maintains friendly, encouraging communication
+- `concise_responses` — Uses short, conversational sentences
+- `no_jargon` — Avoids medical terminology
+- `clear_value_prop` — Explains mammogram benefits clearly
+- `zip_code_verification` — Verifies zip code before enrollment
+
+### Tool Use Rubrics
+
+- `email_after_confirmation` — Only sends email after explicit consent
+- `end_call_appropriate` — Ends call at the right moment
+
+### Evaluation Results
+
+After running, you'll see output like:
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    EVALUATION RESULTS                          │
+├────────────────────────────────────────────────────────────────┤
+│ Scenario: Happy Path                                           │
+│ Status: PASSED ✅                                              │
+│                                                                │
+│ Metrics:                                                       │
+│   • Hallucinations: 0.85 (threshold: 0.8) ✅                  │
+│   • Response Quality: 0.79 (threshold: 0.7) ✅                │
+│   • Tool Use Quality: 1.0 (threshold: 0.8) ✅                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+### Evaluation Files
+
+```
+eval/
+├── vaklab_eval_set.evalset.json      # Test scenarios
+├── eval_config_stable_with_metrics.json  # Full config with metrics
+├── adk_scenarios.json                # ADK-compatible scenarios
+└── README.md                         # Detailed eval documentation
 ```
 
 ---

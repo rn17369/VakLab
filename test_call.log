@@ -1,9 +1,0 @@
-2026-01-19 20:46:24.689 | INFO     | pipecat:<module>:14 - ᓚᘏᗢ Pipecat 0.0.99 (Python 3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.4.4.1)]) ᓚᘏᗢ
-Traceback (most recent call last):
-  File "/Users/rn/Documents/gcp_hackthon/main.py", line 7, in <module>
-    from routers import health, outbound_twillio
-  File "/Users/rn/Documents/gcp_hackthon/routers/outbound_twillio.py", line 12, in <module>
-    from routers.pipe_bot import run_pipe_bot
-  File "/Users/rn/Documents/gcp_hackthon/routers/pipe_bot.py", line 15, in <module>
-    from pipecat.frames.frames import TextFrame, AudioFrame, LLMFullResponseStartFrame, LLMFullResponseEndFrame
-ImportError: cannot import name 'AudioFrame' from 'pipecat.frames.frames' (/Users/rn/Documents/gcp_hackthon/venv/lib/python3.12/site-packages/pipecat/frames/frames.py). Did you mean: 'AudioRawFrame'?

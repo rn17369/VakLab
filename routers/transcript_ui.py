@@ -3,11 +3,18 @@ Transcript UI Router - WebSocket endpoint for UI clients to receive real-time tr
 """
 import logging
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi.responses import FileResponse
 from utils.transcript_manager import transcript_manager
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/ui", tags=["Transcript UI"])
+
+
+@router.get("")
+async def get_transcript_ui():
+    """Serve the transcript dashboard UI"""
+    return FileResponse("frontend/index.html")
 
 
 @router.websocket("/transcripts")
