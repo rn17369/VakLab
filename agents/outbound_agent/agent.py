@@ -74,7 +74,7 @@ class MetnaAgent(LlmAgent):
 
         super().__init__(
             name="Rebecca",
-            model="gemini-2.5-flash-lite",  # Using stable flash model
+            model="gemini-3-flash-preview",  # Using stable flash model
             instruction=instruction,
             tools=[send_enrollment_email, end_call],
         )
