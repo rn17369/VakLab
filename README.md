@@ -1,11 +1,11 @@
 # VakLab - Voice AI Agent for Preventive Screening Outreach 
 
-Enterprise-grade Voice AI Agent Framework built with PGoogle Cloud AI, Pipecat,  and Twilio for automated outbound calling campaigns.
+Enterprise-grade Voice AI Agent Framework built with Google Gemini 3,Google ADK , Pipecat,  and Twilio for automated outbound calling campaigns.
 
 ## 🎯 Overview
 
 VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in Preventive Health Screening. The agent uses:
-- **Google Gemini 3 Preview** for natural language understanding and generation
+- **Google Gemini 3 Flash Preview** for natural language understanding and generation
 - **Google Cloud Speech-to-Text** for real-time transcription
 - **Google Cloud Text-to-Speech** for natural voice synthesis
 - **Pipecat AI** for real-time audio pipeline processing
@@ -374,7 +374,7 @@ vad_analyzer=SileroVADAnalyzer(
 ### LLM Configuration (agent.py)
 
 ```python
-model="gemini-2.5-flash-lite-preview-06-17",
+model="gemini-3-flash-preview",
 planner=BuiltInPlanner(
     thinking_config=types.ThinkingConfig(
         thinking_budget=0  # Minimal thinking for lower latency

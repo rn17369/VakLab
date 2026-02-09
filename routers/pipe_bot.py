@@ -187,7 +187,7 @@ async def run_pipe_bot(
         ]
         
         llm = GoogleLLMService(
-            model="gemini-2.5-flash-lite",
+            model="gemini-3-flash-preview",
             api_key=os.getenv("GOOGLE_API_KEY"),
             system_instruction=instruction,
             tools=tools
