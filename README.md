@@ -1,7 +1,5 @@
 # VakLab - Voice AI Agent for Preventive Screening Outreach 
 
-Enterprise-grade Voice AI Agent Framework built with Google Gemini 3,Google ADK , Pipecat,  and Twilio for automated outbound calling campaigns.
-
 ## 🎯 Overview
 
 VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in Preventive Health Screening. The agent uses:
