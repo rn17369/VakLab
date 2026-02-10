@@ -1,6 +1,6 @@
 # VakLab - Voice AI Agent for Preventive Screening Outreach 
 
-## 🎯 Overview
+##  Overview
 
 VakLab is an intelligent Voice AI agent that makes outbound calls to engage members in Preventive Health Screening. The agent uses:
 - **Google Gemini 3 Flash Preview** for natural language understanding and generation
@@ -12,7 +12,7 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -64,7 +64,7 @@ VakLab is an intelligent Voice AI agent that makes outbound calls to engage memb
 
 ---
 
-## 📞 Call Flow Diagram
+## Call Flow Diagram
 ```mermaid
 flowchart TD
   Start([Start]) --> Hook["State 1:\nThe Hook"]
@@ -87,7 +87,7 @@ flowchart TD
 
 ---
 
-## 🔄 Sequence Diagram
+## Sequence Diagram
 
 ```
 ┌──────┐   ┌────────┐   ┌────────┐   ┌────────────┐   ┌──────────┐   ┌────────┐
@@ -117,7 +117,7 @@ flowchart TD
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Component | Technology |
 |-----------|------------|
@@ -132,7 +132,7 @@ flowchart TD
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 1. **Python 3.12+**
 2. **Docker & Docker Compose** (for PostgreSQL)
@@ -149,7 +149,7 @@ flowchart TD
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### Step 1: Clone and Setup Environment
 
@@ -241,7 +241,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 ---
 
-## 📱 Making Outbound Calls
+## Making Outbound Calls
 
 ### Trigger a Call
 
@@ -268,7 +268,7 @@ This will:
 
 ---
 
-## 📺 Live Transcript Dashboard
+## Live Transcript Dashboard
 
 VakLab includes a real-time transcript dashboard that shows the conversation as it happens.
 
@@ -311,7 +311,7 @@ The dashboard connects via WebSocket and receives:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 gcp_hackthon/
@@ -352,7 +352,7 @@ gcp_hackthon/
 
 ---
 
-## 🔧 Configuration Options
+## Configuration Options
 
 ### Voice Configuration (pipe_bot.py)
 
@@ -382,7 +382,7 @@ planner=BuiltInPlanner(
 
 ---
 
-## 🧪 Testing & Evaluation
+## Testing & Evaluation
 
 ### Test Email Function
 
@@ -407,7 +407,7 @@ if conn: conn.close()
 
 ---
 
-## 📊 Agent Evaluation Framework
+## Agent Evaluation Framework
 
 VakLab includes a comprehensive evaluation framework using Google ADK's User Simulation to test the agent against various conversation scenarios.
 
@@ -488,7 +488,7 @@ eval/
 
 ---
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
@@ -500,7 +500,7 @@ eval/
 
 ---
 
-## 📝 Logs
+## Logs
 
 Monitor server logs for debugging:
 
@@ -528,19 +528,14 @@ INFO: [TOOL] end_call triggered - ending conversation
 
 ---
 
-## 📄 License
 
-MIT License
-
----
-
-## 👥 Contributors
+## Contributors
 
 - VakLab Team
 
 ---
 
-## 🔗 Resources
+## Resources
 
 - [Pipecat AI Documentation](https://github.com/pipecat-ai/pipecat)
 - [Google Cloud Speech-to-Text](https://cloud.google.com/speech-to-text)
